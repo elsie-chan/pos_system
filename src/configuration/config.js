@@ -1,6 +1,5 @@
 import express from 'express';
 import morgan from 'morgan';
-import session from 'express-session';
 import ejs from 'ejs';
 import {fileURLToPath} from 'url';
 import * as path from 'path';
@@ -18,7 +17,6 @@ const config = (app) => {
     app.use(flash())
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename).slice(0, -13)
-    console.log(__dirname)
     app.use(express.static(path.join(__dirname, 'public')))
     app.set('views', path.join(__dirname, 'views'))
 

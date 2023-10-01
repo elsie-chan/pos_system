@@ -1,16 +1,12 @@
 import authRoutes from "./src/routes/auth.route.js";
 import Table from "ascii-table";
-// import userRoute from "./src/routes/user.route.js";
-// import homeRoute from "./src/routes/index.route.js";
-// import artistRoute from "./src/routes/artist.route.js";
-// import adminRoute from "./src/routes/admin.route.js";
-//
-// import playlistRoute from "./src/routes/playlist.route.js";
+import accountRoutes from "./src/routes/account.route.js";
+import homeRoutes from "./src/routes/home.route.js";
 const table = new Table('Route Table');
 const routes = (app) => {
     app.use('/api/v1/auth', authRoutes)
-    // app.use('/api/user', userRoute)
-    // app.use('/', homeRoute)
+    app.use('/api/account', accountRoutes)
+    app.use('/', homeRoutes)
     // app.use("/api/artist", artistRoute);
     // app.use("/admin", adminRoute)
     // app.use('/api/playlist', playlistRoute)
@@ -22,7 +18,7 @@ const routes = (app) => {
     const COLUMNS_NAME = ['Method', 'Path'];
     table.setHeading(...COLUMNS_NAME);
 
-    [authRoutes].forEach(router => {
+    [authRoutes, accountRoutes,homeRoutes].forEach(router => {
         router.stack.forEach(layer => {
             if (layer.route) {
                 const {path, methods} = layer.route;

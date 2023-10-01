@@ -1,17 +1,28 @@
 import jwt from "jsonwebtoken";
-import variables from "../configuration/index.js";
-const verifyToken = (req, res, next) => {
-    const authHeader = req.headers.token;
-    if (authHeader) {
-        const token = authHeader.split(" ")[1];
-        jwt.verify(token, variables.JWT_ACCESS, (err, user) => {
-            if (err) res.status(403).json("Token is not valid");
-            req.user = user;
-            next();
-        })
-    } else {
-        res.status(401).json("You are not authenticated!");
-    }
+import {variables} from "../configuration/index.js";
+const verifyToken = ( token ) => {
+    return new Promise( ( resolve, reject ) => {
+        jwt.verify( token, variables.JWT_ACCESS, ( err, decoded ) => {
+            if (err) {
+                return reject( err );
+            }
+
+            return resolve( decoded );
+        } );
+    } )
 }
 
-export default verifyToken;
+const verifyRefreshToken = ( token ) => {
+    return new Promise( ( resolve, reject ) => {
+        jwt.verify( token, variables.JWT_REFRESH, ( err, decoded ) => {
+            if (err) {
+                return reject( err );
+            }
+
+            return resolve( decoded );
+        } );
+    } )
+}
+
+
+export {verifyToken, verifyRefreshToken};
