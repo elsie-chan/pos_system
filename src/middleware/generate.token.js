@@ -4,7 +4,7 @@ import {variables} from '../configuration/index.js'
 const generateToken = (data) => {
     return jwt.sign({
             id: data._id,
-            email: data.email,
+            username: data.username,
             role: data.role,
         },
         variables.JWT_ACCESS,
@@ -14,7 +14,7 @@ const generateToken = (data) => {
 const generateRefreshToken = (data) => {
     return jwt.sign({
             id: data._id,
-            email: data.email,
+            username: data.username,
             role: data.role,
         },
         variables.JWT_REFRESH,

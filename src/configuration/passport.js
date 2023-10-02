@@ -15,13 +15,17 @@ const jwtOptions = {
 }
 
 const localOptions = {
-    usernameField: 'email',
+    usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
 }
-const localStrategy = new LocalStrategy(localOptions, async ( req, email, password, done ) => {
+const localStrategy = new LocalStrategy(localOptions, async ( req, username, password, done ) => {
     try {
-        const {body} = req;
+        const body = {
+            username: req.query.username,
+            password: req.query.password
+        }
+
 
         const signIn = await AuthService.authenticate(body);
         switch (signIn.status) {

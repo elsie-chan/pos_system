@@ -18,6 +18,7 @@ class ApiAuthController {
         await mailService.sendMail(account.email, generateToken(), 'notification_new_account.ejs');
         return res.status(200).json(account);
     }
+
     async authenticate(req, res) {
         const validationRequest = validationResult(req);
         if (!validationRequest.isEmpty()) {
@@ -62,6 +63,7 @@ class ApiAuthController {
             }
         }
     }
+
     async logout(req, res) {
         const validationRequest = validationResult(req);
         if (!validationRequest.isEmpty()) {
@@ -94,17 +96,23 @@ class ApiAuthController {
     }
 
     async sendMail(req, res) {
-        await mailService.sendMail(req.body.email, generateToken(), 'notification_new_account.ejs');
+        try {
+            await mailService.sendMail(req.body.email, generateToken(), 'notification_new_account.ejs');
+            return res.status(200).json({message: "Send mail success"});
+        } catch (e) {
+            console.log(e);
+            return res.status(500).json({errors: "Server errors"});
+        }
     }
 
     async validate(req, res) {
-        const { token } = req.params;
+        const {token} = req.params;
         // Check if the token exists and is still valid.
         if (tokenMap.has(token) && tokenMap.get(token) > Date.now()) {
             console.log('Valid token.');
             res.redirect('/api/v1/auth/active?email=' + req.query.email);
         } else {
-            res.status(404).send('Invalid or expired token.');
+            res.status(404).send('Invalid token.');
         }
     }
 
@@ -117,7 +125,7 @@ class ApiAuthController {
         if (account == null) {
             return res.status(400).json({errors: "Account not found"});
         }
-        res.redirect('/');
+        res.redirect(`/api/v1/auth/verify_account?username=${account.username}&password=${account.username}`);
     }
 
     async resetPassword(req, res) {
@@ -137,6 +145,7 @@ class ApiAuthController {
 }
 
 const tokenMap = new Map();
+
 function generateToken() {
     const token = Math.random().toString(36).substring(7);
     const expirationTime = Date.now() + 60000; // 1 minute from now

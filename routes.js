@@ -1,32 +1,38 @@
-import authRoutes from "./src/routes/auth.route.js";
+import {apiAuthRoutes, apiAccountRoutes, homeRoutes, authRoutes, adminRoutes} from './src/routes/index.js'
 import Table from "ascii-table";
-import accountRoutes from "./src/routes/account.route.js";
-import homeRoutes from "./src/routes/home.route.js";
 const table = new Table('Route Table');
 const routes = (app) => {
-    app.use('/api/v1/auth', authRoutes)
-    app.use('/api/account', accountRoutes)
+    app.use('/api/v1/auth', apiAuthRoutes)
+    app.use('/api/account', apiAccountRoutes)
     app.use('/', homeRoutes)
-    // app.use("/api/artist", artistRoute);
-    // app.use("/admin", adminRoute)
-    // app.use('/api/playlist', playlistRoute)
+    app.use('/auth', authRoutes)
+    app.use('/admin', adminRoutes)
     app.use((err, req, res, next) => {
         console.log(err);
         res.status(500).send(err.message);
     })
 
-    const COLUMNS_NAME = ['Method', 'Path'];
+    const COLUMNS_NAME = ['Root Path', 'Method', 'Path'];
     table.setHeading(...COLUMNS_NAME);
 
-    [authRoutes, accountRoutes,homeRoutes].forEach(router => {
-        router.stack.forEach(layer => {
+    [
+        { name: '/', route: homeRoutes },
+        { name: '/api/v1/auth', route: apiAuthRoutes },
+        { name: '/api/account', route: apiAccountRoutes },
+        {name: '/auth', route: authRoutes},
+        { name: '/admin', route: adminRoutes }
+    ].forEach(router => {
+        router.route.stack.forEach(layer => {
             if (layer.route) {
-                const {path, methods} = layer.route;
+                const { path, methods } = layer.route;
                 Object.keys(methods).forEach(method => {
-                    table.addRow(method.toUpperCase(), path);
+                    table.addRow(router.name, method.toUpperCase(), path);
                 })
             }
         })
+
+        //     set empty row
+        table.addRow();
     })
 
     console.log(table.toString());
