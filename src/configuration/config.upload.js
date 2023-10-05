@@ -18,6 +18,7 @@ const configUpload = () => {
         }
     })
 
+
     return upload;
 }
 

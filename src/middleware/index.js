@@ -1,3 +1,4 @@
 import {generateToken, generateRefreshToken} from "./generate.token.js"
 import {verifyToken, verifyRefreshToken} from "./verify.token.js";
-export {generateToken, generateRefreshToken, verifyToken, verifyRefreshToken};
+import {default as AuthMiddleware} from "./auth.middleware.js";
+export {generateToken, generateRefreshToken, verifyToken, verifyRefreshToken, AuthMiddleware};

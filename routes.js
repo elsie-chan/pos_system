@@ -1,12 +1,25 @@
-import {apiAuthRoutes, apiAccountRoutes, homeRoutes, authRoutes, adminRoutes} from './src/routes/index.js'
+import {
+    apiAuthRoutes,
+    apiAccountRoutes,
+    homeRoutes,
+    authRoutes,
+    adminRoutes,
+    productRoutes,
+    apiCustomerRoutes,
+    apiProductRoutes
+} from './src/routes/index.js'
 import Table from "ascii-table";
+
 const table = new Table('Route Table');
 const routes = (app) => {
     app.use('/api/v1/auth', apiAuthRoutes)
     app.use('/api/account', apiAccountRoutes)
+    app.use('/api/customer', apiCustomerRoutes)
+    app.use('/api/product', apiProductRoutes)
     app.use('/', homeRoutes)
     app.use('/auth', authRoutes)
     app.use('/admin', adminRoutes)
+    app.use('/product', productRoutes)
     app.use((err, req, res, next) => {
         console.log(err);
         res.status(500).send(err.message);
@@ -16,15 +29,18 @@ const routes = (app) => {
     table.setHeading(...COLUMNS_NAME);
 
     [
-        { name: '/', route: homeRoutes },
-        { name: '/api/v1/auth', route: apiAuthRoutes },
-        { name: '/api/account', route: apiAccountRoutes },
+        {name: '/', route: homeRoutes},
+        {name: '/api/v1/auth', route: apiAuthRoutes},
+        {name: '/api/account', route: apiAccountRoutes},
         {name: '/auth', route: authRoutes},
-        { name: '/admin', route: adminRoutes }
+        {name: '/admin', route: adminRoutes},
+        {name: '/product', route: productRoutes},
+        {name: '/api/customer', route: apiCustomerRoutes},
+        {name: '/api/product', route: apiProductRoutes},
     ].forEach(router => {
         router.route.stack.forEach(layer => {
             if (layer.route) {
-                const { path, methods } = layer.route;
+                const {path, methods} = layer.route;
                 Object.keys(methods).forEach(method => {
                     table.addRow(router.name, method.toUpperCase(), path);
                 })

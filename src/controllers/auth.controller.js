@@ -1,6 +1,10 @@
 class AuthController {
     login(req, res) {
-        res.render('layouts/auth/login', {title: 'Login'});
+        if (req.isAuthenticated()) {
+            return res.redirect('/');
+        } else {
+            res.render('layouts/auth/login', { error: req.flash('error') || null });
+        }
     }
 }
 

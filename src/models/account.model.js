@@ -42,13 +42,17 @@ const accountSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: [...Object.keys(Roles)],
-        default: Roles.STAFF,
+        default: Roles.ADMIN,
     },
     avatar: {
         type: String,
-        default: null,
+        default: '/images/avtar/avatar.js',
     },
     active: {
+        type: Boolean,
+        default: false,
+    },
+    isLocked: {
         type: Boolean,
         default: false,
     },
@@ -82,6 +86,10 @@ export const verifyAccount = async (data) => {
 
         if (!existAccount.active) {
             return ErrorMessage(400, "Please login by clicking on the link in your email");
+        }
+
+        if (existAccount.isLocked) {
+            return ErrorMessage(400, "Account is locked");
         }
 
         const isMatch = await bcrypt.compare(data.password.trim(), existAccount.password.trim());
@@ -140,7 +148,7 @@ export const findAccount = async (id) => {
     }
 }
 
-export const isCheckAccount = async (id) => {
+export const isLockAccount = async (id) => {
     try {
         const existAccount = await Account.findOne({
             _id: id
@@ -151,7 +159,7 @@ export const isCheckAccount = async (id) => {
             return false
         }
 
-        if (existAccount.logging) {
+        if (existAccount.isLocked) {
             return true;
         }
     } catch (e) {

@@ -22,8 +22,7 @@ async function createAccount(data) {
             username: username,
             password: hashedPassword,
             token: token,
-            refreshToken: refreshToken,
-            avatar: "/images/avatar.png",
+            refreshToken: refreshToken
         });
         await newAccount.save();
         return newAccount;
@@ -44,13 +43,18 @@ async function authenticate(data) {
 }
 
 async function setActive(email) {
-    const account = await Account.findOne({email: email});
-    if (!account) {
-        return null;
-    } else {
-        account.active = true;
-        await account.save();
-        return account;
+    try {
+        const account = await Account.findOne({email: email});
+        if (!account) {
+            return null;
+        } else {
+            account.active = true;
+            await account.save();
+            return account;
+        }
+    } catch (e) {
+        console.log( e)
+        return ErrorMessage(500, "Server errors", e);
     }
 }
 

@@ -1,17 +1,12 @@
-import {validationResult} from "express-validator";
-import AuthServices from "../../services/auth.service.js";
+import {AuthService} from "../../services/index.js";
 import {findAccount} from "../../models/account.model.js";
 import mailService from "../../services/mail.service.js";
 
 
 class ApiAuthController {
     async create(req, res) {
-        const validationRequest = validationResult(req);
-        if (!validationRequest.isEmpty()) {
-            return res.status(400).json({errors: validationRequest.array()});
-        }
 
-        const account = await AuthServices.createAccount(req.body);
+        const account = await AuthService.createAccount(req.body);
         if (account == null) {
             return res.status(400).json({errors: "Account already exist"});
         }
@@ -20,12 +15,8 @@ class ApiAuthController {
     }
 
     async authenticate(req, res) {
-        const validationRequest = validationResult(req);
-        if (!validationRequest.isEmpty()) {
-            return res.status(400).json({errors: validationRequest.array()});
-        }
 
-        const signIn = await AuthServices.authenticate(req.body);
+        const signIn = await AuthService.authenticate(req.body);
         switch (signIn.status) {
             case 400: {
                 return res.status(400).json({errors: signIn.message});
@@ -65,10 +56,6 @@ class ApiAuthController {
     }
 
     async logout(req, res) {
-        const validationRequest = validationResult(req);
-        if (!validationRequest.isEmpty()) {
-            return res.status(400).json({errors: validationRequest.array()});
-        }
         const id = req.params.id
         const account = await findAccount(id);
         if (account.message) {
@@ -117,11 +104,7 @@ class ApiAuthController {
     }
 
     async setActive(req, res) {
-        const validationRequest = validationResult(req);
-        if (!validationRequest.isEmpty()) {
-            return res.status(400).json({errors: validationRequest.array()});
-        }
-        const account = await AuthServices.setActive(req.query.email);
+        const account = await AuthService.setActive(req.query.email);
         if (account == null) {
             return res.status(400).json({errors: "Account not found"});
         }
@@ -129,11 +112,7 @@ class ApiAuthController {
     }
 
     async resetPassword(req, res) {
-        const validationRequest = validationResult(req);
-        if (!validationRequest.isEmpty()) {
-            return res.status(400).json({errors: validationRequest.array()});
-        }
-        const account = await AuthServices.resetPassword(req.params.id, req.body);
+        const account = await AuthService.resetPassword(req.params.id, req.body);
         if (account == null) {
             return res.status(400).json({errors: "Account not found"});
         }

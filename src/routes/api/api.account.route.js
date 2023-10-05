@@ -1,8 +1,10 @@
 import express from "express";
-import ApiAccountController from "../../controllers/api/api.account.controller.js";
+import {ApiAccountController} from "../../controllers/index.js";
+import {AuthMiddleware} from "../../middleware/index.js";
+import {Roles} from "../../contants/roles.js";
 
 const router = express.Router();
 
-router.delete("/delete_all", ApiAccountController.deleteAll.bind(ApiAccountController));
+router.delete("/delete_all", AuthMiddleware.requireRole([Roles.ADMIN]), ApiAccountController.deleteAll.bind(ApiAccountController));
 
 export default router;
