@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import {Roles} from "../contants/roles.js";
+import {Roles} from "../constants/roles.js";
 import {ErrorMessage} from "../errors/index.js";
 
 const productSchema = new mongoose.Schema({

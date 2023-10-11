@@ -5,7 +5,6 @@ const createInvoice = async (data) => {
     try {
         const newInvoice = new Invoice(
             ...data,
-
         );
         await newInvoice.save();
         return newInvoice;

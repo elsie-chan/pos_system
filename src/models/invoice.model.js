@@ -17,20 +17,26 @@ const invoiceSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    paymentMethod: {
+        type: String,
+        required: true,
+        default: "cash",
+    },
     datePurchase: {
         type: Date,
         required: true,
     },
-    products: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product"
-    }],
-    accountId: {
+    products: {
         type: Array,
     },
-    customerId: {
-        type: Array
-    },
+    accountId: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Account",
+    }],
+    customerId: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Customer",
+    }],
 }, {timestamps: true});
 
 const Invoice = mongoose.model("Invoice", invoiceSchema);

@@ -1,6 +1,7 @@
 import {AuthService} from "../../services/index.js";
-import {findAccount} from "../../models/account.model.js";
+import Account, {findAccount} from "../../models/account.model.js";
 import mailService from "../../services/mail.service.js";
+import {variables} from "../../configuration/index.js";
 
 
 class ApiAuthController {
@@ -8,9 +9,17 @@ class ApiAuthController {
 
         const account = await AuthService.createAccount(req.body);
         if (account == null) {
-            return res.status(400).json({errors: "Account already exist"});
+            return res.status(400).send({error: "Account already exist"});
         }
-        await mailService.sendMail(account.email, generateToken(), 'notification_new_account.ejs');
+        await mailService.sendMail({
+            email: account.email,
+            subject: "Phone Store - Active account",
+            template: "notification_new_account",
+            context: {
+                email: account.email,
+                url: `${variables.URL}:${variables.PORT}/api/v1/auth/validate/${generateToken()}?email=${account.email}`,
+            }
+        });
         return res.status(200).json(account);
     }
 
@@ -19,10 +28,10 @@ class ApiAuthController {
         const signIn = await AuthService.authenticate(req.body);
         switch (signIn.status) {
             case 400: {
-                return res.status(400).json({errors: signIn.message});
+                return res.status(400).json({error: signIn.message});
             }
             case 500: {
-                return res.status(500).json({errors: signIn.message});
+                return res.status(500).json({error: signIn.message});
             }
             default: {
                 req.session.accounts = req.session?.accounts || [];
@@ -67,24 +76,23 @@ class ApiAuthController {
 
         req.session.accounts = req.session.accounts.filter(account => account._id !== id);
         req.session.save();
-        res.cookie("refreshToken", null, {
-            httpOnly: true,
-            secure: true,
-            path: "/",
-            sameSite: "strict"
-        })
-        res.cookie("role", null, {
-            httpOnly: true,
-            secure: true,
-            path: "/",
-            sameSite: "strict"
-        })
+        res.clearCookie("refreshToken");
+        res.clearCookie("role");
         return res.status(200).json({message: "Logout success"});
     }
 
-    async sendMail(req, res) {
+    async resendMail(req, res) {
+        const account = await Account.findOne({email: req.body.email});
         try {
-            await mailService.sendMail(req.body.email, generateToken(), 'notification_new_account.ejs');
+            await mailService.sendMail({
+                email: account.email,
+                subject: "Phone Store - Reactive account",
+                template: "notification_new_account",
+                context: {
+                    email: account.email,
+                    url: `${variables.URL}:${variables.PORT}/api/v1/auth/validate/${generateToken()}?email=${account.email}`,
+                }
+            });
             return res.status(200).json({message: "Send mail success"});
         } catch (e) {
             console.log(e);

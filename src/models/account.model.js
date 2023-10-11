@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import validator from "validator";
 import {AccountError, ErrorMessage} from "../errors/index.js";
-import {Roles} from "../contants/roles.js";
+import {Roles} from "../constants/roles.js";
 import {generateToken, generateRefreshToken, verifyToken, verifyRefreshToken} from "../middleware/index.js"
 import bcrypt from "bcrypt";
 
@@ -42,11 +42,11 @@ const accountSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: [...Object.keys(Roles)],
-        default: Roles.ADMIN,
+        default: Roles.STAFF,
     },
     avatar: {
         type: String,
-        default: '/images/avtar/avatar.js',
+        default: '/images/avtar/avatar.png',
     },
     active: {
         type: Boolean,

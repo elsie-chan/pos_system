@@ -26,5 +26,5 @@ table.addRow(dbConnectStatus.status, dbConnectStatus.message);
 routes(app)
 app.listen(PORT, () => {
     console.log(table.toString());
-    console.log(`Server is running on ${URL + PORT}.`);
+    console.log(`Server is running on ${URL + ":" + PORT}.`);
 });

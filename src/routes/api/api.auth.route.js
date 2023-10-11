@@ -3,13 +3,13 @@ import {ApiAuthController} from "../../controllers/index.js";
 import validation from "../../validator/validation.route.js";
 import passport from "passport";
 import {AuthMiddleware} from "../../middleware/index.js";
-import {Roles} from "../../contants/roles.js";
+import {Roles} from "../../constants/roles.js";
 
 const router = express.Router();
 
 router.post("/create", AuthMiddleware.requireRole([Roles.ADMIN]), validation, ApiAuthController.create.bind(ApiAuthController));
 router.post("/authenticate", validation, ApiAuthController.authenticate.bind(ApiAuthController));
-router.post("/send_mail", AuthMiddleware.requireRole([Roles.ADMIN]), validation, ApiAuthController.sendMail.bind(ApiAuthController));
+router.post("/send_mail", AuthMiddleware.requireRole([Roles.ADMIN]), validation, ApiAuthController.resendMail.bind(ApiAuthController));
 router.get("/active", validation, ApiAuthController.setActive.bind(ApiAuthController));
 router.post("/logout/:id", validation, ApiAuthController.logout.bind(ApiAuthController));
 router.get("/verify_account", validation, (req, res, next) => {

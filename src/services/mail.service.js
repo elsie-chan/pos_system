@@ -1,6 +1,5 @@
 import nodemailer from 'nodemailer';
 import path from "path";
-import {fileURLToPath} from "url";
 import {variables} from "../configuration/index.js";
 import ejs from 'ejs';
 
@@ -22,29 +21,22 @@ transporter.verify((error, success) => {
     }
 })
 
-async function sendMail(name, text, template)
-{
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename).slice(0, -13)
-    ejs.renderFile(__dirname + '/src/views/mail/' + template, {email: name, token: text}, (err, data) => {
+async function sendMail(options) {
+    const {email, subject, message, template, context} = options;
+    const templatePath = path.join(process.cwd(), 'src', 'views', 'mail', `${template}.ejs`);
+    const html = await ejs.renderFile(templatePath, context)
+    const mailOptions = {
+        from: '"' + "Phone Store" + '"' + "<" + variables.EMAIL_USER + ">",
+        to: email,
+        subject: subject,
+        html: html
+    }
+    await transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
             console.log(err);
         } else {
-            console.log("hello")
-            const mailOptions = {
-                from: '"' + "Phone Store" + '"' + "<" + variables.EMAIL_USER + ">",
-                to: name,
-                subject: `Hello ${name}`,
-                html: data
-            }
-            transporter.sendMail(mailOptions, (err, info) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log('Email sent: ' + info.response);
-                    return info
-                }
-            })
+            console.log('Email sent: ' + info.response);
+            return info
         }
     })
 }

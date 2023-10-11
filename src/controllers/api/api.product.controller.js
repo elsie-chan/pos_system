@@ -1,9 +1,11 @@
 import {ProductService} from '../../services/index.js'
+import paginate from "../../utils/paginate.js";
 class ApiProductController {
     async getAll(req, res) {
         try {
+            const page = req.query.page || 1
             const products =  await ProductService.getAll()
-            return res.status(200).json(products)
+            return res.status(200).json(paginate(products, page, 10))
         } catch (e) {
             return res.status(500).json({ message: e.message })
         }
@@ -49,5 +51,6 @@ class ApiProductController {
         }
     }
 }
+
 
 export default new ApiProductController()
