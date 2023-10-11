@@ -8,18 +8,19 @@ import {
     apiCustomerRoutes,
     apiProductRoutes
 } from './src/routes/index.js'
+
 import Table from "ascii-table";
 
 const table = new Table('Route Table');
 const routes = (app) => {
+    app.use('/', homeRoutes)
+    app.use('/auth', authRoutes)
+    app.use('/admin', adminRoutes)
     app.use('/api/v1/auth', apiAuthRoutes)
     app.use('/api/account', apiAccountRoutes)
     app.use('/api/customer', apiCustomerRoutes)
     app.use('/api/product', apiProductRoutes)
-    app.use('/', homeRoutes)
-    app.use('/auth', authRoutes)
-    app.use('/admin', adminRoutes)
-    app.use('/product', productRoutes)
+    app.use('/api/product', apiProductRoutes)
     app.use((err, req, res, next) => {
         console.log(err);
         res.status(500).send(err.message);

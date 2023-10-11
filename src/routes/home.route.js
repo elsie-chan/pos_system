@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
     res.render('layouts/home', {title: 'Home'})
 });
 
-router.get("/upload", configUpload().array('myFiles', 12), (req, res, next) => {
+router.get("/upload", configUpload('products').array('myFiles', 12), (req, res, next) => {
     const files = req.files
     if (!files) {
         const error = new Error('Please choose files')

@@ -1,12 +1,12 @@
 import multer from "multer";
 
-const configUpload = () => {
+const configUpload = (nameFolder) => {
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, './src/uploads/')
+            cb(null, './src/uploads/' + nameFolder)
         },
         filename: function (req, file, cb) {
-            cb(null, Date.now() + '-' + file.originalname)
+            cb(null, Date.now().toString() + '.' + file.originalname.split('.')[1]);
         }
     })
 

@@ -11,10 +11,10 @@ import {default as apiProductRoutes} from "./api/api.product.route.js";
 export {
     apiAuthRoutes,
     apiAccountRoutes,
+    apiProductRoutes,
     homeRoutes,
     authRoutes,
     adminRoutes,
     productRoutes,
     apiCustomerRoutes,
-    apiProductRoutes,
 }
