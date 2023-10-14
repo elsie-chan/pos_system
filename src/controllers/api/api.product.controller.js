@@ -1,5 +1,5 @@
 import {ProductService} from '../../services/index.js'
-import paginate from "../../utils/paginate.js";
+import {paginate} from "../../utils/index.js";
 class ApiProductController {
     async getAll(req, res) {
         try {

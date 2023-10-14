@@ -27,7 +27,7 @@ async function find(data) {
     }
 }
 
-async function findAll(data) {
+async function getAll() {
     try {
         const data = await Account.find()
             .select("-password")
@@ -41,17 +41,23 @@ async function findAll(data) {
     }
 }
 
-async function update(id, data) {
+async function update(data) {
     try {
-        const account = await Account.findById(id);
-        if (!account) {
+        const account = await Account.findOneAndUpdate({
+                _id: data._id
+            },
+            {
+                $push: {
+                    invoices: {
+                        $each: [data.invoices],
+                        $position: 0
+                    }
+                }
+            })
+        if (account == null) {
             return null
         } else {
-            const newUpdateAccount = account.updateOne({
-                ...data
-            })
-            await newUpdateAccount.save();
-            return newUpdateAccount;
+            return account
         }
     } catch (e) {
         console.log(e)
@@ -121,4 +127,5 @@ export default {
     changeAvatar,
     lockAccount,
     find,
-    findAll};
+    getAll
+};

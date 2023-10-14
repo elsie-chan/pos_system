@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import validator from "validator";
 import {AccountError, ErrorMessage} from "../errors/index.js";
 import {Roles} from "../constants/roles.js";
-import {generateToken, generateRefreshToken, verifyToken, verifyRefreshToken} from "../middleware/index.js"
+import {generateToken, generateRefreshToken, verifyToken, verifyRefreshToken} from "../utils/index.js"
 import bcrypt from "bcrypt";
 
 const accountSchema = new mongoose.Schema({

@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import Account, {findAccount, verifyAccount} from "../models/account.model.js";
 import {AccountError, ErrorMessage} from "../errors/index.js";
-import {generateRefreshToken, generateToken} from "../middleware/index.js";
+import {generateRefreshToken, generateToken} from "../utils/index.js";
 
 async function createAccount(data) {
     try {

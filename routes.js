@@ -10,26 +10,46 @@ import {
     productRoutes,
     errorAuthRoutes
 } from './src/routes/index.js'
+import { rateLimit } from 'express-rate-limit'
+import {RequireCookie} from "./src/middleware/index.js";
 
 import Table from "ascii-table";
 
 const table = new Table('Route Table');
+
 const routes = (app) => {
+
+    const rateLimiter = rateLimit({
+        windowMs: 15 * 60 * 1000, // 15 minutes
+        limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+        standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+        legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    })
+
+// Apply the rate limiting middleware to all requests
+    app.use(rateLimiter)
     app.use('/api/account', apiAccountRoutes)
     app.use('/api/customer', apiCustomerRoutes)
     app.use('/api/product', apiProductRoutes)
     app.use('/api/invoice', apiInvoiceRoutes)
     app.use('/', homeRoutes)
     app.use('/auth', authRoutes)
-    app.use('/admin', adminRoutes)
+    app.use('/admin', RequireCookie.requireCookie, adminRoutes)
     app.use('/api/v1/auth', apiAuthRoutes)
     app.use('/product', productRoutes)
     app.use('/error', errorAuthRoutes)
     app.use((err, req, res, next) => {
-        if (err.httpStatusCode === 404) return res.redirect('/error/404')
-        if (err.httpStatusCode === 403) return res.redirect('/error/403')
-        if (err.httpStatusCode === 500) return res.redirect('/error/500')
+        console.log(err);
+        res.status(500).render('error/500')
     })
+    app.use((req, res) => {
+        res.status(404).render('error/404')
+    })
+
+    app.use((req, res, next) => {
+        res.status(403).render('error/403')
+    })
+
     const COLUMNS_NAME = ['Root Path', 'Method', 'Path'];
     table.setHeading(...COLUMNS_NAME);
 

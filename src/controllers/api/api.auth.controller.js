@@ -16,6 +16,7 @@ class ApiAuthController {
             subject: "Phone Store - Active account",
             template: "notification_new_account",
             context: {
+                name: account.name,
                 email: account.email,
                 url: `${variables.URL}:${variables.PORT}/api/v1/auth/validate/${generateToken()}?email=${account.email}`,
             }
@@ -89,6 +90,7 @@ class ApiAuthController {
                 subject: "Phone Store - Reactive account",
                 template: "notification_new_account",
                 context: {
+                    name: account.fullname,
                     email: account.email,
                     url: `${variables.URL}:${variables.PORT}/api/v1/auth/validate/${generateToken()}?email=${account.email}`,
                 }
@@ -107,7 +109,7 @@ class ApiAuthController {
             console.log('Valid token.');
             res.redirect('/api/v1/auth/active?email=' + req.query.email);
         } else {
-            res.status(404).send('Invalid token.');
+            res.status(404).send('Link was expired. Please contact the administrator to resend another email.')
         }
     }
 
@@ -120,7 +122,7 @@ class ApiAuthController {
     }
 
     async resetPassword(req, res) {
-        const account = await AuthService.resetPassword(req.params.id, req.body);
+        const account = await  AuthService.resetPassword(req.params.id, req.body);
         if (account == null) {
             return res.status(400).json({errors: "Account not found"});
         }

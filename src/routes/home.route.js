@@ -1,5 +1,9 @@
 import express from "express";
 import {configUpload} from "../configuration/index.js";
+import {SellController} from "../controllers/index.js";
+import validation from "../validator/validation.route.js";
+import {AuthMiddleware} from "../middleware/index.js";
+import {Roles} from "../constants/roles.js";
 
 const router = express.Router();
 
@@ -16,5 +20,7 @@ router.get("/upload", configUpload('products').array('myFiles', 12), (req, res, 
     }
     res.send(files)
 })
+
+router.get("/add_product_to_session", AuthMiddleware.requireRole([Roles.ADMIN, Roles.STAFF]), validation, SellController.addProductToSession.bind(SellController));
 
 export default router;

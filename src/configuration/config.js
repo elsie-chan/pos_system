@@ -5,10 +5,12 @@ import {fileURLToPath} from 'url';
 import * as path from 'path';
 import cookieParser from "cookie-parser";
 import flash from "connect-flash";
+import cors from "cors";
 
 const config = (app) => {
     app.engine('ejs', ejs.renderFile);
     app.set('view engine', 'ejs');
+    app.use(cors({ origin: '*' }));
 
     app.use(express.json());
     app.use(express.urlencoded({extended: true}));

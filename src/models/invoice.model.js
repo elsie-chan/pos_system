@@ -29,14 +29,12 @@ const invoiceSchema = new mongoose.Schema({
     products: {
         type: Array,
     },
-    accountId: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Account",
-    }],
-    customerId: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Customer",
-    }],
+    account: {
+        type: Array
+    },
+    customer: {
+        type: Array
+    },
 }, {timestamps: true});
 
 const Invoice = mongoose.model("Invoice", invoiceSchema);

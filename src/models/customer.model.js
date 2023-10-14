@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import {ErrorMessage} from "../errors/index.js";
+import {AccountError, ErrorMessage} from "../errors/index.js";
+import validator from "validator";
 
 const customerSchema = new mongoose.Schema({
     fullname: {
@@ -10,7 +11,12 @@ const customerSchema = new mongoose.Schema({
     phone: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        validate: {
+            validator: function (value) {
+                if (!validator.isMobilePhone(value)) throw new Error('Invalid phone number');
+            }
+        }
     },
     address: {
         type: String,

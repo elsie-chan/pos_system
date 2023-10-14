@@ -7,4 +7,7 @@ const router = express.Router();
 
 router.get("/login", validation, AuthController.login.bind(AuthController));
 
+router.get("/change_password", validation, AuthController.changePassword.bind(AuthController));
+
+
 export default router;

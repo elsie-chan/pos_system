@@ -5,6 +5,11 @@ class AuthController {
         } else {
             res.render('layouts/auth/login', { error: req.flash('error') || null });
         }
+
+    }
+
+    changePassword(req, res) {
+       res.render('layouts/auth/ChangePass', { error: req.flash('error') || null });
     }
 }
 

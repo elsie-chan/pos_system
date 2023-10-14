@@ -12,10 +12,10 @@ const requireRole = ( roles ) => {
 
         const accountRole = req.cookies.role;
 
-        if (!accountRole.includes(roles)) {
-            return res.status(403).send({
-                message: "You are not authorized to access this resource"
-            })
+        console.log(roles)
+
+        if (!roles.includes(accountRole)) {
+            return res.status(403).render('error/403');
         }
         next();
     }
