@@ -17,7 +17,6 @@ const PORT = variables.PORT;
 
 const URL = variables.URL;
 
-
 const COLUMNS_NAME = ['Status', 'Message'];
 table.setHeading(...COLUMNS_NAME);
 table.addRow(passwordConfigStatus.status, passwordConfigStatus.message);
