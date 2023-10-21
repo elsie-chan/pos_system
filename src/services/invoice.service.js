@@ -64,12 +64,70 @@ async function get(data) {
     }
 }
 
-async function update(data){
+async function update(data) {
     try {
-        
+        const invoice = await Invoice.findOneAndUpdate({
+            _id: data._id,
+        }, data, {new: true})
+        if (invoice == null) {
+            return null
+        }
+        return invoice;
     } catch (e) {
-        
+        console.log(e)
+        return ErrorMessage("500", "Server error")
     }
-} 
+}
 
-export default {createInvoice, findAll, get}
+async function deleteInvoice(id) {
+    try {
+        const invoice = await Invoice.findOne({
+            _id: id,
+        })
+        if (invoice == null) {
+            return null
+        }
+        const customer = invoice.customer.find((customer) => customer._id)
+        const account = invoice.account.find((account) => account._id)
+        const deleteInvoiceOfCustomer = await CustomerService.deleteInvoiceOfCustomer({
+            id: customer._id,
+            invoices: id
+        })
+        if (deleteInvoiceOfCustomer == null) {
+            return null
+        }
+        const deleteInvoiceOfAccount = await AccountService.deleteInvoiceOfAccount({
+            id: account._id,
+            invoices: id
+        })
+        if (deleteInvoiceOfAccount == null) {
+            return null
+        }
+        const deleteInvoice = await Invoice.deleteOne({
+            _id: id,
+        });
+        if (deleteInvoice == null) {
+            return null
+        }
+        return deleteInvoice;
+    } catch (e) {
+        console.log(e)
+        return ErrorMessage("500", "Server error")
+    }
+}
+
+async function deleteAll() {
+    try {
+        const invoices = await Invoice.deleteMany();
+        if (invoices == null) {
+            return null
+        }
+        return "Delete all invoices successfully";
+    } catch (e) {
+        console.log(e)
+        return ErrorMessage("500", "Server error")
+    }
+}
+
+
+export default {createInvoice, findAll, get, update, deleteInvoice, deleteAll}

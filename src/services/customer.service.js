@@ -26,7 +26,20 @@ async function find(data) {
         console.log(e)
         return ErrorMessage(500, "Server errors", e);
     }
+}
 
+async function getAll() {
+    try {
+        const customers = await Customer.find()
+        if (customers) {
+            return customers;
+        } else {
+            return null
+        }
+    } catch (e) {
+        console.log(e)
+        return ErrorMessage(500, "Server errors", e);
+    }
 }
 
 async function update(data) {
@@ -54,4 +67,58 @@ async function update(data) {
     }
 }
 
-export default {create, find, update}
+async function updateCustomer(data) {
+    try {
+        const customer = await Customer.findOneAndUpdate({
+            _id: data._id
+        }, data, {
+            new: true
+        })
+        if (customer) {
+            return customer;
+        } else {
+            return null
+        }
+    } catch (e) {
+        console.log(e)
+        return ErrorMessage(500, "Server errors", e);
+    }
+}
+
+async function deleteCustomer(data) {
+    try {
+        const customer = await Customer.findOneAndDelete({
+            _id: data._id,
+        })
+        if (customer == null) {
+            return null
+        }
+        return customer;
+    } catch (e) {
+        console.log(e)
+        return ErrorMessage("500", "Server error")
+    }
+}
+
+async function deleteInvoiceOfCustomer(data) {
+    console.log(data)
+    try {
+        const customer = await Customer.findByIdAndUpdate({
+            _id: data.id
+        }, {
+            $pull: {
+                invoices: data.invoices.id
+            }
+        })
+        if (customer == null) {
+            return null
+        }
+        return customer
+    } catch (e) {
+        console.log(e)
+        return ErrorMessage("500", "Server error")
+    }
+}
+
+
+export default {create, find, update, updateCustomer, deleteCustomer, getAll, deleteInvoiceOfCustomer};

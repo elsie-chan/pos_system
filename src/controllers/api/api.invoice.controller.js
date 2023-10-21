@@ -31,6 +31,56 @@ class ApiInvoiceController {
             return res.status(500).json({ message: e.message })
         }
     }
+
+    async get(req, res) {
+        const { id } = req.params;
+        try {
+            const invoice = await InvoiceService.get(id);
+            if (invoice == null) {
+                return res.status(400).json({ message: "Invoice not found" })
+            }
+            return res.status(200).json(invoice);
+        } catch (e) {
+            return res.status(500).json({ message: e.message })
+        }
+    }
+
+    async update(req, res) {
+        const { id } = req.params;
+        try {
+            await InvoiceService.update(id, req.body);
+            return res.status(200).json({ message: 'Update invoice successfully'})
+        } catch(e){
+            return res.status(500).json({ message: e.message })
+        }
+    }
+
+    async delete(req, res) {
+        const { id } = req.params;
+        try {
+            const invoice = await InvoiceService.deleteInvoice(id);
+            switch (invoice.status) {
+                case 400: return res.status(400).json({ message: invoice.message })
+                case 500: return res.status(500).json({ message: invoice.message })
+                default: return res.status(200).json({ message: invoice })
+            }
+        } catch(e){
+            return res.status(500).json({ message: e.message })
+        }
+    }
+
+    async deleteAll(req, res) {
+        try {
+            const invoice = await InvoiceService.deleteAll();
+            switch (invoice.status) {
+                case 400: return res.status(400).json({ message: invoice.message })
+                case 500: return res.status(500).json({ message: invoice.message })
+                default: return res.status(200).json({ message: invoice })
+            }
+        } catch(e){
+            return res.status(500).json({ message: e.message })
+        }
+    }
 }
 
 export default new ApiInvoiceController()

@@ -120,6 +120,29 @@ async function changeAvatar(data) {
     }
 }
 
+async function deleteInvoiceOfAccount(data) {
+    console.log(data)
+    try {
+        const account = await Account.findByIdAndUpdate({
+                _id: data.id
+            },
+            {
+                $pull: {
+                    invoices: {
+                        _id: data.invoices.id
+                    }
+                }
+            })
+        if (account == null) {
+            return null
+        }
+        return account;
+    } catch (e) {
+        console.log(e)
+        return ErrorMessage("500", "Server error")
+    }
+}
+
 export default {
     deleteAll,
     deleteOne,
@@ -127,5 +150,6 @@ export default {
     changeAvatar,
     lockAccount,
     find,
-    getAll
+    getAll,
+    deleteInvoiceOfAccount
 };
