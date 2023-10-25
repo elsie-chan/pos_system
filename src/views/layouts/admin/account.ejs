@@ -5,12 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>
-        <%= title %>
+        Account
     </title>
-    <link rel="icon" href="/images/favicon.png" type="image/x-icon"/>
     <!-- CSS Files -->
     <link id="pagestyle" href="/css/admin/account.css" rel="stylesheet" />
-<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -46,9 +44,8 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
-
             <li class="nav-item">
-                <a class="nav-link  " href="/admin/account">
+                <a class="nav-link  active" href="/admin/account">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>office</title>
@@ -68,7 +65,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link  active" href="/admin/product">
+                <a class="nav-link  " href="/admin/product">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>credit-card</title>
@@ -185,9 +182,9 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                     <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/admin/dashboard">Dashboard</a></li>
-                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Products</li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Accounts</li>
                 </ol>
-                <h6 class="font-weight-bolder mb-0">Products</h6>
+                <h6 class="font-weight-bolder mb-0">Accounts</h6>
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                 <ul class="navbar-nav  justify-content-end">
@@ -211,12 +208,12 @@
                 <div class="card m-1">
                     <div class="row align-items-center">
                         <div class="col mx-4">
-                            <h6>Products table</h6>
+                            <h6>Accounts table</h6>
                         </div>
                         <div class="col">
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end align-items-center">
                                 <button class="btn btn-primary mx-5 mb-0" type="button" data-bs-toggle="modal"
-                                        data-bs-target="#addProductModal">Add product
+                                        data-bs-target="#addProductModal">Add account
                                 </button>
                             </div>
                         </div>
@@ -227,42 +224,37 @@
                             <table class="table align-items-center mb-0">
                                 <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Information</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Brand</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Import price</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Retail price</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Staff</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sales</th>
                                     <th class="text-secondary opacity-7"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <% products.forEach(function(product){ %>
+                                <% accounts.forEach(function(account){ %>
                                 <tr>
                                     <td>
                                         <div class="d-flex px-2 py-1">
                                             <div>
-                                                <img src="https://game4u.co.za/wp-content/uploads/2022/04/Iphone-xs-rose-gold.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                                <img src="<%= account.avatar %>" class="avatar avatar-sm me-3" alt="user1">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><%= product.name %></h6>
-                                                <p class="text-xs text-secondary mb-0"><%= product._id %></p>
+                                                <h6 class="mb-0 text-sm"><%= account.name %></h6>
+                                                <p class="text-xs text-secondary mb-0"><%= account.email %></p>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="align-middle text-center text-sm">
-                                        <span class="text-secondary text-xs font-weight-bold"><%= product.category %></span>
+                                        <span class="badge badge-sm bg-gradient-success">Online</span>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">$<%= product.importPrice %></span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">$<%= product.retailPrice %></span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <a href="" class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal" data-bs-target="#editProductModal">
-                                            Edit &emsp;
+                                        <a href="" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                            View details
                                         </a>
-                                        <a href="" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Remove user">
-                                            Remove
+                                    </td>
+                                    <td class="align-middle">
+                                        <a href="" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit account">
+                                            Edit &emsp;
                                         </a>
                                     </td>
                                 </tr>
@@ -271,202 +263,16 @@
                             </table>
                         </div>
                     </div>
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link <%= page <= 1 ? 'disable' : ''%>"
-                                   href="/?page=<%= page -1 && 1 %>&per_page=<%= limit %>"
-                                   aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-<!--                                    <span class="sr-only">Previous</span>-->
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-<!--                                    <span class="sr-only">Next</span>-->
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>
-        <!-- Add product modal -->
-        <div class="container-fluid m-1">
-            <div class="modal fade" id="addProductModal" data-bs-backdrop="static"
-                 tabindex="-1"
-                 aria-labelledby="" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="">Add product</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form class="">
-                                <div class="d-flex flex-row justify-content-center row">
-                                    <div class="image_inputs col-10">
-                                        <div class="row">
-                                            <div class="image_container col-4">
-                                                <img id="image_preview" width="100%"
-                                                     height="100%" src="" alt="product image uploaded">
-                                            </div>
-                                            <label class="col mt-1 custum-file-upload" for="image_file"
-                                                   style="height: fit-content;">
-                                                <div class="text">
-                                                    <span>Upload image</span>
-                                                </div>
-                                                <input type="file" id="image_file" accept="image/png, image/jpge, image/jpg">
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="product_inputs col-10">
-                                        <div class="d-flex flex-row justify-content-between row">
-                                            <label for="product_name" class="col-4 col-md-2 col-form-label">Name</label>
-                                            <div class="col-12">
-                                                <input type="text" class="form-control" id="product_name">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <div class="col">
-                                                <label for="product_image_path" class="col-sm-4 col-form-label">Import price</label>
-                                                <div class="col-sm-12">
-                                                    <input type="number" min="0" class="form-control"
-                                                           id="import_price"
-                                                           placeholder="Import price"
-                                                           aria-label=""
-                                                           aria-describedby="addon-wrapping">
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <label for="product_image_path" class="col-sm-4 col-form-label">Retail price</label>
-                                                <div class="col-sm-12">
-                                                    <input type="number" min="0" class="form-control"
-                                                           id="retail_price"
-                                                           placeholder="Retail price"
-                                                           aria-label=""
-                                                           aria-describedby="addon-wrapping">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label for="product_category" class="col-sm-2 col-form-label">Category</label>
-                                            <div class="col-sm-12">
-                                                <input type="text" class="form-control" id="product_category">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="saveBtn btn btn-primary p-2 m-1">Save
-                            </button>
-                            <button type="button" class="closeBtn btn btn-secondary p-2 m-1" data-bs-dismiss="modal">
-                                Close
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Add product modal -->
-        <!-- Edit product modal -->
-        <div class="container-fluid m-1">
-            <div class="modal fade" id="editProductModal" data-bs-backdrop="static"
-                 tabindex="-1"
-                 aria-labelledby="" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="">Edit product</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form class="">
-                                <div class="d-flex flex-row justify-content-center row">
-                                    <div class="image_inputs col-10">
-                                        <div class="row">
-                                            <div class="image_container col-4">
-                                                <img id="image_preview" width="100%"
-                                                     height="100%" src="" alt="product image uploaded">
-                                                <div class="icon">
-                                                    <img src="" alt="">
-                                                </div>
-                                            </div>
-                                            <label class="col mt-1 custum-file-upload" for="image_file"
-                                                   style="height: fit-content;">
-                                                <div class="text">
-                                                    <span>Upload image</span>
-                                                </div>
-                                                <input type="file" id="image_file" accept="image/png, image/jpge, image/jpg">
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="product_inputs col-10">
-                                        <div class="d-flex flex-row justify-content-between row">
-                                            <label for="product_name" class="col-4 col-md-2 col-form-label">Name</label>
-                                            <div class="col-12">
-                                                <input type="text" class="form-control" id="product_name">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <div class="col">
-                                                <label for="product_image_path" class="col-sm-4 col-form-label">Import price</label>
-                                                <div class="col-sm-12">
-                                                    <input type="number" min="0" class="form-control"
-                                                           id="import_price"
-                                                           placeholder="Import price"
-                                                           aria-label=""
-                                                           aria-describedby="addon-wrapping">
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <label for="product_image_path" class="col-sm-4 col-form-label">Retail price</label>
-                                                <div class="col-sm-12">
-                                                    <input type="number" min="0" class="form-control"
-                                                           id="retail_price"
-                                                           placeholder="Retail price"
-                                                           aria-label=""
-                                                           aria-describedby="addon-wrapping">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label for="product_category" class="col-sm-2 col-form-label">Category</label>
-                                            <div class="col-sm-12">
-                                                <input type="text" class="form-control" id="product_category">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="saveBtn btn btn-primary p-2 m-1">Save
-                            </button>
-                            <button type="button" class="closeBtn btn btn-secondary p-2 m-1" data-bs-dismiss="modal">
-                                Close
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Edit product modal -->
+
     </div>
 </main>
 
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"
-></script>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+
+</script>
 <script src="/js/admin/account.js"></script>
 </body>
 

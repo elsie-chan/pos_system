@@ -26,7 +26,7 @@ class ApiInvoiceController {
             if (invoices == null) {
                 return res.status(400).json({ message: "Invoices not found" })
             }
-            return res.status(200).json(paginate(invoices, page, 10));
+            return paginate(invoices, page, 10)
         } catch (e) {
             return res.status(500).json({ message: e.message })
         }

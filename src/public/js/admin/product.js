@@ -1,13 +1,15 @@
-// js to get all products data
-const productTable = $('#productTable');
-const tbody = $('#productTable tbody');
-
-let myModal = new bootstrap.Modal(document.getElementById('editProductModal'))
-
 // ajax request to get all products
 $(document).ready(function () {
-    ajaxAllProduct();
+    // ajaxAllProduct();
 });
+
+function addProduct() {
+    let addProductModal = $('#addProductModal');
+    let saveBtn = $('#addProductModal .saveBtn');
+    let closeBtn = $('#addProductModal .closeBtn');
+
+
+}
 
 function ajaxAllProduct(
     page = 0,

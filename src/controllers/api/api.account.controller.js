@@ -30,7 +30,7 @@ class ApiAccountController {
             if (accounts == null) {
                 return res.status(404).json({message: "No Accounts found"})
             } else {
-                return res.status(200).json(paginate(accounts, page, 10))
+                return paginate(accounts, page, 10)
             }
         } catch (e) {
             console.log(e)

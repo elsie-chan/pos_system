@@ -4,6 +4,7 @@ import {
     apiCustomerRoutes,
     apiProductRoutes,
     apiInvoiceRoutes,
+    apiStatisticRoutes,
     homeRoutes,
     authRoutes,
     adminRoutes,
@@ -32,22 +33,23 @@ const routes = (app) => {
     app.use('/api/customer', apiCustomerRoutes)
     app.use('/api/product', apiProductRoutes)
     app.use('/api/invoice', apiInvoiceRoutes)
+    app.use('/api/statistic', apiStatisticRoutes)
     app.use('/', homeRoutes)
     app.use('/auth', authRoutes)
-    app.use('/admin', RequireCookie.requireCookie, adminRoutes)
+    app.use('/admin',  adminRoutes)
     app.use('/api/v1/auth', apiAuthRoutes)
     app.use('/product', productRoutes)
     app.use('/error', errorAuthRoutes)
     app.use((err, req, res, next) => {
         console.log(err);
-        res.status(500).render('error/500')
+        res.status(500).render('error/error', {title: 500, error: "500", message: "Internal server error"})
     })
     app.use((req, res) => {
-        res.status(404).render('error/404')
+        res.status(404).render('error/error', {title: 404, error: "404", message: "Page not found"})
     })
 
     app.use((req, res, next) => {
-        res.status(403).render('error/403')
+        res.status(403).render('error/error', {title: 403, error: "403", message: "Forbidden"})
     })
 
     const COLUMNS_NAME = ['Root Path', 'Method', 'Path'];

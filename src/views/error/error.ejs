@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title><%= title %></title>
+</head>
+<style>
+    .content--404 h1 span{
+        font-size: 18vw;
+        line-height: 1em;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898;
+        background-blend-mode: multiply,multiply;
+        /*color: deeppink;*/
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .content--404 h4 {
+        text-transform: uppercase;
+        color: #000;
+        font-size: 2rem;
+        font-weight: 300;
+        line-height: normal;
+    }
+</style>
+<body>
+<div class="section--404 min-vh-100">
+    <div class="container mt-5">
+        <div class="row error d-flex justify-content-center align-items-center">
+            <div class="col-md-8 col-sm-10 col-12 content--404 d-flex flex-column gap-3 justify-content-center align-items-center">
+                <h1><span><%= error %></span></h1>
+                <h4 class=""><%= message %></h4>
+                <button class="back-to-home--button collections__button" role="button">
+                    Back to home
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+    $( ".back-to-home--button" ).on( "click", function() {
+        window.location.href =  "/";
+    } );
+</script>
+</body>
+</html>

@@ -5,7 +5,7 @@ class ApiProductController {
         try {
             const page = req.query.page || 1
             const products =  await ProductService.getAll()
-            return res.status(200).json(paginate(products, page, 10))
+            return paginate(products, page, 10)
         } catch (e) {
             return res.status(500).json({ message: e.message })
         }

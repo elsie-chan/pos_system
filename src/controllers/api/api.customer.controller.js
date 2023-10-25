@@ -41,7 +41,7 @@ class ApiCustomerController {
                     message: "Customers not found",
                 });
             }
-            return res.status(200).json(paginate(customers, page, 10));
+            return paginate(customers, page, 10)
         } catch (e) {
             console.log(e);
             return res.status(500).json({

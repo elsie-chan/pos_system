@@ -10,7 +10,7 @@ logoutBtn.click(function (e) {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem("token")
             },
-            success: function () {
+            success: function (data) {
                 console.log(data)
                 localStorage.removeItem("token")
                 localStorage.removeItem("refreshToken")

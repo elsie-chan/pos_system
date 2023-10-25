@@ -5,6 +5,7 @@ import {default as CustomerService} from './customer.service.js'
 import {default as InvoiceService} from './invoice.service.js'
 import {default as MailService} from './mail.service.js'
 import {default as ProductService} from './product.service.js'
+import {default as StatisticService} from './statistic.service.js'
 
 export {
     AuthService,
@@ -13,5 +14,6 @@ export {
     CustomerService,
     InvoiceService,
     MailService,
-    ProductService
+    ProductService,
+    StatisticService
 }
