@@ -1,0 +1,15 @@
+.nav-item {
+    margin-bottom: 20px;
+  }
+
+  .row button {
+    width: 100%;
+    padding: 15px;
+    font-size: large;
+    background-color: #8bb5be;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
