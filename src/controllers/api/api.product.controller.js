@@ -7,7 +7,7 @@ class ApiProductController {
             const products =  await ProductService.getAll()
             return paginate(products, page, 10)
         } catch (e) {
-            return res.status(500).json({ message: e.message })
+            req.flash('error', e.message)
         }
     }
     async getById(req, res) {

@@ -18,6 +18,22 @@ class SellController {
             return res.status(500).json({message: e.message});
         }
     }
+
+    async deleteProduct(req, res) {
+        try {
+
+        } catch (e) {
+
+        }
+    }
+    
+    async updateQuantity(req, res) {
+        try {
+
+        } catch (e) {
+            
+        }
+    }
 }
 
 export default new SellController();

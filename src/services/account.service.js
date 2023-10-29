@@ -127,10 +127,10 @@ async function deleteInvoiceOfAccount(data) {
                 _id: data.id
             },
             {
-                $pull: {
-                    invoices: {
-                        _id: data.invoices.id
-                    }
+                $pullAll: {
+                    invoices: [{
+                        _id: data.invoices
+                    }]
                 }
             })
         if (account == null) {

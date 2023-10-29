@@ -12,7 +12,7 @@ import {
     errorAuthRoutes
 } from './src/routes/index.js'
 import { rateLimit } from 'express-rate-limit'
-import {RequireCookie} from "./src/middleware/index.js";
+import {IsLocked, RequireCookie} from "./src/middleware/index.js";
 
 import Table from "ascii-table";
 
@@ -36,7 +36,7 @@ const routes = (app) => {
     app.use('/api/statistic', apiStatisticRoutes)
     app.use('/', homeRoutes)
     app.use('/auth', authRoutes)
-    app.use('/admin',  adminRoutes)
+    app.use('/admin', adminRoutes)
     app.use('/api/v1/auth', apiAuthRoutes)
     app.use('/product', productRoutes)
     app.use('/error', errorAuthRoutes)

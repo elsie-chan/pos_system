@@ -15,7 +15,7 @@ const requireRole = ( roles ) => {
         console.log(roles)
 
         if (!roles.includes(accountRole)) {
-            return res.status(403).render('error/403');
+            return res.status(403).render('error/error', {title: 403, error: "403", message: "Forbidden"})
         }
         next();
     }

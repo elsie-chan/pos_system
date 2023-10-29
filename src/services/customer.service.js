@@ -106,8 +106,10 @@ async function deleteInvoiceOfCustomer(data) {
         const customer = await Customer.findByIdAndUpdate({
             _id: data.id
         }, {
-            $pull: {
-                invoices: data.invoices.id
+            $pullAll: {
+                invoices: [{
+                    _id: data.invoices
+                }]
             }
         })
         if (customer == null) {
