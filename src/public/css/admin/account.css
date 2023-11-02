@@ -24914,3 +24914,8 @@ pre[class*="language-"] {
     }
 }
 
+.image_upload:hover {
+    cursor: pointer;
+    opacity: .5;
+}
+

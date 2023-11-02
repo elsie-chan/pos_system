@@ -70,9 +70,9 @@ async function update(data) {
 async function updateCustomer(data) {
     try {
         const customer = await Customer.findOneAndUpdate({
-            _id: data._id
-        }, data, {
-            new: true
+            phone: data.phone
+        }, {
+            $set: data.data
         })
         if (customer) {
             return customer;
@@ -88,7 +88,7 @@ async function updateCustomer(data) {
 async function deleteCustomer(data) {
     try {
         const customer = await Customer.findOneAndDelete({
-            _id: data._id,
+            _id: data,
         })
         if (customer == null) {
             return null

@@ -31,7 +31,7 @@ class ApiProductController {
     async update(req, res) {
         const { id } = req.params;
         try {
-            await ProductService.update(id, req.body);
+            await ProductService.update(id, req.body, req.files);
             return res.status(200).json({ message: 'Update product successfully'})
         } catch(e){
             return res.status(500).json({ message: e.message })

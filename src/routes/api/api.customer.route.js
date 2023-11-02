@@ -6,8 +6,9 @@ import {ApiCustomerController} from "../../controllers/index.js";
 
 const router = express.Router();
 
-router.post("/create", AuthMiddleware.requireRole([Roles.ADMIN, Roles.STAFF]), validation, ApiCustomerController.create.bind(ApiCustomerController));
+router.post("/create", validation, ApiCustomerController.create.bind(ApiCustomerController));
 router.get("/get_all", AuthMiddleware.requireRole([Roles.ADMIN]), validation, ApiCustomerController.getAll.bind(ApiCustomerController));
-router.get("/get", AuthMiddleware.requireRole([Roles.ADMIN, Roles.STAFF]), validation, ApiCustomerController.find.bind(ApiCustomerController));
-
+router.post("/get", validation, ApiCustomerController.find.bind(ApiCustomerController));
+router.delete("/delete/:id", validation, ApiCustomerController.deleteCustomer.bind(ApiCustomerController));
+router.put("/update/:phone", validation, ApiCustomerController.update.bind(ApiCustomerController));
 export default router;

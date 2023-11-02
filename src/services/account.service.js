@@ -68,18 +68,19 @@ async function update(data) {
 async function lockAccount(id) {
     try {
         const isLock = await isLockAccount(id)
-        if (isLock) {
-            return ErrorMessage(400, "Account is locked")
+        const account = await Account.findById(id);
+        if (!account) {
+            return null
         } else {
-            const account = await Account.findById(id);
-            if (!account) {
-                return ErrorMessage(404, "Account not found")
+            if (isLock) {
+                account.isLocked = false
+                await account.save()
             } else {
-                account.logging = true;
-                await account.save();
-                return account;
+                account.isLocked = true
+                await account.save()
             }
         }
+        return account;
     } catch (e) {
         console.log(e)
         return ErrorMessage(500, "Server errors", e);

@@ -11,6 +11,7 @@ async function createAccount(data) {
         if (existAccount) {
             return null;
         }
+        console.log(data)
         const username = data?.email.split("@")[0];
         const defaultPassword = username;
         const salt = await bcrypt.genSalt(10);

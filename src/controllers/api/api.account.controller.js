@@ -13,6 +13,7 @@ class ApiAccountController {
 
     async find(req, res) {
         try {
+            console.log(req.body)
             const account = await AccountService.find(req.body)
             if (account == null) {
                 return res.status(404).json({message: "Account not found"})

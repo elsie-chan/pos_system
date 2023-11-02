@@ -40,13 +40,25 @@ const create = async (data, files) => {
     }
 
 }
-const update = async (id, data) => {
-    const product = await Product.findByIdAndUpdate(id,data);
-    console.log(product)
-    if (!product) {
-        return null;
+const update = async (id, data, files) => {
+    try {
+        if (!files) {
+            return ErrorMessage(400, "File not found");
+        }
+        files = files[0];
+        data.image = files.filename;
+
+        const product = await Product.findByIdAndUpdate(id,data);
+        console.log(product)
+        if (!product) {
+            return null;
+        }
+        return product;
+    } catch(e) {
+        console.log(e)
+        return ErrorMessage(400, "Product not found");
     }
-    return product;
+
 }
 const deleteProduct = async (id) => {
     try {

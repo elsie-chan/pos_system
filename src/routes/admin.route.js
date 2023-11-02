@@ -13,18 +13,19 @@ router.get("/dashboard", ( req, res ) => {
 })
 router.get("/product", async ( req, res ) => {
     let products = await ApiProductController.getAll(req, res);
-    res.render('layouts/admin/product', {title: 'Product', products: products.data});
+    // console.log(products)
+    res.render('layouts/admin/product', {title: 'Product', products: products.data, pagination: products.pagination});
 })
 router.get("/account", async ( req, res ) => {
     let accounts = await apiAccountController.getAll(req, res);
     res.render('layouts/admin/account', {
-        title: "Account", accounts: accounts.data
+        title: "Account", accounts: accounts.data, pagination: accounts.pagination
     });
 })
 router.get("/customer", async ( req, res ) => {
     let customers = await ApiCustomerController.getAll(req, res);
     res.render('layouts/admin/customer', {
-        title: "Customer", customers: customers.data
+        title: "Customer", customers: customers.data, pagination: customers.pagination
     });
 })
 router.get("/invoice", async ( req, res ) => {

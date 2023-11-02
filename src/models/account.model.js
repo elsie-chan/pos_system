@@ -46,7 +46,7 @@ const accountSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: '/images/avtar/avatar.png',
+        default: '/images/avatar/avatar.png',
     },
     active: {
         type: Boolean,

@@ -7,6 +7,8 @@
     <title>
         Account
     </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+    <link rel="icon" href="/images/favicon.png" type="image/x-icon"/>
     <!-- CSS Files -->
     <link id="pagestyle" href="/css/admin/account.css" rel="stylesheet" />
 </head>
@@ -213,7 +215,7 @@
                         <div class="col">
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end align-items-center">
                                 <button class="btn btn-primary mx-5 mb-0" type="button" data-bs-toggle="modal"
-                                        data-bs-target="#addProductModal">Add account
+                                        data-bs-target="#addAccountModal">Add account
                                 </button>
                             </div>
                         </div>
@@ -225,9 +227,9 @@
                                 <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Staff</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sales</th>
                                     <th class="text-secondary opacity-7"></th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Locked</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -244,18 +246,19 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="badge badge-sm bg-gradient-success">Online</span>
-                                    </td>
+
                                     <td class="align-middle text-center">
-                                        <a href="" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                        <a href="#" class="salesAccount text-secondary font-weight-bold text-xs" data-bs-toggle="modal" data-bs-target="#viewSalesEmployee" data-id="<%= account.email %>">
                                             View details
                                         </a>
                                     </td>
-                                    <td class="align-middle">
-                                        <a href="" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit account">
-                                            Edit &emsp;
+                                    <td class="align-middle text-center">
+                                        <a href="#" class="resendEmail text-secondary font-weight-bold text-xs" data-email="<%= account.email %>">
+                                            Resend email
                                         </a>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <input class="lockAccount" type="checkbox" name="locked" <%= account.isLocked === true? 'checked' : '' %> value="" data-id="<%= account._id %>">
                                     </td>
                                 </tr>
                                 <% }); %>
@@ -263,16 +266,144 @@
                             </table>
                         </div>
                     </div>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item <%= pagination.page == 1 ? 'disabled' : ''%>">
+                                <a class="page-link"
+                                   href="/admin/account/?page=<%= +pagination.page -1 && 1 %>"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <% for (let i = 1; i <= pagination.pages; i++) {%>
+                                <li class="page-item <%= i == (pagination.page) && 'active'%>">
+                                    <a class="page-link" href="/admin/account?page=<%= i %>"
+                                    ><%= i %></a
+                                    >
+                                </li>
+                            <% }%>
+                            <li class="page-item <%= pagination.page == pagination.pages ? 'disabled' : ''%>">
+                                <a
+                                        class="page-link"
+                                        href="/admin/account/?page=<%= +pagination.page  + 1 %>"
+                                        aria-label="Next"
+                                >
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
+        <!-- Add account modal -->
+        <div class="modal fade" id="addAccountModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="">Add new account</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex flex-row justify-content-center row">
+                            <div class="product_inputs col-10">
+                                <div class="d-flex flex-row justify-content-between row">
+                                    <label for="account__fullname--add" class="col-4 col-md-2 col-form-label">Fullname</label>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control" id="account__fullname--add">
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row justify-content-between row">
+                                    <label for="account__email--add" class="col-4 col-md-2 col-form-label">Email</label>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control" id="account__email--add">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="addAccountBtn btn btn-primary">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Add account modal -->
+        <!-- View sales employee modal -->
+        <div class="modal fade" id="viewSalesEmployee" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="">Sale's employee</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sales</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Locked</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <% accounts.forEach(function(account){ %>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <img src="<%= account.avatar %>" class="avatar avatar-sm me-3" alt="user1">
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm"><%= account.name %></h6>
+                                                    <p class="text-xs text-secondary mb-0"><%= account.email %></p>
+                                                </div>
+                                            </div>
+                                        </td>
 
+                                        <td class="align-middle text-center">
+                                            <a href="#" class="salesAccount text-secondary font-weight-bold text-xs" data-bs-toggle="modal" data-bs-target="#viewSalesEmployee" data-id="<%= account.email %>">
+                                                View details
+                                            </a>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <a href="#" class="resendEmail text-secondary font-weight-bold text-xs" data-email="<%= account.email %>">
+                                                Resend email
+                                            </a>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <input class="lockAccount" type="checkbox" name="locked" <%= account.isLocked === true? 'checked' : '' %> value="" data-id="<%= account._id %>">
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- View sales employee modal -->
     </div>
 </main>
-
-<script>
-
-</script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"
+></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 <script src="/js/admin/account.js"></script>
 </body>
 
