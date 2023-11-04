@@ -33,7 +33,7 @@ async function createAccount(data) {
 }
 
 async function authenticate(data) {
-    return new Promise(async ( resolve, reject ) => {
+    return new Promise(async (resolve, reject) => {
         const isOk = verifyAccount(data);
         if (!isOk) {
             return reject(isOk);
@@ -54,7 +54,7 @@ async function setActive(email) {
             return account;
         }
     } catch (e) {
-        console.log( e)
+        console.log(e)
         return ErrorMessage(500, "Server errors", e);
     }
 }
@@ -83,4 +83,26 @@ async function resetPassword(id, data) {
     }
 }
 
-export default {createAccount, authenticate, setActive, resetPassword};
+async function changePassword(data) {
+    try {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(data.password, salt)
+        const accountAfterChangePassword = await Account.findByIdAndUpdate({
+                _id: data._id
+            },
+            {
+                $set: {
+                    password: hashedPassword
+                }
+            })
+        if (accountAfterChangePassword == null) {
+            return null
+        }
+        return accountAfterChangePassword;
+    } catch (e) {
+        console.log(e)
+        return e.message;
+    }
+}
+
+export default {createAccount, authenticate, setActive, resetPassword, changePassword};

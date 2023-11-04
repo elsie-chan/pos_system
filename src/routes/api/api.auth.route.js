@@ -60,7 +60,7 @@ router.get("/verify_account", validation, (req, res, next) => {
                 path: "/",
                 sameSite: "strict"
             })
-            return res.redirect('/auth/change_password?id=' + user._id);
+            return res.redirect('/auth/change_password/' + user._id);
         });
     })(req, res, next);
 });

@@ -77,6 +77,7 @@ class ApiAuthController {
 
         req.session.accounts = req.session.accounts.filter(account => account._id !== id);
         req.session.save();
+        req.session.destroy();
         res.clearCookie("refreshToken");
         res.clearCookie("role");
         return res.status(200).json({message: "Logout success"});
@@ -107,9 +108,13 @@ class ApiAuthController {
         // Check if the token exists and is still valid.
         if (tokenMap.has(token) && tokenMap.get(token) > Date.now()) {
             console.log('Valid token.');
-            res.redirect('/api/v1/auth/active?email=' + req.query.email);
+            res.redirect('/api/v1/auth/active?email=' + req.query.email + '&success_redirect=auth/change_password/&failure_redirect=auth/failed_active?code=' + token);
         } else {
-            res.status(404).send('Link was expired. Please contact the administrator to resend another email.')
+            res.clearCookie("refreshToken");
+            res.clearCookie("role");
+            req.session.destroy();
+            console.log('Invalid token.');
+            res.redirect('/auth/failed_active?code=' + token + '&success_redirect=auth/change_password&failure_redirect=auth/failed_active?code=' + token);
         }
     }
 
@@ -118,7 +123,7 @@ class ApiAuthController {
         if (account == null) {
             return res.status(400).json({errors: "Account not found"});
         }
-        res.redirect(`/api/v1/auth/verify_account?username=${account.username}&password=${account.username}`);
+        res.redirect(`/api/v1/auth/verify_account?username=${account.username}&password=${account.username}&success_redirect=auth/change_password/${account._id}&failure_redirect=auth/failed_active`);
     }
 
     async resetPassword(req, res) {
@@ -130,6 +135,26 @@ class ApiAuthController {
             return res.status(account.status).json({errors: account.message});
         }
         return res.status(200).json(account);
+    }
+
+    async changePassword(req, res) {
+        try {
+            const data = {
+                id: req.params.id,
+                password: req.body.password,
+            }
+            const account = await AuthService.changePassword(data);
+            if (account == null) {
+                return res.status(400).json({errors: "Account not found"});
+            }
+            if (account.message) {
+                return res.status(account.status).json({errors: account.message});
+            }
+            return res.status(200).json(account);
+        } catch (e) {
+            console.log(e)
+            return res.status(500).json({errors: "Server errors"});
+        }
     }
 }
 
