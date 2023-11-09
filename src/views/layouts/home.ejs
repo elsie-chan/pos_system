@@ -18,7 +18,7 @@
     <div class="container-fluid p-3">
       <div class="row">
         <!--SLIDEBAR-->
-        <div class="col-sm-1 text-center">
+        <div class="col-sm-1 text-center slide-bar">
           <img
             src="/images/logo.png"
             class="mx-auto d-block"
@@ -27,7 +27,7 @@
           />
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link text-dark" href="">
+              <a class="nav-link text-dark item_active" href="">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="28"
@@ -37,14 +37,14 @@
                 >
                   <path
                     d="M14 3.79765L21 10.1506V21.1765H18.2V12.7059H9.8V21.1765H7V10.1506L14 3.79765ZM14 0L0 12.7059H4.2V24H12.6V15.5294H15.4V24H23.8V12.7059H28L14 0Z"
-                    fill="#252836"
+                    fill="#D8DBD9"
                   />
                 </svg>
-                Home
+                HOME
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-dark" href="">
+              <a class="nav-link text-dark item_active" href="">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="28"
@@ -57,7 +57,7 @@
                     fill="#D8DBD9"
                   />
                 </svg>
-                Menu
+                MENU
               </a>
             </li>
             <li class="nav-item">
@@ -74,15 +74,16 @@
                     fill="#D8DBD9"
                   />
                 </svg>
-                Account
+                ACCOUNT
               </a>
             </li>
           </ul>
         </div>
 
+        <!--MAIN-->
         <!--SEARCH, PERSONAL AND CARDS-->
         <!--SEARCH-->
-        <div class="col-sm-8">
+        <div class="col-sm-8 main" style="display: none">
           <div class="container-fluid">
             <div class="row" style="margin-bottom: 30px">
               <div class="col-sm-8">
@@ -241,9 +242,179 @@
           </div>
         </div>
 
+        <!--PAYMENT-->
+        <div class="col-sm-8 ps-4 pt-3 main" style="display: block">
+          <div class="row">
+            <div class="col-sm-8">
+              <h2 class="normal-text">ORDER #12345678</h2>
+            </div>
+
+            <!--PERSONAL-->
+            <div class="col-sm-4 ms-auto text-end">
+              <div class="dropdown">
+                <img
+                  src="/images/avatar/avatar.png"
+                  class="rounded-circle"
+                  alt="Avatar"
+                  data-bs-toggle="dropdown"
+                />
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="#">Update information</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Change password</a>
+                  </li>
+                  <li><a class="dropdown-item" href="#">Logout</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="horizontal-line"></div>
+          <div class="container p-3">
+            <!--Customer information-->
+            <div class="row">
+              <div class="col-6">
+                <h4 class="normal-text">Customer information</h4>
+              </div>
+              <div class="col-6 ms-auto text-end">
+                <p><a class="link-dark" href="#">SEE ALL PROFILE</a></p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control me-5"
+                  placeholder="Phone number"
+                />
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Fullname"
+                />
+              </div>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Address" />
+              </div>
+            </div>
+
+            <!--Order information-->
+            <div class="row mt-3">
+              <div class="col-8">
+                <h4 class="normal-text">Order information</h4>
+              </div>
+              <div class="col-4 ms-auto text-end d-grid">
+                <button type="button" class="btn btn-outline-success btn-block">
+                  Cancel
+                </button>
+              </div>
+            </div>
+
+            <!--Table-->
+            <table class="table mt-3">
+              <thead class="table-success">
+                <tr>
+                  <th>ITEM</th>
+                  <th>PRICE</th>
+                  <th>QTY</th>
+                  <th>SUBTOTAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>IPHONE 12</td>
+                  <td>$1000</td>
+                  <td>1</td>
+                  <td>$1000</td>
+                </tr>
+                <tr>
+                  <td>IPHONE 12</td>
+                  <td>$1000</td>
+                  <td>1</td>
+                  <td>$1000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!--PAYMENTSUCCESSFULL-->
+        <div class="col-sm-8 ps-4 pt-3" style="display: none">
+          <div class="row">
+            <div class="col-sm-8">
+              <h2 class="normal-text">ORDER #12345678</h2>
+            </div>
+
+            <!--PERSONAL-->
+            <div class="col-sm-4 ms-auto text-end">
+              <div class="dropdown">
+                <img
+                  src="/images/avatar/avatar.png"
+                  class="rounded-circle"
+                  alt="Avatar"
+                  data-bs-toggle="dropdown"
+                />
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="#">Update information</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Change password</a>
+                  </li>
+                  <li><a class="dropdown-item" href="#">Logout</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="horizontal-line"></div>
+          <div class="container p-3">
+            <!--Order information-->
+            <div class="row">
+              <div class="col-8">
+                <h4 class="normal-text">Order information</h4>
+              </div>
+              <div class="col-4 ms-auto text-end d-grid">
+                <button type="button" class="btn btn-outline-success btn-block">
+                  Back
+                </button>
+              </div>
+            </div>
+
+            <!--Table-->
+            <table class="table mt-3">
+              <thead class="table-success">
+                <tr>
+                  <th>ITEM</th>
+                  <th>PRICE</th>
+                  <th>QTY</th>
+                  <th>SUBTOTAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>IPHONE 12</td>
+                  <td>$1000</td>
+                  <td>1</td>
+                  <td>$1000</td>
+                </tr>
+                <tr>
+                  <td>IPHONE 12</td>
+                  <td>$1000</td>
+                  <td>1</td>
+                  <td>$1000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!--PAY-->
         <!--ORDER-->
-        <div class="col-sm-3">
+        <div class="col-sm-3 order" style="display: none">
           <h2>ORDER</h2>
+          <div class="horizontal-line"></div>
           <div class="container-fluid">
             <div class="row" style="margin-bottom: 20px">
               <div class="col-5">
@@ -291,9 +462,83 @@
               </div>
             </div>
             <div class="row">
-              <button type="button">
+              <button type="button nav-link" href="Payment.html">
                 Continue to payment
               </button>
+            </div>
+          </div>
+        </div>
+
+        <!--PAYMENT-->
+        <div class="col-sm-3 order" style="display: block">
+          <h3>PAYMENT</h3>
+          <div class="horizontal-line"></div>
+          <table class="table table-borderless">
+            <tr>
+              <td><h4 class="normal-text">TOTAL</h4></td>
+              <td><h4 class="normal-text text-end">$43.50</h4></td>
+            </tr>
+            <tr>
+              <td><h4 class="normal-text">PAYMENT</h4></td>
+              <td><h4 class="normal-text text-end">CASH</h4></td>
+            </tr>
+            <tr>
+              <td><h4 class="normal-text">CASH RECEIVED</h4></td>
+              <td><h4 class="normal-text text-end">$5</h4></td>
+            </tr>
+            <tr>
+              <td><h4 class="normal-text">CHANGE</h4></td>
+              <td><h4 class="normal-text text-end">$6.50</h4></td>
+            </tr>
+          </table>
+          <button type="button">PAY</button>
+        </div>
+
+        <!--PAYMENT SUCCESSFULLY-->
+        <div class="col-sm-3 order" style="display: none">
+          <div class="row text-center pb-5">
+            <h3 class="normal-text text-success pb-5">PAYMENT SUCCESSFULL</h3>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="70"
+              height="70"
+              viewBox="0 0 70 70"
+              fill="none"
+            >
+              <path
+                d="M35.0002 5.83325C18.9585 5.83325 5.8335 18.9583 5.8335 34.9999C5.8335 51.0416 18.9585 64.1666 35.0002 64.1666C51.0418 64.1666 64.1668 51.0416 64.1668 34.9999C64.1668 18.9583 51.0418 5.83325 35.0002 5.83325ZM47.2502 30.0416L33.2502 44.0416C32.0835 45.2083 30.3335 45.2083 29.1668 44.0416L22.7502 37.6249C21.5835 36.4583 21.5835 34.7083 22.7502 33.5416C23.9168 32.3749 25.6668 32.3749 26.8335 33.5416L31.2085 37.9166L43.1668 25.9583C44.3335 24.7916 46.0835 24.7916 47.2502 25.9583C48.4168 27.1249 48.4168 28.8749 47.2502 30.0416Z"
+                fill="#83DBAF"
+              />
+            </svg>
+          </div>
+          <table class="table table-borderless">
+            <tr>
+              <td><p>Customer name</p></td>
+              <td><p class="text-end">Trinh Lam Nhu</p></td>
+            </tr>
+            <tr>
+              <td><p>Phone number</p></td>
+              <td><p class="text-end">0377490222</p></td>
+            </tr>
+            <tr>
+              <td><p>Email</p></td>
+              <td><p class="text-end">nhu@gmail.com</p></td>
+            </tr>
+            <tr>
+              <td><p>Payment method</p></td>
+              <td><p class="text-end">CASH</p></td>
+            </tr>
+            <tr>
+              <td><p>Total amount</p></td>
+              <td><p class="text-end">$2000</p></td>
+            </tr>
+          </table>
+          <div class="row">
+            <div class="col-6">
+              <button type="button">PRINT</button>
+            </div>
+            <div class="col-6">
+              <button type="button">CLOSE</button>
             </div>
           </div>
         </div>
