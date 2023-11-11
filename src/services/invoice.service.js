@@ -1,11 +1,16 @@
 import Invoice from "../models/invoice.model.js";
 import {ErrorMessage} from "../errors/index.js";
 import {AccountService, CustomerService} from "./index.js";
+import dayjs from "dayjs";
 
 const createInvoice = async (data) => {
     try {
         let quantity = 0;
         let total = 0;
+        const date = new Date();
+        if (data.products == null) {
+            return ErrorMessage(400, "Product is empty");
+        }
         data.products.forEach((product) => {
             total += product.retailPrice * product.quantity;
             quantity += product.quantity;
@@ -16,7 +21,7 @@ const createInvoice = async (data) => {
             total: total,
             change: data.take - total ? data.take - total : 0,
             productQuantity: quantity,
-            datePurchase: new Date(),
+            datePurchase: dayjs(new Date()).format("DD/MM/YYYY"),
             products: data.products,
             account: data.accounts,
             customer: data.customer,
@@ -64,14 +69,37 @@ async function get(data) {
     }
 }
 
+async function findExistProduct(id) {
+    try {
+        const invoice = await Invoice.find({
+            products: {
+                $elemMatch: {
+                    _id: id
+                }
+            }
+
+        })
+        if (invoice == null) {
+            return null
+        }
+        return invoice;
+
+    } catch (e) {
+        console.log(e)
+        return ErrorMessage("500", "Server error")
+    }
+}
+
 async function update(data) {
     try {
+        console.log(data)
         const invoice = await Invoice.findOneAndUpdate({
             _id: data._id,
         }, data, {new: true})
         if (invoice == null) {
             return null
         }
+        console.log(invoice)
         return invoice;
     } catch (e) {
         console.log(e)
@@ -130,4 +158,4 @@ async function deleteAll() {
 }
 
 
-export default {createInvoice, findAll, get, update, deleteInvoice, deleteAll}
+export default {createInvoice, findAll, get, update, deleteInvoice, deleteAll, findExistProduct}

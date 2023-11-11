@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/create',  AuthMiddleware.requireRole([Roles.ADMIN, Roles.STAFF]), validation, ApiInvoiceController.create.bind(ApiInvoiceController));
 router.get('/get_all', AuthMiddleware.requireRole([Roles.ADMIN, Roles.STAFF]), validation, ApiInvoiceController.findAll.bind(ApiInvoiceController));
 router.get('/get', AuthMiddleware.requireRole([Roles.ADMIN, Roles.STAFF]), validation, ApiInvoiceController.get.bind(ApiInvoiceController));
-router.put('/update', AuthMiddleware.requireRole([Roles.ADMIN, Roles.STAFF]), validation, ApiInvoiceController.update.bind(ApiInvoiceController));
+router.put('/update/:id', AuthMiddleware.requireRole([Roles.ADMIN, Roles.STAFF]), validation, ApiInvoiceController.update.bind(ApiInvoiceController));
 router.delete('/delete/:id', AuthMiddleware.requireRole([Roles.ADMIN, Roles.STAFF]), validation, ApiInvoiceController.delete.bind(ApiInvoiceController));
 router.delete('/delete_all', AuthMiddleware.requireRole([Roles.ADMIN]), validation, ApiInvoiceController.deleteAll.bind(ApiInvoiceController));
 export default router;

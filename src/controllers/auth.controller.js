@@ -11,6 +11,10 @@ class AuthController {
     changePassword(req, res) {
        res.render('layouts/auth/ChangePass', { error: req.flash('error') || null });
     }
+
+    resetPassword(req, res) {
+        res.render('layouts/auth/ResetPass', { error: req.flash('error') || null });
+    }
 }
 
 export default new AuthController();

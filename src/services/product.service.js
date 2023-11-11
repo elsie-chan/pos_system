@@ -1,5 +1,6 @@
 import Product from "../models/product.model.js";
 import { ErrorMessage } from "../errors/index.js";
+import {InvoiceService} from "./index.js";
 
 const getAll = async () => {
     try {
@@ -62,9 +63,13 @@ const update = async (id, data, files) => {
 }
 const deleteProduct = async (id) => {
     try {
-        const product = await Product.findByIdAndDelete({
+        const product = await Product.findById({
             _id: id
-        });
+        })
+        const existProduct = await InvoiceService.findExistProduct(id)
+        if (existProduct) {
+            return ErrorMessage(400, "Product is exist in invoice");
+        }
         if (!product) {
             return ErrorMessage(400, "Product not found");
         }
