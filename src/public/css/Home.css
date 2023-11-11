@@ -39,7 +39,7 @@
   right: 0;
 }
 
-a.nav-link.item_active path {
+a.item_active path {
   fill: #252836;
 }
 
