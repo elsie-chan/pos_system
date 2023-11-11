@@ -101,6 +101,20 @@ class ApiAccountController {
             return res.status(500).json({message: e.message})
         }
     }
+
+    getSalesOfAccount(req, res) {
+        try {
+            const account = AccountService.getSalesOfAccount(req.params.id)
+            if (account == null) {
+                return res.status(404).json({message: "Account not found"})
+            }
+            return res.status(200).json({message: account})
+        } catch (e) {
+            console.log(e)
+            req.flash("errors", e.message)
+            return res.status(500).json({message: e.message})
+        }
+    }
 }
 
 

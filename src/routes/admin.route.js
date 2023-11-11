@@ -31,7 +31,7 @@ router.get("/customer", async ( req, res ) => {
 router.get("/invoice", async ( req, res ) => {
     let invoices = await ApiInvoiceController.findAll(req, res);
     res.render('layouts/admin/invoice', {
-        title: "Invoice",
+        title: "Invoice Management",
         invoices: invoices.data
     });
 })

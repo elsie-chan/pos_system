@@ -157,5 +157,35 @@ async function deleteAll() {
     }
 }
 
+async function getInvoiceByAccount(id) {
+    try {
+        const invoices = await Invoice.find({
+            "account._id": id
+        })
+        if (invoices == null) {
+            return null
+        }
+        return invoices;
+    } catch (e) {
+        console.log(e)
+        return ErrorMessage("500", "Server error")
+    }
+}
 
-export default {createInvoice, findAll, get, update, deleteInvoice, deleteAll, findExistProduct}
+async function getInvoiceByCustomer(id) {
+    try {
+        const invoices = await Invoice.find({
+            "customer._id": id
+        })
+        if (invoices == null) {
+            return null
+        }
+        return invoices;
+    } catch (e) {
+        console.log(e)
+        return ErrorMessage("500", "Server error")
+    }
+}
+
+
+export default {createInvoice, findAll, get, update, deleteInvoice, deleteAll, getInvoiceByAccount, getInvoiceByCustomer}
