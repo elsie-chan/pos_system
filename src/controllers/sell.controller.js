@@ -21,7 +21,10 @@ class SellController {
 
     async deleteProduct(req, res) {
         try {
-
+            const {id} = req.params;
+            req.session.products = req.session.products.filter(product => product._id !== id);
+            req.session.save();
+            return res.status(200).json({message: "Delete product successfully"});
         } catch (e) {
 
         }
