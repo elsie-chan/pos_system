@@ -84,15 +84,18 @@ function resendEmail(email) {
 }
 function salesAccount(id) {
     $.ajax({
-        url: '/api/account/find',
+        url: '/api/invoice/get_invoice_by_account/'+ id,
         type: 'POST',
         data: JSON.stringify({
-            email: id
+            id: id
         }),
         contentType: "application/json",
         processData: false,
         success: function (data) {
             console.log(data);
+            const template = `
+                
+            `
             // toastr.success('Success');
         },
         error: function (err) {

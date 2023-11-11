@@ -1,5 +1,6 @@
 import Account, {isLockAccount} from "../models/account.model.js";
 import {ErrorMessage} from "../errors/index.js";
+import Invoice from "../models/invoice.model.js";
 
 async function deleteAll() {
     try {
@@ -152,5 +153,5 @@ export default {
     lockAccount,
     find,
     getAll,
-    deleteInvoiceOfAccount
+    deleteInvoiceOfAccount,
 };

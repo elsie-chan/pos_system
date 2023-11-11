@@ -33,8 +33,9 @@ async function createAccount(data) {
 }
 
 async function authenticate(data) {
+    console.log(data)
     return new Promise(async (resolve, reject) => {
-        const isOk = verifyAccount(data);
+        const isOk = await verifyAccount(data);
         if (!isOk) {
             return reject(isOk);
         }

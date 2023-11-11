@@ -21,6 +21,7 @@ class ApiProductController {
     }
     async create(req, res) {
         try {
+            console.log(req.body, req.files)
             const newProduct = await ProductService.create(req.body, req.files);
             console.log(newProduct)
             return res.status(200).json({ message: 'Create product successfully'})
