@@ -14,4 +14,5 @@ router.delete("/delete/:id", validation, AuthMiddleware.requireRole([Roles.ADMIN
 router.put("/update/:id", validation, AuthMiddleware.requireRole([Roles.ADMIN]), ApiAccountController.update.bind(ApiAccountController));
 router.put("/update_avatar/:id", validation, configUpload("avatars").array('avatar', 12), ApiAccountController.updateAvatar.bind(ApiAccountController) )
 router.post("/lock/:id", validation, ApiAccountController.lockAccount.bind(ApiAccountController));
+router.get("/sales/:id", validation, ApiAccountController.getSalesOfAccount.bind(ApiAccountController));
 export default router;

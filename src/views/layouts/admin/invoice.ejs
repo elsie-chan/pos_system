@@ -245,8 +245,7 @@
                             </div>
                             <div class="col">
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end align-items-center">
-                                    <button class="btn btn-primary mx-5 mb-0" type="button" data-bs-toggle="modal"
-                                            data-bs-target="#addInvoiceModal">Add invoices
+                                    <button class="btn btn-primary mx-5 mb-0" type="button" onclick="location.href='/'">Add invoices
                                     </button>
                                 </div>
                             </div>
@@ -307,10 +306,7 @@
                                         </div>
                                         <div class="col-1 text-end">
                                             <div class="d-flex align-items-center gap-2 cursor-pointer">
-                                                <a href="#" class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal" data-bs-target="#editInvoiceModal" data-id="<%= invoice.id %>">
-                                                    Edit
-                                                </a>
-                                                <a href="#" class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal" data-bs-target="#removeInvoiceModal" data-id="<%= invoice.id %>">
+                                                <a href="#" class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal" data-bs-target="#deleteInvoiceModal" data-id="<%= invoice.id %>">
                                                     Remove
                                                 </a>
                                             </div>
@@ -382,21 +378,6 @@
                                                     <td class="align-middle text-center">
                                                         <p class="text-xs text-secondary mb-0"><%= product.quantity %></p>
                                                     </td>
-                                                    <td class="py-0 border-bottom-0">
-                                                        <div class="d-flex align-items-center gap-2 cursor-pointer">
-                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                 class="icon icon-tabler icon-tabler-dots" width="24"
-                                                                 height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                                 stroke="currentColor" fill="none"
-                                                                 stroke-linecap="round" stroke-linejoin="round">
-                                                                <path stroke="none" d="M0 0h24v24H0z"
-                                                                      fill="none"></path>
-                                                                <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                                                <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                                                <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                                            </svg>
-                                                        </div>
-                                                    </td>
                                                 </tr>
                                             </tbody>
                                             <% }) %>
@@ -409,76 +390,27 @@
                 </div>
             </div>
         </div>
-        <!-- Add invoice modal -->
-        <div class="container-fluid m-1">
-            <form class="" action="" method="post" onsubmit="return false">
-                <div class="modal fade" id="addInvoiceModal"
-                     tabindex="-1"
-                     aria-labelledby="" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="">Add invoice</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="d-flex flex-row justify-content-center row">
-                                    <div class="product_inputs col-10">
-                                        <div class="d-flex flex-row justify-content-between row">
-                                            <label for="customer_name" class="col-4 col-md-2 col-form-label">Fullname</label>
-                                            <div class="col-12">
-                                                <input type="text" class="form-control" id="customer_name">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <div class="col">
-                                                <label for="customer_phone" class="col-sm-4 col-form-label">Phone</label>
-                                                <div class="col-sm-12">
-                                                    <input type="number" min="0" class="form-control"
-                                                           id="customer_phone"
-                                                           placeholder="Enter phone number"
-                                                           aria-label=""
-                                                           aria-describedby="addon-wrapping">
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <label for="customer_address" class="col-sm-4 col-form-label">Address</label>
-                                                <div class="col-sm-12">
-                                                    <input type="text" min="0" class="form-control"
-                                                           id="customer_address"
-                                                           placeholder="Enter address"
-                                                           aria-label=""
-                                                           aria-describedby="addon-wrapping">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label for="invoice_take"
-                                                   class="col-sm-2 col-form-label">Take</label>
-                                            <div class="col-sm-12">
-                                                <input type="text" class="form-control" id="invoice_take">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="saveInvoiceBtn btn btn-primary p-2 m-1">Add
-                                </button>
-                                <button type="button" class="closeBtn btn btn-secondary p-2 m-1"
-                                        data-bs-dismiss="modal">
-                                    Close
-                                </button>
-                            </div>
-                        </div>
+<!--        Hide invoice-->
+        <div class="modal fade" id="deleteInvoiceModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete invoice</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="close-modal" data-bs-dismiss="modal">No</button>
+                        <button type="button" class="delete-invoice btn btn-danger">Yes</button>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
-        <!-- Add invoice modal -->
-
+        <!--        Hide invoice-->
     </div>
 </main>
 
