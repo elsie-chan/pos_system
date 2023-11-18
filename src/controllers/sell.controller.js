@@ -26,15 +26,25 @@ class SellController {
             req.session.save();
             return res.status(200).json({message: "Delete product successfully"});
         } catch (e) {
-
+            console.log(e);
+            return res.status(500).json({message: e.message});
         }
     }
     
     async updateQuantity(req, res) {
         try {
-
+            const {id} = req.params;
+            const {quantity} = req.body;
+            req.session.products.forEach(product => {
+                if (product._id === id) {
+                    product.quantity = quantity;
+                }
+            })
+            req.session.save();
+            return res.status(200).json({message: "Update quantity successfully"});
         } catch (e) {
-            
+            console.log(e);
+            return res.status(500).json({message: e.message});
         }
     }
 }

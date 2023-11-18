@@ -26,7 +26,10 @@ async function createAccount(data) {
             refreshToken: refreshToken
         });
         await newAccount.save();
-        return newAccount;
+        return {
+            ...newAccount._doc,
+            password: undefined
+        }
     } catch (error) {
         throw new AccountError(error.message);
     }
@@ -35,7 +38,7 @@ async function createAccount(data) {
 async function authenticate(data) {
     console.log(data)
     return new Promise(async (resolve, reject) => {
-        const isOk = await verifyAccount(data);
+        const isOk = verifyAccount(data);
         if (!isOk) {
             return reject(isOk);
         }
