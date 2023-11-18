@@ -142,25 +142,105 @@
             </div>
 
             <!--CARDS-->
-            <% products.forEach(function (product){ %>
             <div class="row">
               <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
                 <div class="card text-center">
                   <img
                     class="card-img-top"
-                    src="/images/uploads/products/<%= product.image? product.image : '1698328374688.png'%>"
+                    src="images/Product Image.png"
                     alt="Card image"
                     height="264px"
                     width="279px"
                   />
                   <div class="card-body">
-                    <h4 class="card-title"><%= product.name %></h4>
-                    <p class="card-text">$<%= product.retailPrice %></p>
+                    <h4 class="card-title">IPhone 12</h4>
+                    <p class="card-text">$99</p>
                     <a href="#" class="stretched-link"></a>
                   </div>
                 </div>
               </div>
-              <% }); %>
+              <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
+                <div class="card text-center">
+                  <img
+                    class="card-img-top"
+                    src="images/Product Image.png"
+                    alt="Card image"
+                    height="264px"
+                    width="279px"
+                  />
+                  <div class="card-body">
+                    <h4 class="card-title">IPhone 12</h4>
+                    <p class="card-text">$99</p>
+                    <a href="#" class="stretched-link"></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
+                <div class="card text-center">
+                  <img
+                    class="card-img-top"
+                    src="images/Product Image.png"
+                    alt="Card image"
+                    height="264px"
+                    width="279px"
+                  />
+                  <div class="card-body">
+                    <h4 class="card-title">IPhone 12</h4>
+                    <p class="card-text">$99</p>
+                    <a href="#" class="stretched-link"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
+                <div class="card text-center">
+                  <img
+                    class="card-img-top"
+                    src="images/Product Image.png"
+                    alt="Card image"
+                    height="264px"
+                    width="279px"
+                  />
+                  <div class="card-body">
+                    <h4 class="card-title">IPhone 12</h4>
+                    <p class="card-text">$99</p>
+                    <a href="#" class="stretched-link"></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
+                <div class="card text-center">
+                  <img
+                    class="card-img-top"
+                    src="images/Product Image.png"
+                    alt="Card image"
+                    height="264px"
+                    width="279px"
+                  />
+                  <div class="card-body">
+                    <h4 class="card-title">IPhone 12</h4>
+                    <p class="card-text">$99</p>
+                    <a href="#" class="stretched-link"></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
+                <div class="card text-center">
+                  <img
+                    class="card-img-top"
+                    src="images/Product Image.png"
+                    alt="Card image"
+                    height="264px"
+                    width="279px"
+                  />
+                  <div class="card-body">
+                    <h4 class="card-title">IPhone 12</h4>
+                    <p class="card-text">$99</p>
+                    <a href="#" class="stretched-link"></a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -183,6 +263,8 @@
                   src="/images/avatar/avatar.png"
                   class="rounded-circle"
                   alt="Avatar"
+                  width="50px"
+                  height="50px"
                   data-bs-toggle="dropdown"
                 />
                 <ul class="dropdown-menu">
@@ -285,6 +367,8 @@
                   src="/images/avatar/avatar.png"
                   class="rounded-circle"
                   alt="Avatar"
+                  width="50px"
+                  height="50px"
                   data-bs-toggle="dropdown"
                 />
                 <ul class="dropdown-menu">
@@ -426,7 +510,11 @@
         </div>
 
         <!--PAYMENT SUCCESSFULLY-->
-        <div class="col-sm-3 order" id="order-payment-success" style="display: none">
+        <div
+          class="col-sm-3 order"
+          id="order-payment-success"
+          style="display: none"
+        >
           <div class="row text-center pb-5">
             <h3 class="normal-text text-success pb-5">PAYMENT SUCCESSFULL</h3>
             <svg
