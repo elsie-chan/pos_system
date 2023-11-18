@@ -20,13 +20,13 @@
         <!--SLIDEBAR-->
         <div class="col-sm-1 text-center slide-bar">
           <img
-            src="/images/logo.png"
-            class="mx-auto d-block"
-            style="margin-bottom: 30px"
+            src="images/logo.png"
+            class="d-block"
+            style="margin-bottom: 30px; margin-left: 15px"
             alt="main_logo"
           />
           <ul class="slidebar-list">
-            <li class="slidebar-item">
+            <li class="slidebar-item text-dark home-item">
               <a class="item text-dark item_active">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -40,10 +40,11 @@
                     fill="#D8DBD9"
                   />
                 </svg>
+                <br />
                 HOME
               </a>
             </li>
-            <li class="slidebar-item">
+            <li class="slidebar-item payment-item">
               <a class="item text-dark">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -57,10 +58,11 @@
                     fill="#D8DBD9"
                   />
                 </svg>
+                <br />
                 MENU
               </a>
             </li>
-            <li class="slide-item">
+            <li class="slidebar-item account-item" id="accountItem">
               <a class="item text-dark">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -74,6 +76,7 @@
                     fill="#D8DBD9"
                   />
                 </svg>
+                <br />
                 ACCOUNT
               </a>
             </li>
@@ -83,7 +86,7 @@
         <!--MAIN-->
         <!--SEARCH, PERSONAL AND CARDS-->
         <!--SEARCH-->
-        <div class="col-sm-8 main" style="display: none">
+        <div class="col-sm-8 main" id="home-section" style="display: block">
           <div class="container-fluid">
             <div class="row" style="margin-bottom: 30px">
               <div class="col-sm-8">
@@ -163,7 +166,11 @@
         </div>
 
         <!--PAYMENT-->
-        <div class="col-sm-8 ps-4 pt-3 main" style="display: block">
+        <div
+          class="col-sm-8 ps-4 pt-3 main"
+          id="payment-section"
+          style="display: none"
+        >
           <div class="row">
             <div class="col-sm-8">
               <h2 class="normal-text">ORDER #12345678</h2>
@@ -261,7 +268,11 @@
         </div>
 
         <!--PAYMENTSUCCESSFULL-->
-        <div class="col-sm-8 ps-4 pt-3" style="display: none">
+        <div
+          class="col-sm-8 ps-4 pt-3"
+          id="payment-success-section"
+          style="display: none"
+        >
           <div class="row">
             <div class="col-sm-8">
               <h2 class="normal-text">ORDER #12345678</h2>
@@ -332,7 +343,7 @@
 
         <!--PAY-->
         <!--ORDER-->
-        <div class="col-sm-3 order" style="display: none">
+        <div class="col-sm-3 order" id="order-home" style="display: none">
           <h2>ORDER</h2>
           <div class="horizontal-line"></div>
           <div class="container-fluid">
@@ -390,7 +401,7 @@
         </div>
 
         <!--PAYMENT-->
-        <div class="col-sm-3 order" style="display: block">
+        <div class="col-sm-3 order" id="order-payment" style="display: block">
           <h3>PAYMENT</h3>
           <div class="horizontal-line"></div>
           <table class="table table-borderless">
@@ -415,7 +426,7 @@
         </div>
 
         <!--PAYMENT SUCCESSFULLY-->
-        <div class="col-sm-3 order" style="display: none">
+        <div class="col-sm-3 order" id="order-payment-success" style="display: none">
           <div class="row text-center pb-5">
             <h3 class="normal-text text-success pb-5">PAYMENT SUCCESSFULL</h3>
             <svg
