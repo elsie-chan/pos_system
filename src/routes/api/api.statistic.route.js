@@ -6,6 +6,6 @@ import {ApiStatisticController} from "../../controllers/index.js";
 
 const router = express.Router();
 
-router.get("/today", AuthMiddleware.requireRole([Roles.ADMIN, Roles.STAFF]), validation, ApiStatisticController.getToday.bind(ApiStatisticController));
+router.get("/today", AuthMiddleware.requireRole([Roles.ADMIN]), validation, ApiStatisticController.getToday.bind(ApiStatisticController));
 
 export default router;

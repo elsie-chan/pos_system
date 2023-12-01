@@ -10,7 +10,7 @@ router.get("/login", validation, AuthController.login.bind(AuthController));
 router.get("/change_password/:id", validation, AuthController.changePassword.bind(AuthController));
 
 
-router.get("/reset_pasword", validation, AuthController.resetPassword.bind(AuthController));
+router.get("/reset_password", validation, AuthController.resetPassword.bind(AuthController));
 
 router.get("/failed_active", validation, ( req, res ) => {
     res.status(400).render('error/error', {

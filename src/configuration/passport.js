@@ -3,6 +3,7 @@ import flash from 'express-flash';
 
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Strategy as LocalStrategy } from 'passport-local';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import {variables} from "./index.js";
 
 import session from "express-session";
@@ -10,7 +11,19 @@ import AuthService from "../services/auth.service.js";
 import Account from "../models/account.model.js";
 
 const jwtOptions = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest: function ( req ) {
+        let token = null, refreshToken = null;
+        if (req && req.cookies) {
+            token = req.cookies['token'];
+        }
+
+        if (!token) {
+            return null;
+        }
+
+        console.log("token", token)
+        return token;
+    },
     secretOrKey: variables.JWT_ACCESS
 }
 
@@ -22,10 +35,9 @@ const localOptions = {
 const localStrategy = new LocalStrategy(localOptions, async ( req, username, password, done ) => {
     try {
         const body = {
-            username: req.query.username,
-            password: req.query.password
+            username: req.body.username,
+            password: req.body.password
         }
-
 
         const signIn = await AuthService.authenticate(body);
         switch (signIn.status) {
@@ -64,6 +76,26 @@ const strategy = new Strategy(jwtOptions, async ( payload, done ) => {
     }
 });
 
+const googleStrategy = new GoogleStrategy({
+    clientID: variables.GG_CLIENT_ID,
+    clientSecret: variables.GG_CLIENT_SECRET,
+    callbackURL: variables.GG_CALLBACK_URL
+}, async function ( accessToken, refreshToken, profile, done ) {
+    try {
+        const account = await Account.findOne({
+            email: profile.emails[0].value
+        });
+        if (account) {
+            return done(null, account);
+        } else {
+            return done(null, false);
+        }
+    } catch (e) {
+        console.log(e)
+        return done(e);
+    }
+});
+
 export default function passportConfig( app ) {
     //     config session
     app.use(session({
@@ -88,8 +120,9 @@ export default function passportConfig( app ) {
         }
     })
 
-    passport.use(strategy);
+    passport.use('jwt', strategy)
     passport.use('local', localStrategy);
+    passport.use('google', googleStrategy);
 
     app.use(passport.initialize());
     app.use(passport.session());

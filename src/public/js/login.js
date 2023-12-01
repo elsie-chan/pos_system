@@ -8,6 +8,7 @@ $(document).ready(function () {
         e.preventDefault();
         const username = $('#username').val();
         const password = $('#password').val();
+        console.log(username, password)
 
         if (username === '' || password === '') {
             $('.notification').text('Username or password is empty.');

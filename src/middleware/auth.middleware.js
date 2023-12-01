@@ -8,13 +8,13 @@ const requireRole = ( roles ) => {
             let role;
             role = [roles];
         }
-        console.log(req.cookies)
 
-        const accountRole = req.cookies.role;
+        const accountRole = req.user;
+        console.log(accountRole)
 
         console.log(roles)
 
-        if (!roles.includes(accountRole)) {
+        if (!roles.includes(accountRole.role)) {
             return res.status(403).render('error/error', {title: 403, error: "403", message: "Forbidden"})
         }
         next();

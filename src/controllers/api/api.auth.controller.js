@@ -25,14 +25,17 @@ class ApiAuthController {
     }
 
     async authenticate(req, res) {
-
-        const signIn = await AuthService.authenticate(req.body);
+            const data = {
+                username: req.query.username,
+                password: req.query.password
+            }
+        const signIn = await AuthService.authenticate(data);
         switch (signIn.status) {
             case 400: {
-                return res.status(400).json({error: signIn.message});
+                return res.status(400).render('error/error', {title: 400, error: "400", message: "BAD REQUEST"})
             }
             case 500: {
-                return res.status(500).json({error: signIn.message});
+                return res.status(500).render('error/error', {title: 500, error: "500", message: "INTERNAL SERVER ERROR"})
             }
             default: {
                 req.session.accounts = req.session?.accounts || [];
@@ -43,7 +46,7 @@ class ApiAuthController {
                         _id: signIn._id,
                         email: signIn.email,
                         token: signIn.token,
-                        refreshToken: signIn.refreshToken
+                        role: signIn.role,
                     });
                 }
                 req.session.save();
@@ -54,13 +57,7 @@ class ApiAuthController {
                     path: "/",
                     sameSite: "strict"
                 })
-                res.cookie("role", signIn.role, {
-                    httpOnly: true,
-                    secure: true,
-                    path: "/",
-                    sameSite: "strict"
-                })
-                return res.status(200).json(signIn);
+                return res.redirect('/auth/change_password/' + signIn._id + '&token=' + signIn.token);
             }
         }
     }
