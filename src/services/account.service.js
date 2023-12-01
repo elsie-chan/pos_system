@@ -1,6 +1,7 @@
 import Account, {isLockAccount} from "../models/account.model.js";
 import {ErrorMessage} from "../errors/index.js";
 import Invoice from "../models/invoice.model.js";
+import {Roles} from "../constants/roles.js";
 
 async function deleteAll() {
     try {
@@ -73,6 +74,9 @@ async function lockAccount(id) {
         if (!account) {
             return null
         } else {
+            if (account.role.equals(Roles.ADMIN)) {
+                return ErrorMessage(400, "Can't lock admin account")
+            }
             if (isLock) {
                 account.isLocked = false
                 await account.save()
@@ -153,5 +157,5 @@ export default {
     lockAccount,
     find,
     getAll,
-    deleteInvoiceOfAccount,
+    deleteInvoiceOfAccount
 };

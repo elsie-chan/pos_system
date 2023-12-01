@@ -11,8 +11,18 @@ const getAll = async () => {
     }
 
 }
+const getImage = async (id) => {
+    try {
+        const product = await Product.findById(id);
+        console.log(product)
+        return  product.image;
+    } catch (e) {
+        return ErrorMessage(400, "Product not found");
+    }
+}
 const getById = async (id) => {
     try {
+        console.log(id)
         const product = Product.findById(id);
         return await product;
     } catch (e) {
@@ -79,5 +89,5 @@ const deleteProduct = async (id) => {
     }
 }
 
-export default { getAll , getById, create, update, deleteProduct };
+export default { getAll , getById, create, update, deleteProduct, getImage };
 

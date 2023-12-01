@@ -248,7 +248,7 @@
                                         <span class="text-secondary text-xs font-weight-bold"><%= customer.address %></span>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <a href="" class="text-secondary font-weight-bold text-xs" data-bs-toggle="modal" data-bs-target="#viewDetailModal" data-phone="<%= customer.phone %>">
+                                        <a href="" class="viewDetail text-secondary font-weight-bold text-xs" data-bs-toggle="modal" data-bs-target="#viewDetailModal" data-id="<%= customer._id %>">
                                             View details
                                         </a>
                                     </td>
@@ -420,29 +420,18 @@
         </div>
         <!-- Delete customer Modal -->
         <!-- View history purchased modal -->
-        <div class="modal fade" id="viewSalesEmployee" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
+        <div class="modal fade" id="viewDetailModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content bg-gradient-faded-light ">
                     <div class="modal-header">
                         <h5 class="modal-title" id="">History purchased</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                            <span aria-hidden="true"></span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
-                                <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sales</th>
-                                    <th class="text-secondary opacity-7"></th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Locked</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                        <div class=" p-0" id="history__list">
+
                         </div>
                     </div>
                     <div class="modal-footer">

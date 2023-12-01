@@ -16,6 +16,7 @@ async function create(data) {
 
 async function find(data) {
     try {
+        console.log(data)
         const customer = await Customer.find(data)
         if (customer) {
             return customer;
@@ -44,6 +45,7 @@ async function getAll() {
 
 async function update(data) {
     try {
+        console.log(data)
         const customer = await Customer.findOneAndUpdate({
             _id: data._id
         }, {

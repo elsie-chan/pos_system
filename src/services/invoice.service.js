@@ -1,30 +1,47 @@
 import Invoice from "../models/invoice.model.js";
 import {ErrorMessage} from "../errors/index.js";
-import {AccountService, CustomerService} from "./index.js";
+import {AccountService, CustomerService, ProductService} from "./index.js";
 import dayjs from "dayjs";
+import mongoose from "mongoose";
 
 const createInvoice = async (data) => {
     try {
-        let quantity = 0;
         let total = 0;
+        let quantity = 0;
+        let products = [];
         const date = new Date();
         if (data.products == null) {
             return ErrorMessage(400, "Product is empty");
         }
-        data.products.forEach((product) => {
-            total += product.retailPrice * product.quantity;
-            quantity += product.quantity;
-        })
+        for (let i = 0; i < data.products.length; i++) {
+            const productExist = await ProductService.getById(data.products[i].product);
+            if (productExist == null) {
+                return ErrorMessage(400, "Product not found");
+            } else {
+                quantity += data.products[i].quantity;
+                total += productExist.retailPrice * data.products[i].quantity;
+                products.push({
+                    products: productExist,
+                    quantity: data.products[i].quantity
+                })
+            }
+        }
+
+        const customer = await CustomerService.find(data.customer)
+        if (customer == null) {
+            return ErrorMessage(400, "Customer not found");
+        }
+        console.log(customer)
 
         const newInvoice = new Invoice({
             ...data,
             total: total,
             change: data.take - total ? data.take - total : 0,
             productQuantity: quantity,
-            datePurchase: dayjs(new Date()).format("DD/MM/YYYY"),
-            products: data.products,
+            datePurchase: dayjs(new Date()).format("DD/MM/YYYY HH:mm:ss"),
+            products:products,
             account: data.accounts,
-            customer: data.customer,
+            customer: customer,
         });
         await newInvoice.save();
         await CustomerService.update({
@@ -165,6 +182,8 @@ async function getInvoiceByAccount(id) {
         if (invoices == null) {
             return null
         }
+
+
         return invoices;
     } catch (e) {
         console.log(e)
@@ -173,13 +192,16 @@ async function getInvoiceByAccount(id) {
 }
 
 async function getInvoiceByCustomer(id) {
+
     try {
+        const objectId = new mongoose.Types.ObjectId(id);
         const invoices = await Invoice.find({
-            "customer._id": id
+            "customer._id": objectId
         })
         if (invoices == null) {
             return null
         }
+        console.log(invoices)
         return invoices;
     } catch (e) {
         console.log(e)

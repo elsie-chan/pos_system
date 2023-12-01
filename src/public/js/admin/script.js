@@ -1,27 +1,31 @@
-// LOGOUT BUTTON
-let logoutBtn = $('.logout');
+// Toggle Sidenav
+const iconNavbarSidenav = document.getElementById('iconNavbarSidenav');
+const iconSidenav = document.getElementById('iconSidenav');
+const sidenav = document.getElementById('sidenav-main');
+let body = document.getElementsByTagName('body')[0];
+let className = 'g-sidenav-pinned';
 
-logoutBtn.click(function (e) {
-    e.preventDefault()
-    if (localStorage.getItem("token") !== null) {
-        $.ajax({
-            url: '/api/v1/auth/logout',
-            type: 'POST',
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem("token")
-            },
-            success: function (data) {
-                console.log(data)
-                localStorage.removeItem("token")
-                localStorage.removeItem("refreshToken")
-                window.location.href = '/auth/login'
-            },
-            error: function (error) {
-                console.log(error)
-            }
-        })
+if (iconNavbarSidenav) {
+    iconNavbarSidenav.addEventListener("click", toggleSidenav);
+}
+
+if (iconSidenav) {
+    iconSidenav.addEventListener("click", toggleSidenav);
+}
+
+function toggleSidenav() {
+    if (body.classList.contains(className)) {
+        body.classList.remove(className);
+        setTimeout(function() {
+            sidenav.classList.remove('bg-white');
+        }, 100);
+        sidenav.classList.remove('bg-transparent');
+
     } else {
-        window.location.href = '/admin/login'
+        body.classList.add(className);
+        sidenav.classList.add('bg-white');
+        sidenav.classList.remove('bg-transparent');
+        iconSidenav.classList.remove('d-none');
     }
-})
+}
 
