@@ -7,11 +7,20 @@ const orHomeSection = document.getElementById('order-home');
 const orPaymentSection = document.getElementById('order-payment');
 const orPaymentSuccessSection = document.getElementById('order-payment-success');
 const btnPay = document.getElementById('btnPay');
+const btnContinue = document.getElementById('btnContinue');
+const itemPay = document.querySelector('.payment-item');
 
 $(document).ready(function () {
   uploadItemSlidebar();
   btnPay.addEventListener("click", function() {
     showPaymentSuccessful();
+  })
+  btnContinue.addEventListener("click", function() {
+    sidebarItems.forEach(function (item) {
+      item.querySelector('a').classList.remove('item_active');
+    });
+    itemPay.querySelector('a').classList.add('item_active');
+    showPayment();
   })
 });
 
