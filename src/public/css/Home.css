@@ -65,3 +65,7 @@ a.item_active path {
   fill: #252836;
 }
 
+.count-container {
+  max-width: 325px;
+}
+
