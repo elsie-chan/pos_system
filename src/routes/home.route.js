@@ -8,18 +8,16 @@ import ApiProductController from "../controllers/api/api.product.controller.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.render('layouts/home', {title: 'Home'})
-});
+
 router.get("/reset", (req, res) => {
     res.render('layouts/auth/reset', {title: 'Reset Password'})
 });
 router.get("/add_product_to_session", AuthMiddleware.requireRole([Roles.ADMIN, Roles.STAFF]), validation, SellController.addProductToSession.bind(SellController));
 
-router.get("/product", async ( req, res ) => {
+router.get("/", async ( req, res ) => {
     let products = await ApiProductController.getAll(req, res);
-    // console.log(products)
-    res.render('layouts/home', {title: 'Product', products: products.data, pagination: products.pagination});
+    //console.log(products)
+    res.render('layouts/home', {title: 'Home', products: products.data, pagination: products.pagination});
 })
 
 export default router;
