@@ -8,18 +8,31 @@ const orPaymentSection = document.getElementById('order-payment');
 const orPaymentSuccessSection = document.getElementById('order-payment-success');
 const btnPay = document.getElementById('btnPay');
 const btnContinue = document.getElementById('btnContinue');
+const btnBack = document.getElementById('btnBack');
+const btnCancel = document.getElementById('btnCancel');
 const itemPay = document.querySelector('.payment-item');
+const itemHome = document.querySelector('.home-item');
 
 $(document).ready(function () {
   uploadItemSlidebar();
   btnPay.addEventListener("click", function() {
     showPaymentSuccessful();
-  })
+  });
   btnContinue.addEventListener("click", function() {
     sidebarItems.forEach(function (item) {
       item.querySelector('a').classList.remove('item_active');
     });
     itemPay.querySelector('a').classList.add('item_active');
+    showPayment();
+  })
+  btnCancel.addEventListener("click", function() {
+    sidebarItems.forEach(function (item) {
+      item.querySelector('a').classList.remove('item_active');
+    });
+    itemHome.querySelector('a').classList.add('item_active');
+      showHome();
+  });
+  btnBack.addEventListener("click", function() {
     showPayment();
   })
 });
@@ -66,7 +79,7 @@ function showPayment() {
   accountSection.style.display = 'none';
 }
 
-const showAccount = () => {
+function showAccount() {
   homeSection.style.display ='none';
   paymentSection.style.display = 'none';
   paymentSuccessSection.style.display = 'none';
@@ -76,7 +89,7 @@ const showAccount = () => {
   accountSection.style.display = 'block';
 }
 
-const showPaymentSuccessful = () => {
+function showPaymentSuccessful() {
   homeSection.style.display ='none';
   paymentSection.style.display = 'none';
   paymentSuccessSection.style.display = 'block';
@@ -85,3 +98,5 @@ const showPaymentSuccessful = () => {
   orPaymentSuccessSection.style.display = 'block';
   accountSection.style.display = 'none';
 }
+
+

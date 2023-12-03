@@ -130,7 +130,7 @@
                   />
                   <ul class="dropdown-menu">
                     <li>
-                      <a class="dropdown-item" href="#">Update information</a>
+                      <a class="dropdown-item" href="/admin/product">Update information</a>
                     </li>
                     <li>
                       <a class="dropdown-item" href="#">Change password</a>
@@ -143,105 +143,24 @@
 
             <!--CARDS-->
             <div class="row">
+              <% products.forEach(function(product){ %>
               <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
-                <div class="card text-center">
+                <div class="card text-center" id="addProducts">
                   <img
                     class="card-img-top"
-                    src="images/Product Image.png"
+                    src="/images/uploads/products/<%= product.image? product.image : '1698328374688.png'%>"
                     alt="Card image"
                     height="264px"
                     width="279px"
                   />
                   <div class="card-body">
-                    <h4 class="card-title">IPhone 12</h4>
-                    <p class="card-text">$99</p>
+                    <h4 class="card-title">$<%= product.name %></h4>
+                    <p class="card-text">$<%= product.importPrice %></p>
                     <a href="#" class="stretched-link"></a>
                   </div>
                 </div>
               </div>
-              <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
-                <div class="card text-center">
-                  <img
-                    class="card-img-top"
-                    src="images/Product Image.png"
-                    alt="Card image"
-                    height="264px"
-                    width="279px"
-                  />
-                  <div class="card-body">
-                    <h4 class="card-title">IPhone 12</h4>
-                    <p class="card-text">$99</p>
-                    <a href="#" class="stretched-link"></a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
-                <div class="card text-center">
-                  <img
-                    class="card-img-top"
-                    src="images/Product Image.png"
-                    alt="Card image"
-                    height="264px"
-                    width="279px"
-                  />
-                  <div class="card-body">
-                    <h4 class="card-title">IPhone 12</h4>
-                    <p class="card-text">$99</p>
-                    <a href="#" class="stretched-link"></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
-                <div class="card text-center">
-                  <img
-                    class="card-img-top"
-                    src="images/Product Image.png"
-                    alt="Card image"
-                    height="264px"
-                    width="279px"
-                  />
-                  <div class="card-body">
-                    <h4 class="card-title">IPhone 12</h4>
-                    <p class="card-text">$99</p>
-                    <a href="#" class="stretched-link"></a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
-                <div class="card text-center">
-                  <img
-                    class="card-img-top"
-                    src="images/Product Image.png"
-                    alt="Card image"
-                    height="264px"
-                    width="279px"
-                  />
-                  <div class="card-body">
-                    <h4 class="card-title">IPhone 12</h4>
-                    <p class="card-text">$99</p>
-                    <a href="#" class="stretched-link"></a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
-                <div class="card text-center">
-                  <img
-                    class="card-img-top"
-                    src="images/Product Image.png"
-                    alt="Card image"
-                    height="264px"
-                    width="279px"
-                  />
-                  <div class="card-body">
-                    <h4 class="card-title">IPhone 12</h4>
-                    <p class="card-text">$99</p>
-                    <a href="#" class="stretched-link"></a>
-                  </div>
-                </div>
-              </div>
-            </div>
+              <% }); %>
           </div>
         </div>
 
@@ -315,7 +234,7 @@
                 <h4 class="normal-text">Order information</h4>
               </div>
               <div class="col-4 ms-auto text-end d-grid">
-                <button type="button" class="btn btn-outline-success btn-block">
+                <button type="button" class="btn btn-outline-success btn-block" id="btnCancel">
                   Cancel
                 </button>
               </div>
@@ -391,7 +310,7 @@
                 <h4 class="normal-text">Order information</h4>
               </div>
               <div class="col-4 ms-auto text-end d-grid">
-                <button type="button" class="btn btn-outline-success btn-block">
+                <button type="button" class="btn btn-outline-success btn-block" id="btnBack">
                   Back
                 </button>
               </div>
@@ -479,7 +398,7 @@
           <h2>ORDER</h2>
           <div class="horizontal-line"></div>
           <div class="container-fluid">
-            <div class="row" style="margin-bottom: 20px">
+            <div class="row list-product" style="margin-bottom: 20px">
               <div class="col-5">
                 <img
                   src="/images/Product Image.png"
@@ -491,6 +410,16 @@
               <div class="col-5">
                 <h5>IphoneXS</h5>
                 <h5>$99</h5>
+                <div class="square" style=" 
+                width: 48px;
+                height: 48px;
+                background-color: black;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 8px;">
+                  <p class="text-white" style="font-size: 16px">2</p>
+               </div>
               </div>
               <div class="col-2">
                 <a href="#" class="btn btn-outline-danger"
