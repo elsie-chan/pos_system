@@ -10,7 +10,9 @@ const router = express.Router();
 router.get("/", (req, res) => {
     res.render('layouts/home', {title: 'Home'})
 });
-
+router.get("/reset", (req, res) => {
+    res.render('layouts/auth/reset', {title: 'Reset Password'})
+});
 router.get("/add_product_to_session", AuthMiddleware.requireRole([Roles.ADMIN, Roles.STAFF]), validation, SellController.addProductToSession.bind(SellController));
 
 export default router;

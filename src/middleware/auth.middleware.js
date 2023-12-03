@@ -10,7 +10,9 @@ const requireRole = ( roles ) => {
         }
 
         const accountRole = req.user;
-        console.log(accountRole)
+        if (!accountRole) {
+            return res.status(403).render('error/error', {title: 403, error: "403", message: "Forbidden"})
+        }
 
         console.log(roles)
 
