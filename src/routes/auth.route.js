@@ -1,11 +1,11 @@
 import express from "express";
 import {AuthController} from "../controllers/index.js";
-import validation from "../validator/validation.route.js";
+import {validation, rememberMe} from "../validator/index.js";
 
 
 const router = express.Router();
 
-router.get("/login", validation, AuthController.login.bind(AuthController));
+router.get("/login", rememberMe, validation, AuthController.login.bind(AuthController));
 
 router.get("/change_password/:id", validation, AuthController.changePassword.bind(AuthController));
 

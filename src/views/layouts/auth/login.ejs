@@ -12,35 +12,55 @@
 <div class="right m-0">
     <div class="login-form" id="login--form">
         <h1>WELCOME</h1>
-        <div class="form-group">
-            <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="User name"
-                    autofocus
-            />
-        </div>
-        <div class="form-group">
-            <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Password"
+        <form action="/api/v1/auth/authenticate" method="POST" id="AuthForm">
+            <div class="form-group">
+                <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="User name"
+                        autofocus
+                />
+            </div>
+            <div class="form-group">
+                <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Password"
 
-            />
-            <span class="notification toast-error" style="color: darkred; font-size: small"></span>
-        </div>
+                />
+                <span class="notification toast-error" style="color: darkred; font-size: small"></span>
+            </div>
+            <% if (flash?.error) { %>
+                <div class="text-center">
+                    <span class="text-danger"><%= flash?.error %></span>
+                </div>
+            <% } %>
+
+            <% if (flash?.message) { %>
+                <div class="text-center">
+                    <span class="text-danger"><%= flash?.message %></span>
+                </div>
+            <% } %>
+            <div class="form-check mb-4 check-btn">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1" name="remember">
+                <label class="form-check-label" for="exampleCheck1">Remember me</label>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="loginBtn btn btn-primary">LOGIN</button>
+            </div>
+        </form>
         <div class="form-group">
-            <button type="submit" class="loginBtn btn btn-primary">LOGIN</button>
-        </div>
-        <div class="form-group">
-            <a href="/api/v1/auth/google" role="button" class="btn btn-primary">Google</a>
+            <a href="/api/v1/auth/google" role="button" class="btn btn-primary">GOOGLE</a>
         </div>
     </div>
 </div>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+        integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
 <script src="/js/login.js"></script>
 </html>

@@ -12,18 +12,25 @@ A website that provides Point of Sale functionality for the purpose of selling a
 
 2. Create file .env in the root directory of the project and add the following environment variables:
 ```
-ENV=
-PORT=
-URL=
-DATABASE_URL=
-JWT_ACCESS_TOKEN=
-JWT_REFRESH_TOKEN=
-JWT_ACCESS_EXPIRES=
-JWT_REFRESH_EXPIRES=
-SMTP_HOST=
-SMTP_PORT=
-MAIL=
-MAIL_PASSWORD=
+ENV
+PORT
+URL
+DATABASE_URL
+JWT_ACCESS_TOKEN
+JWT_REFRESH_TOKEN
+JWT_ACCESS_EXPIRES
+JWT_REFRESH_EXPIRES
+
+#Google
+GOOGLE_CLIENT_ID
+GOOGLE_CLIENT_SECRET
+CLIENT_CALLBACK_URL
+
+# SMTP
+SMTP_HOST
+SMTP_PORT
+MAIL
+MAIL_PASSWORD
 ```
 3. Run the following command to install dependencies:
 ```

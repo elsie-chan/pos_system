@@ -89,10 +89,16 @@ async function resetPassword(id, data) {
 
 async function changePassword(data) {
     try {
+        const isMatch = await bcrypt.compare(data.oldPassword, data.newPassword);
+        console.log(data.oldPassword, data.newPassword)
+        console.log(isMatch)
+        if (isMatch) {
+            return ErrorMessage(400, "New password must be different from old password");
+        }
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(data.password, salt)
+        const hashedPassword = await bcrypt.hash(data.newPassword, salt)
         const accountAfterChangePassword = await Account.findByIdAndUpdate({
-                _id: data._id
+                _id: data.id
             },
             {
                 $set: {

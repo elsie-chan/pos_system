@@ -63,7 +63,8 @@ class ApiAuthController {
     }
 
     async logout(req, res) {
-        const id = req.params.id
+        const id = req.user.id
+        console.log("id", id)
         const account = await findAccount(id);
         if (account.message) {
             return res.status(400).json({errors: "Account not found"});
@@ -76,7 +77,6 @@ class ApiAuthController {
         req.session.save();
         req.session.destroy();
         res.clearCookie("refreshToken");
-        res.clearCookie("role");
         return res.status(200).json({message: "Logout success"});
     }
 
@@ -137,8 +137,9 @@ class ApiAuthController {
     async changePassword(req, res) {
         try {
             const data = {
-                id: req.params.id,
-                password: req.body.password,
+                id: req.user.id,
+                oldPassword: req.body.oldPassword,
+                newPassword: req.body.newPassword,
             }
             const account = await AuthService.changePassword(data);
             if (account == null) {

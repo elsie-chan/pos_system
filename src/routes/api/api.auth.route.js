@@ -1,18 +1,18 @@
 import express from "express";
 import {ApiAuthController} from "../../controllers/index.js";
-import validation from "../../validator/validation.route.js";
+import {validation, rememberMe} from "../../validator/index.js";
 import passport from "passport";
 import {AuthMiddleware} from "../../middleware/index.js";
 import {Roles} from "../../constants/roles.js";
-import {configUpload} from "../../configuration/index.js";
 
 const router = express.Router();
 
 router.post("/create", validation, AuthMiddleware.requireRole([Roles.ADMIN]), ApiAuthController.create.bind(ApiAuthController));
 router.get("/verify_account", validation, ApiAuthController.authenticate.bind(ApiAuthController));
-router.post("/send_mail", validation, ApiAuthController.resendMail.bind(ApiAuthController));
+router.post("/send_mail", validation, AuthMiddleware.requireRole([Roles.ADMIN]), ApiAuthController.resendMail.bind(ApiAuthController));
 router.get("/active", validation, ApiAuthController.setActive.bind(ApiAuthController));
-router.post("/logout/:id", validation, ApiAuthController.logout.bind(ApiAuthController));
+router.post("/logout", validation, ApiAuthController.logout.bind(ApiAuthController));
+router.post("/change_password", validation, AuthMiddleware.requireRole([Roles.ADMIN, Roles.STAFF]), ApiAuthController.changePassword.bind(ApiAuthController));
 router.post("/authenticate", validation, (req, res, next) => {
     passport.authenticate('local', {
         successRedirect: '/',
@@ -24,15 +24,36 @@ router.post("/authenticate", validation, (req, res, next) => {
             return next(err);
         }
 
-        if (info) {
+
+        if (info.hasOwnProperty("message")) {
+            console.log("message", info.message)
             req.flash('error', info.message);
-            console.log(info.message);
         }
+
+        if (info.hasOwnProperty("remember")) {
+            const { remember: rememberMe } = info.remember;
+            if (rememberMe) {
+                const token = info.remember.token;
+
+                res.cookie('token', token, {
+                    maxAge: 1000 * 60 * 24 * 7, // 7 days
+                    httpOnly: true
+                });
+
+                res.cookie('remember', rememberMe, {
+                    maxAge: 1000 * 60 * 24 * 7,
+                    httpOnly: true
+                });
+            }
+        }
+
         if (!user) {
+            console.log("user", user)
             return res.redirect('/auth/login');
         }
 
         req.logIn(user, function ( err ) {
+            console.log("user", user)
             if (err) {
                 return next(err);
             }
@@ -47,18 +68,11 @@ router.post("/authenticate", validation, (req, res, next) => {
                 });
             }
             req.session.save();
-
-            res.cookie("refreshToken", user.refreshToken, {
-                httpOnly: true,
-                secure: true,
-                path: "/",
-                sameSite: "strict"
-            })
             return res.redirect('/');
         });
     })(req, res, next);
 });
-router.get("/current_user", validation, async ( req, res ) => {
+router.get("/current_user", validation, AuthMiddleware.requireRole([Roles.ADMIN]), async ( req, res ) => {
     res.send(req.session);
 })
 router.get("/validate/:token", validation, ApiAuthController.validate.bind(ApiAuthController));
@@ -99,13 +113,6 @@ router.get("/google/callback", (req, res, next) => {
                 });
             }
             req.session.save();
-
-            res.cookie("refreshToken", user.refreshToken, {
-                httpOnly: true,
-                secure: true,
-                path: "/",
-                sameSite: "strict"
-            })
             return res.redirect('/');
         });
     })(req, res, next);

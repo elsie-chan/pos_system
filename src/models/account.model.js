@@ -100,22 +100,36 @@ export const verifyAccount = async (data) => {
         const token = existAccount.token;
 
         const decodedToken = await verifyToken(token).then((data) => data).catch((e) => null)
+        console.log("decodedToken", decodedToken)
         //     check if token is not expired then return it token or else check if refresh token is not expired then return new token
         if (decodedToken && decodedToken.exp > Date.now() / 1000) {
             console.log("token is not expired");
             return existAccount;
         } else {
             console.log("token is expired");
-            const newRefreshToken = await generateRefreshToken(data);
+            const newRefreshToken = await generateRefreshToken({
+                id: existAccount._id,
+                username: existAccount.username,
+                role: existAccount.role
+            });
             const decodedRefreshToken = await verifyRefreshToken(newRefreshToken);
+            console.log("decodedRefreshToken", decodedRefreshToken)
             if (!decodedRefreshToken) {
                 return ErrorMessage(400, "Invalid refresh token");
             }
 
             if (decodedRefreshToken.exp > Date.now() / 1000) {
                 console.log("refresh token is not expired and generate new token");
-                const newToken = await generateToken(data);
-                const newRefreshToken = await generateRefreshToken(data);
+                const newToken = await generateToken({
+                    id: existAccount._id,
+                    username: existAccount.username,
+                    role: existAccount.role
+                });
+                const newRefreshToken = await generateRefreshToken({
+                    id: existAccount._id,
+                    username: existAccount.username,
+                    role: existAccount.role
+                });
                 existAccount.refreshToken = newRefreshToken;
                 existAccount.token = newToken;
                 await existAccount.save();

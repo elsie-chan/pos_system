@@ -62,6 +62,7 @@ const routes = (app) => {
         {name: '/api/customer', route: apiCustomerRoutes},
         {name: '/api/product', route: apiProductRoutes},
         {name: '/api/invoice', route: apiInvoiceRoutes},
+        {name: '/api/statistic', route: apiStatisticRoutes},
         {name: '/', route: homeRoutes},
         {name: '/auth', route: authRoutes},
         {name: '/admin', route: adminRoutes},

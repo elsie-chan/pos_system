@@ -1,6 +1,6 @@
 import express from "express";
 import {ApiInvoiceController} from "../../controllers/index.js";
-import validation from "../../validator/validation.route.js";
+import {validation} from "../../validator/index.js";
 import {AuthMiddleware} from "../../middleware/index.js";
 import {Roles} from "../../constants/roles.js";
 

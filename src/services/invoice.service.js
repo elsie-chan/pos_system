@@ -38,7 +38,7 @@ const createInvoice = async (data) => {
             total: total,
             change: data.take - total ? data.take - total : 0,
             productQuantity: quantity,
-            datePurchase: dayjs(new Date()).format("DD/MM/YYYY HH:mm:ss"),
+            datePurchase: dayjs(new Date()).format("DD/MM/YYYY hh:mm:ss"),
             products:products,
             account: data.accounts,
             customer: customer,

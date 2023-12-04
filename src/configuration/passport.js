@@ -1,7 +1,7 @@
 import passport from 'passport';
 import flash from 'express-flash';
 
-import { ExtractJwt, Strategy } from 'passport-jwt';
+import { Strategy as JwtStrategy } from 'passport-jwt';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import {variables} from "./index.js";
@@ -38,6 +38,8 @@ const localStrategy = new LocalStrategy(localOptions, async ( req, username, pas
             username: req.body.username,
             password: req.body.password
         }
+        const remember = req.body?.remember;
+        console.log("remember", remember)
 
         const signIn = await AuthService.authenticate(body);
         switch (signIn.status) {
@@ -52,7 +54,12 @@ const localStrategy = new LocalStrategy(localOptions, async ( req, username, pas
                 }
             }
             default: {
-                return done(null, signIn);
+                return done(null, signIn, {
+                    remember: {
+                        remember,
+                        token: signIn.refreshToken
+                    }
+                });
             }
         }
     } catch (e) {
@@ -60,10 +67,11 @@ const localStrategy = new LocalStrategy(localOptions, async ( req, username, pas
     }
 })
 
-const strategy = new Strategy(jwtOptions, async ( payload, done ) => {
+const strategy = new JwtStrategy(jwtOptions, async ( payload, done ) => {
     try {
+        console.log("payload", payload)
         const account = await Account.findOne({
-            email: payload.email
+            username: payload.username
         })
 
         if (!account) {
@@ -72,6 +80,7 @@ const strategy = new Strategy(jwtOptions, async ( payload, done ) => {
 
         return done(null, account);
     } catch (e) {
+        console.log(e)
         return done(e);
     }
 });
@@ -86,7 +95,11 @@ const googleStrategy = new GoogleStrategy({
             email: profile.emails[0].value
         });
         if (account) {
-            return done(null, account);
+            if (account.logging) {
+                return done(null, account);
+            } else {
+                return done(null, false, { message: "The account has not changed its password. Please change your password before login" });
+            }
         } else {
             return done(null, false);
         }
