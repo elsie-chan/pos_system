@@ -27,6 +27,10 @@ const createInvoice = async (data) => {
             }
         }
 
+        if (data.take < total) {
+            return ErrorMessage(400, "Take money is not enough");
+        }
+
         const customer = await CustomerService.find(data.customer)
         if (customer == null) {
             return ErrorMessage(400, "Customer not found");
@@ -88,18 +92,13 @@ async function get(data) {
 
 async function findExistProduct(id) {
     try {
-        const invoice = await Invoice.find({
-            products: {
-                $elemMatch: {
-                    _id: id
-                }
-            }
-
+        const invoices = await Invoice.find({
+            "products.products._id": new mongoose.Types.ObjectId(id)
         })
-        if (invoice == null) {
+        if (invoices == null) {
             return null
         }
-        return invoice;
+        return invoices;
 
     } catch (e) {
         console.log(e)
@@ -210,4 +209,4 @@ async function getInvoiceByCustomer(id) {
 }
 
 
-export default {createInvoice, findAll, get, update, deleteInvoice, deleteAll, getInvoiceByAccount, getInvoiceByCustomer}
+export default {createInvoice, findAll, get, update, deleteInvoice, deleteAll, getInvoiceByAccount, getInvoiceByCustomer, findExistProduct}

@@ -1,6 +1,7 @@
 import Product from "../models/product.model.js";
 import { ErrorMessage } from "../errors/index.js";
 import {InvoiceService} from "./index.js";
+import mongoose from "mongoose";
 
 const getAll = async () => {
     try {
@@ -77,14 +78,21 @@ const deleteProduct = async (id) => {
             _id: id
         })
         const existProduct = await InvoiceService.findExistProduct(id)
-        if (existProduct) {
-            return ErrorMessage(400, "Product is exist in invoice");
-        }
-        if (!product) {
+        console.log("existProduct", existProduct)
+        console.log("product", product)
+        if (product == null) {
             return ErrorMessage(400, "Product not found");
         }
-        return "Delete product successfully";
+        if (existProduct.length > 0) {
+            return ErrorMessage(400, "Product is exist in invoice");
+        } else {
+            await Product.deleteOne({
+                _id: id
+            });
+            return "Delete product successfully";
+        }
     } catch (e) {
+        console.log(e)
         return ErrorMessage(400, "Product not found");
     }
 }

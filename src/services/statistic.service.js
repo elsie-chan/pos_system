@@ -61,14 +61,12 @@ async function getStatisticInvoice(value) {
                 })
             })
         }
-        console.log("customer", customer)
-        console.log("product", product)
         return {
             invoices: invoices,
             revenue: revenue,
-            staffQuantity: [checkDuplicateElementForStaff(staff)].length,
-            customerQuantity: [findDuplicateElementForCustomer(customer)].length,
-            productQuantity: [findDuplicatesForProduct(product)].length,
+            staffQuantity: checkDuplicateElementForStaff(staff).length,
+            customerQuantity: findDuplicateElementForCustomer(customer).length,
+            productQuantity: findDuplicatesForProduct(product).length,
         };
     } catch (e) {
         console.log(e)
@@ -108,9 +106,9 @@ async function filterInvoiceBySpecificDate(from, to) {
         return {
             invoices: invoices,
             revenue: revenue,
-            staffQuantity: [checkDuplicateElementForStaff(staff)].length,
-            customerQuantity: [findDuplicateElementForCustomer(customer)].length,
-            productQuantity: [findDuplicatesForProduct(product)].length,
+            staffQuantity: checkDuplicateElementForStaff(staff).length,
+            customerQuantity: findDuplicateElementForCustomer(customer).length,
+            productQuantity: findDuplicatesForProduct(product).length,
         };
     } catch (e) {
         console.log(e)

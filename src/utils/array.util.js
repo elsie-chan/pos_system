@@ -1,31 +1,33 @@
 function checkDuplicateElementForStaff(data) {
     const seen = new Set();
+    const uniqueItems = [];
     for (const sublist of data) {
         for (const element of sublist) {
             const elementId = element._id;
-            if (seen.has(elementId)) {
-                return element;
+            if (!seen.has(elementId)) {
+                seen.add(elementId);
+                uniqueItems.push(element);
             }
-            seen.add(elementId);
         }
     }
-    return null;
+    return uniqueItems;
 }
 
 function findDuplicateElementForCustomer(data) {
     const seenIds = new Set();
+    const duplicateElements = [];
 
     for (const innerArray of data) {
         for (const element of innerArray) {
             const elementId = element._id.toString(); // Convert ObjectId to string for comparison
-            if (seenIds.has(elementId)) {
-                return element;
+            if (!seenIds.has(elementId)) {
+                seenIds.add(elementId);
+                duplicateElements.push(element);
             }
-            seenIds.add(elementId);
         }
     }
 
-    return null;
+    return duplicateElements;
 }
 
 function findDuplicateQuantity(data) {

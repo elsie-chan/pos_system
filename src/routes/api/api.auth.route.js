@@ -68,10 +68,14 @@ router.post("/authenticate", validation, (req, res, next) => {
                 });
             }
             req.session.save();
-            return res.redirect('/');
+            if (user.role === Roles.ADMIN) {
+                return res.redirect('/admin/dashboard');
+            } else {
+                return res.redirect('/');
+            }
         });
     })(req, res, next);
-});
+})
 router.get("/current_user", validation, AuthMiddleware.requireRole([Roles.ADMIN]), async ( req, res ) => {
     res.send(req.session);
 })

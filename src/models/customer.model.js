@@ -26,7 +26,7 @@ const customerSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Invoice"
     }],
-});
+}, {timestamps: true});
 
 const Customer = mongoose.model("Customer", customerSchema);
 
