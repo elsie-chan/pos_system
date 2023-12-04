@@ -12,6 +12,9 @@ const router = express.Router();
 router.get("/reset", (req, res) => {
     res.render('layouts/auth/reset', {title: 'Reset Password'})
 });
+router.get("/profile", (req, res) => {
+    res.render('layouts/profile');
+});
 router.get("/add_product_to_session", AuthMiddleware.requireRole([Roles.ADMIN, Roles.STAFF]), validation, SellController.addProductToSession.bind(SellController));
 
 router.get("/",  rememberMe, validation, async ( req, res ) => {

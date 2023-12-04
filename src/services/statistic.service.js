@@ -78,6 +78,8 @@ async function getStatisticInvoice(value) {
 
 async function filterInvoiceBySpecificDate(from, to) {
     try {
+        console.log("from", from)
+        console.log("to", to)
         let revenue = 0;
         let staff = [];
         let customer = [];

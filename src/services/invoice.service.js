@@ -2,7 +2,7 @@ import Invoice from "../models/invoice.model.js";
 import {ErrorMessage} from "../errors/index.js";
 import {AccountService, CustomerService, ProductService} from "./index.js";
 import dayjs from "dayjs";
-import mongoose from "mongoose";
+import mongoose, {Schema as moongoose} from "mongoose";
 
 const createInvoice = async (data) => {
     try {
@@ -43,7 +43,7 @@ const createInvoice = async (data) => {
             change: data.take - total ? data.take - total : 0,
             productQuantity: quantity,
             datePurchase: dayjs(new Date()).format("DD/MM/YYYY hh:mm:ss"),
-            products:products,
+            products: products,
             account: data.accounts,
             customer: customer,
         });
@@ -78,7 +78,8 @@ async function findAll() {
 
 async function get(data) {
     try {
-        const invoice = await Invoice.find(data)
+        console.log(data)
+        const invoice = await Invoice.find({_id: data})
         if (invoice == null) {
             return null
         }
@@ -209,4 +210,14 @@ async function getInvoiceByCustomer(id) {
 }
 
 
-export default {createInvoice, findAll, get, update, deleteInvoice, deleteAll, getInvoiceByAccount, getInvoiceByCustomer, findExistProduct}
+export default {
+    createInvoice,
+    findAll,
+    get,
+    update,
+    deleteInvoice,
+    deleteAll,
+    getInvoiceByAccount,
+    getInvoiceByCustomer,
+    findExistProduct
+}

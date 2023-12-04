@@ -8,6 +8,6 @@ const router = express.Router();
 
 // router.get("/today", AuthMiddleware.requireRole([Roles.ADMIN]), validation, ApiStatisticController.getToday.bind(ApiStatisticController));
 // router.get("/yesterday", AuthMiddleware.requireRole([Roles.ADMIN]), validation, ApiStatisticController.getYesterday.bind(ApiStatisticController));
-router.get("/get_statistics/:value", AuthMiddleware.requireRole([Roles.ADMIN]), validation, ApiStatisticController.getStatistics.bind(ApiStatisticController));
+router.get("/get_statistics/:value", validation, ApiStatisticController.getStatistics.bind(ApiStatisticController));
 router.get("/filter_invoice", AuthMiddleware.requireRole([Roles.ADMIN]), validation, ApiStatisticController.filterInvoice.bind(ApiStatisticController));
 export default router;

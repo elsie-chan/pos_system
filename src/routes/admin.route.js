@@ -1,15 +1,17 @@
 import express from "express";
-import {ProductService} from "../services/index.js";
+import {ProductService, StatisticService} from "../services/index.js";
 import ApiProductController from "../controllers/api/api.product.controller.js";
 import {paginate} from "../utils/index.js";
 import apiAccountController from "../controllers/api/api.account.controller.js";
 import ApiCustomerRoute from "./api/api.customer.route.js";
-import {ApiCustomerController, ApiInvoiceController} from "../controllers/index.js";
+import {ApiCustomerController, ApiInvoiceController, ApiStatisticController} from "../controllers/index.js";
 
 const router = express.Router();
 
-router.get("/dashboard", ( req, res ) => {
-    res.render('layouts/admin/dashboard', {title: 'Dashboard'});
+router.get("/dashboard",  async ( req, res ) => {
+    const statistic = await StatisticService.getStatisticInvoice('today');
+    console.log(statistic)
+    res.render('layouts/admin/dashboard', {title: 'Dashboard', statistic: statistic});
 })
 router.get("/product", async ( req, res ) => {
     let products = await ApiProductController.getAll(req, res);
@@ -32,7 +34,8 @@ router.get("/invoice", async ( req, res ) => {
     let invoices = await ApiInvoiceController.findAll(req, res);
     res.render('layouts/admin/invoice', {
         title: "Invoice Management",
-        invoices: invoices.data
+        invoices: invoices.data,
+        pagination: invoices.pagination
     });
 })
 

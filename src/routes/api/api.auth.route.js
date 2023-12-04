@@ -11,7 +11,7 @@ router.post("/create", validation, AuthMiddleware.requireRole([Roles.ADMIN]), Ap
 router.get("/verify_account", validation, ApiAuthController.authenticate.bind(ApiAuthController));
 router.post("/send_mail", validation, AuthMiddleware.requireRole([Roles.ADMIN]), ApiAuthController.resendMail.bind(ApiAuthController));
 router.get("/active", validation, ApiAuthController.setActive.bind(ApiAuthController));
-router.post("/logout", validation, ApiAuthController.logout.bind(ApiAuthController));
+router.get("/logout", validation, ApiAuthController.logout.bind(ApiAuthController));
 router.post("/change_password", validation, AuthMiddleware.requireRole([Roles.ADMIN, Roles.STAFF]), ApiAuthController.changePassword.bind(ApiAuthController));
 router.post("/authenticate", validation, (req, res, next) => {
     passport.authenticate('local', {

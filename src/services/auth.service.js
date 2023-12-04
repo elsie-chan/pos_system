@@ -89,6 +89,14 @@ async function resetPassword(id, data) {
 
 async function changePassword(data) {
     try {
+        const account = await Account.findById(data.id);
+        if (!account) {
+            return null;
+        }
+        const isMatch1 = await bcrypt.compare(data.oldPassword, account.password);
+        if (!isMatch1) {
+            return ErrorMessage(400, "Current password is incorrect");
+        }
         const isMatch = await bcrypt.compare(data.oldPassword, data.newPassword);
         console.log(data.oldPassword, data.newPassword)
         console.log(isMatch)

@@ -35,7 +35,7 @@ class ApiInvoiceController {
     async get(req, res) {
         const {id} = req.params;
         try {
-            const invoice = await InvoiceService.get(req.body);
+            const invoice = await InvoiceService.get(id);
             if (invoice == null) {
                 return res.status(400).json({message: "Invoice not found"})
             }

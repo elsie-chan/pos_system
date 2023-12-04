@@ -77,7 +77,8 @@ class ApiAuthController {
         req.session.save();
         req.session.destroy();
         res.clearCookie("refreshToken");
-        return res.status(200).json({message: "Logout success"});
+        res.clearCookie("remember");
+        return res.redirect('/auth/login');
     }
 
     async resendMail(req, res) {
