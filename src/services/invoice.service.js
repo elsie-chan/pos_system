@@ -2,7 +2,7 @@ import Invoice from "../models/invoice.model.js";
 import {ErrorMessage} from "../errors/index.js";
 import {AccountService, CustomerService, ProductService} from "./index.js";
 import dayjs from "dayjs";
-import mongoose, {Schema as moongoose} from "mongoose";
+import mongoose from "mongoose";
 
 const createInvoice = async (data) => {
     try {
@@ -56,8 +56,13 @@ const createInvoice = async (data) => {
             _id: data.accounts._id,
             invoices: newInvoice
         })
-        return newInvoice;
-    } catch (e) {
+        return await Invoice.findByIdAndUpdate(newInvoice._id, {
+            $set: {
+                "customer.0.invoices": newInvoice._id,
+            }
+        }, {new: true});
+    } catch
+        (e) {
         console.log(e)
         return ErrorMessage(500, "Server errors", e);
     }

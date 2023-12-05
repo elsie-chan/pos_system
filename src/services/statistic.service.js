@@ -32,8 +32,8 @@ async function getStatisticInvoice(value) {
             case "week":
                 invoices = await Invoice.find({
                     createdAt: {
-                        $gte: dayjs().startOf('day').toDate(),
-                        $lte: dayjs().endOf('day').subtract(7, 'day').toDate()
+                        $gte: dayjs().subtract(7, 'day').startOf('day').toDate(),
+                        $lte: dayjs().endOf('day').toDate(),
                     }
                 });
                 break;

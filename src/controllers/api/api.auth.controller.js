@@ -18,7 +18,7 @@ class ApiAuthController {
             context: {
                 name: account.name,
                 email: account.email,
-                url: `${variables.URL}:${variables.PORT}/api/v1/auth/validate/${generateToken()}?email=${account.email}`,
+                url: `${variables.URL}:${variables.PORT}/api/v1/auth/validate/${generateToken()}?email=${account.email}&success_redirect=auth/change_password/${account._id}&failure_redirect=auth/failed_active&token=${account.token}`,
             }
         });
         return res.status(200).json(account);
@@ -32,7 +32,7 @@ class ApiAuthController {
         const signIn = await AuthService.authenticate(data);
         switch (signIn.status) {
             case 400: {
-                return res.status(400).render('error/error', {title: 400, error: "400", message: "BAD REQUEST"})
+                return res.status(400).render('error/error', {title: 400, error: "400", message: signIn.message})
             }
             case 500: {
                 return res.status(500).render('error/error', {title: 500, error: "500", message: "INTERNAL SERVER ERROR"})
@@ -63,6 +63,7 @@ class ApiAuthController {
     }
 
     async logout(req, res) {
+        console.log(req.user)
         const id = req.user.id
         console.log("id", id)
         const account = await findAccount(id);
@@ -78,6 +79,7 @@ class ApiAuthController {
         req.session.destroy();
         res.clearCookie("refreshToken");
         res.clearCookie("remember");
+        res.clearCookie("token");
         return res.redirect('/auth/login');
     }
 
@@ -106,7 +108,7 @@ class ApiAuthController {
         // Check if the token exists and is still valid.
         if (tokenMap.has(token) && tokenMap.get(token) > Date.now()) {
             console.log('Valid token.');
-            res.redirect('/api/v1/auth/active?email=' + req.query.email + '&success_redirect=auth/change_password/&failure_redirect=auth/failed_active?code=' + token);
+            res.redirect('/api/v1/auth/active?email=' + req.query.email + `&success_redirect=auth/change_password/${token}/&failure_redirect=auth/failed_active?code=` + token);
         } else {
             res.clearCookie("refreshToken");
             res.clearCookie("role");
@@ -125,11 +127,14 @@ class ApiAuthController {
     }
 
     async resetPassword(req, res) {
+        console.log(req.params.id, req.body)
         const account = await  AuthService.resetPassword(req.params.id, req.body);
         if (account == null) {
+            req.flash('error', "Account not found");
             return res.status(400).json({errors: "Account not found"});
         }
         if (account.message) {
+            req.flash('error', account.message);
             return res.status(account.status).json({errors: account.message});
         }
         return res.status(200).json(account);

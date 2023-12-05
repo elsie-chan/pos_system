@@ -19,9 +19,9 @@ const URL = variables.URL;
 
 const COLUMNS_NAME = ['Status', 'Message'];
 table.setHeading(...COLUMNS_NAME);
-table.addRow(passwordConfigStatus.status, passwordConfigStatus.message);
 table.addRow(resourceConfigStatus.status, resourceConfigStatus.message);
 table.addRow(dbConnectStatus.status, dbConnectStatus.message);
+table.addRow(passwordConfigStatus.status, passwordConfigStatus.message);
 routes(app)
 app.listen(PORT, () => {
     console.log(table.toString());

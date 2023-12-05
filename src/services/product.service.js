@@ -24,7 +24,8 @@ const getImage = async (id) => {
 const getById = async (id) => {
     try {
         console.log(id)
-        const product = Product.findById(id);
+        const product = await Product.findById(id);
+        console.log(product)
         return await product;
     } catch (e) {
         return ErrorMessage(400, "Product not found");

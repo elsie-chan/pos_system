@@ -7,7 +7,7 @@ import {Roles} from "../../constants/roles.js";
 
 const router = express.Router();
 
-router.post("/create", validation, AuthMiddleware.requireRole([Roles.ADMIN]), ApiAuthController.create.bind(ApiAuthController));
+router.post("/create", validation, ApiAuthController.create.bind(ApiAuthController));
 router.get("/verify_account", validation, ApiAuthController.authenticate.bind(ApiAuthController));
 router.post("/send_mail", validation, AuthMiddleware.requireRole([Roles.ADMIN]), ApiAuthController.resendMail.bind(ApiAuthController));
 router.get("/active", validation, ApiAuthController.setActive.bind(ApiAuthController));
@@ -62,6 +62,7 @@ router.post("/authenticate", validation, (req, res, next) => {
             if (!account) {
                 req.session.accounts.push({
                     _id: user._id,
+                    fullname: user.fullname,
                     email: user.email,
                     token: user.token,
                     refreshToken: user.refreshToken
@@ -93,7 +94,7 @@ router.get("/google/callback", (req, res, next) => {
             return next(err);
         }
 
-        if (info) {
+        if (info.hasOwnProperty("message")) {
             req.flash('error', info.message);
             console.log(info.message);
         }
@@ -103,6 +104,7 @@ router.get("/google/callback", (req, res, next) => {
 
         req.logIn(user, function ( err ) {
             if (err) {
+                req.flash('error', err.message);
                 return next(err);
             }
             console.log("user", user)
@@ -111,9 +113,14 @@ router.get("/google/callback", (req, res, next) => {
             if (!account) {
                 req.session.accounts.push({
                     _id: user._id,
+                    fullname: user.fullname,
                     email: user.email,
                     token: user.token,
                     refreshToken: user.refreshToken
+                });
+                res.cookie('token', user.token, {
+                    maxAge: 1000 * 60 * 24 * 7, // 7 days
+                    httpOnly: true
                 });
             }
             req.session.save();

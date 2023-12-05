@@ -6,10 +6,15 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import {variables} from "./index.js";
 
+const TAG = "PASSPORT_CONFIG";
+const {
+    JWT_ACCESS
+} = variables;
 import session from "express-session";
 import AuthService from "../services/auth.service.js";
 import Account from "../models/account.model.js";
 
+console.log(TAG,"JWT_ACCESS", JWT_ACCESS)
 const jwtOptions = {
     jwtFromRequest: function ( req ) {
         let token = null, refreshToken = null;
@@ -21,10 +26,10 @@ const jwtOptions = {
             return null;
         }
 
-        console.log("token", token)
+        console.log(TAG, "token", token)
         return token;
     },
-    secretOrKey: variables.JWT_ACCESS
+    secretOrKey: JWT_ACCESS
 }
 
 const localOptions = {
@@ -101,7 +106,7 @@ const googleStrategy = new GoogleStrategy({
                 return done(null, false, { message: "The account has not changed its password. Please change your password before login" });
             }
         } else {
-            return done(null, false);
+            return done(null, false, { message: "Account not found" });
         }
     } catch (e) {
         console.log(e)
@@ -133,10 +138,9 @@ export default function passportConfig( app ) {
         }
     })
 
-    passport.use('jwt', strategy)
     passport.use('local', localStrategy);
     passport.use('google', googleStrategy);
-
+    passport.use('jwt', strategy);
     app.use(passport.initialize());
     app.use(passport.session());
     return {

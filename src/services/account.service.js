@@ -69,12 +69,13 @@ async function update(data) {
 
 async function lockAccount(id) {
     try {
+        console.log(id)
         const isLock = await isLockAccount(id)
         const account = await Account.findById(id);
         if (!account) {
             return null
         } else {
-            if (account.role.equals(Roles.ADMIN)) {
+            if (account.role === Roles.ADMIN) {
                 return ErrorMessage(400, "Can't lock admin account")
             }
             if (isLock) {

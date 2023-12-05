@@ -8,7 +8,9 @@ class ApiInvoiceController {
                 ...req.body,
                 take: req.body.take,
                 products: req.session.products,
-                accounts: {_id: req.session.accounts[0]._id, email: req.session.accounts[0].email},
+                accounts: {_id: req.session.accounts[0]._id,
+                    fullname: req.session.accounts[0].fullname,
+                    email: req.session.accounts[0].email},
             }
             const newInvoice = await InvoiceService.createInvoice(data);
             req.session.products = []

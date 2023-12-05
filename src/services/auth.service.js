@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import Account, {findAccount, verifyAccount} from "../models/account.model.js";
 import {AccountError, ErrorMessage} from "../errors/index.js";
 import {generateRefreshToken, generateToken} from "../utils/index.js";
+import {Roles} from "../constants/roles.js";
 
 async function createAccount(data) {
     try {
@@ -16,8 +17,14 @@ async function createAccount(data) {
         const defaultPassword = username;
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(defaultPassword, salt);
-        const token = generateToken(data);
-        const refreshToken = generateRefreshToken(data);
+        const token =await generateToken({
+            username,
+            role: Roles.STAFF
+        });
+        const refreshToken =await generateRefreshToken({
+            username,
+            role: Roles.STAFF
+        });
         const newAccount = new Account({
             ...data,
             username: username,
@@ -38,7 +45,7 @@ async function createAccount(data) {
 async function authenticate(data) {
     console.log(data)
     return new Promise(async (resolve, reject) => {
-        const isOk = verifyAccount(data);
+        const isOk = await verifyAccount(data);
         if (!isOk) {
             return reject(isOk);
         }
@@ -70,17 +77,16 @@ async function resetPassword(id, data) {
             return null;
         }
         const isMatch = await bcrypt.compare(account.password, data.newPassword);
-        if (!isMatch) {
+        if (isMatch) {
             return ErrorMessage(400, "New password must be different from old password");
-        } else if (data.newPassword === data.confirmPassword) {
+        } else {
+            console.log(data.newPassword)
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(data.newPassword, salt);
             account.password = hashedPassword;
             account.logging = true;
             await account.save();
             return account;
-        } else {
-            return ErrorMessage(400, "Password not match");
         }
     } catch (e) {
         return ErrorMessage(500, "Server errors", e);

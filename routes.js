@@ -16,6 +16,7 @@ import { rateLimit } from 'express-rate-limit'
 import Table from "ascii-table";
 import {AuthMiddleware} from "./src/middleware/index.js";
 import {Roles} from "./src/constants/roles.js";
+import {rememberMe} from "./src/validator/index.js";
 
 const table = new Table('Route Table');
 

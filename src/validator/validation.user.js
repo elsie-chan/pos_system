@@ -10,14 +10,14 @@ const rememberMe = async (req, res, next) => {
         }
         console.log("remember", remember)
         //     authentication with passport jwt strategy
-        await passport.authenticate('jwt', { session: false }, async ( err, user, info ) => {
+        await passport.authenticate('jwt', { session: true }, async ( err, user, info ) => {
             if (err) {
                 console.log("err", err)
                 return next(err);
             }
 
             if (info) {
-                console.log("info", info)
+                console.log("validate info", info)
                 return next();
             }
 
@@ -30,6 +30,7 @@ const rememberMe = async (req, res, next) => {
 
             req.logIn(user, async function (err) {
                 if (err) {
+                    console.log("validation user err", err)
                     return next(err);
                 }
 
