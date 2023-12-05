@@ -1,5 +1,6 @@
 import {AccountService, InvoiceService} from '../../services/index.js'
 import {paginate} from "../../utils/index.js";
+import {findAccount} from "../../models/account.model.js";
 
 class ApiAccountController {
     async deleteAll(req, res) {
@@ -39,6 +40,19 @@ class ApiAccountController {
             return res.status(500).json({message: e.message})
         }
     }
+    async getOne(req, res) {
+        try {
+            const id = req.user.id;
+            const account = await findAccount(id);
+            if (account == null) {
+                throw new Error("Account not found");
+            }
+            return account;  // Return the account data
+        } catch (e) {
+            console.log(e);
+            throw e;  // Rethrow the error to be handled in the router
+        }
+    }
 
     async delete(req, res) {
         try {
@@ -72,8 +86,9 @@ class ApiAccountController {
         try {
             const data = {
                 files: req.files,
-                id: req.params.id
+                id: req.user.id
             }
+            console.log(data)
             const updateAvatar = await AccountService.changeAvatar(data)
             console.log(updateAvatar)
             if (updateAvatar == null) {

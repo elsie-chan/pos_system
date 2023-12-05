@@ -132,7 +132,7 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account setting</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link  " href="">
+                <a class="nav-link  " href="/profile">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>customer-support</title>
@@ -230,6 +230,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card m-1">
+                    <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col mx-4">
                             <h6>Accounts table</h6>
@@ -250,7 +251,8 @@
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Staff</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sales</th>
-                                    <th class="text-secondary opacity-7"></th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mail</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Inactivate status</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Locked</th>
                                 </tr>
                                 </thead>
@@ -263,7 +265,7 @@
                                                 <img src="/images/uploads/avatars/<%= account.avatar || 'avatar.png' %> " class="avatar avatar-sm me-3" alt="user1">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><%= account.name %></h6>
+                                                <h6 class="mb-0 text-sm"><%= account.fullname %></h6>
                                                 <p class="text-xs text-secondary mb-0"><%= account.email %></p>
                                             </div>
                                         </div>
@@ -278,6 +280,9 @@
                                         <a href="#" class="resendEmail text-secondary font-weight-bold text-xs" data-email="<%= account.email %>">
                                             Resend email
                                         </a>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <input class="lockAccount" type="checkbox" name="locked" <%= account.logging === true? 'checked' : '' %> value="" data-id="<%= account._id %>">
                                     </td>
                                     <td class="align-middle text-center text-sm">
                                         <input class="lockAccount" type="checkbox" name="locked" <%= account.isLocked === true? 'checked' : '' %> value="" data-id="<%= account._id %>">
@@ -315,6 +320,7 @@
                             </li>
                         </ul>
                     </nav>
+                    </div>
                 </div>
             </div>
         </div>

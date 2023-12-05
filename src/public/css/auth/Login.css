@@ -38,17 +38,17 @@
 
   .form-group button  {
     width: 80%;
-    padding: 15px;
-    font-size: large;
-    background-color: #8BB5BE;
-    color: black;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  .form-group button:hover {
-    background-color: #6C8C9B;
-    color: #fff;
+  /*  padding: 15px;*/
+  /*  font-size: large;*/
+  /*  background-color: #8BB5BE;*/
+  /*  color: black;*/
+  /*  border: none;*/
+  /*  border-radius: 5px;*/
+  /*  cursor: pointer;*/
+  /*}*/
+  /*.form-group button:hover {*/
+  /*  background-color: #6C8C9B;*/
+  /*  color: #fff;*/
   }
 
   .form-group a {
