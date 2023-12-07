@@ -64,7 +64,7 @@ class ApiAuthController {
 
     async logout(req, res) {
         console.log(req.user)
-        const id = req.user.id
+        const id = req.session.accounts[0]._id
         console.log("id", id)
         const account = await findAccount(id);
         if (account.message) {

@@ -12,14 +12,17 @@ class AuthController {
 
     changePassword(req, res) {
         res.render('layouts/auth/resetpassword', {
-            title: 'Reset Password',
+            title: 'Change Password',
             flash: req.flash() || null
         }
         );
     }
 
     resetPassword(req, res) {
-        res.render('layouts/auth/ResetPass', {error: req.flash('error') || null});
+        res.render('layouts/auth/reset', {
+            title: 'Reset Password',
+            error: req.flash('error') || null
+        });
     }
 }
 

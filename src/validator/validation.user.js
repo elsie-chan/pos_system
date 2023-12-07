@@ -33,7 +33,14 @@ const rememberMe = async (req, res, next) => {
                     console.log("validation user err", err)
                     return next(err);
                 }
-
+                req.session.accounts = req.session?.accounts || [];
+                req.session.accounts.push({
+                    _id: user._id,
+                    fullname: user.fullname,
+                    email: user.email,
+                    token: user.token,
+                    refreshToken: user.refreshToken
+                });
                 next();
             })
         })(req, res, next);

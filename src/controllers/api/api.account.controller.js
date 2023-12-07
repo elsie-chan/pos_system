@@ -109,6 +109,9 @@ class ApiAccountController {
             if (account == null) {
                 return res.status(404).json({message: "Account not found"})
             }
+            if (account.status === 400) {
+                return res.status(400).json({message: account.message})
+            }
             return res.status(200).json({message: account})
         } catch (e) {
             console.log(e)
