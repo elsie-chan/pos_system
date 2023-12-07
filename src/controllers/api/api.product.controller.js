@@ -51,6 +51,16 @@ class ApiProductController {
             return res.status(500).json({ message: e.message })
         }
     }
+
+    async findProduct(req, res) {
+        const name = req.body;
+        try {
+            const product = await ProductService.findProduct(name);
+            return res.status(200).json(product)
+        } catch (e) {
+            return res.status(500).json({ message: e.message })
+        }
+    }
 }
 
 

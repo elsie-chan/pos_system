@@ -64,7 +64,7 @@ async function getStatisticInvoice(value) {
         return {
             invoices: invoices,
             revenue: revenue,
-            staffQuantity: checkDuplicateElementForStaff(staff).length,
+            invoiceQuantity: invoices.length,
             customerQuantity: findDuplicateElementForCustomer(customer).length,
             productQuantity: findDuplicatesForProduct(product).length,
         };
@@ -108,7 +108,7 @@ async function filterInvoiceBySpecificDate(from, to) {
         return {
             invoices: invoices,
             revenue: revenue,
-            staffQuantity: checkDuplicateElementForStaff(staff).length,
+            invoiceQuantity: invoices.length,
             customerQuantity: findDuplicateElementForCustomer(customer).length,
             productQuantity: findDuplicatesForProduct(product).length,
         };

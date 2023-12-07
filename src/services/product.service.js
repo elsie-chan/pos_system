@@ -31,6 +31,21 @@ const getById = async (id) => {
         return ErrorMessage(400, "Product not found");
     }
 }
+
+const findProduct = async (name) => {
+    try {
+        const product = await Product.findOne({
+            name: name
+        });
+        if (!product) {
+            return null;
+        }
+        return product;
+    } catch (e) {
+        return ErrorMessage(400, "Product not found");
+    }
+}
+
 const create = async (data, files) => {
     try {
         if (!files) {
@@ -98,5 +113,5 @@ const deleteProduct = async (id) => {
     }
 }
 
-export default { getAll , getById, create, update, deleteProduct, getImage };
+export default { getAll , getById, create, update, deleteProduct, getImage, findProduct };
 
