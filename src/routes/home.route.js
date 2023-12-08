@@ -9,7 +9,7 @@ import {StatisticService} from "../services/index.js";
 
 const router = express.Router();
 
-router.get("/checkout", async (req, res) => {
+router.get("/checkout", rememberMe, async (req, res) => {
     const account = await ApiAccountController.getOne(req);
     const productsInCookie = req.cookies.products || [];
     const totalPrice = productsInCookie.reduce((total, product) => {
@@ -18,11 +18,11 @@ router.get("/checkout", async (req, res) => {
     console.log(productsInCookie)
     res.render('layouts/checkout', {title: 'Checkout', image: account.avatar, order: productsInCookie, total: totalPrice});
 });
-router.get("/reset", (req, res) => {
+router.get("/reset", rememberMe, (req, res) => {
     console.log(req.session.accounts)
     res.render('layouts/auth/reset', {title: 'Change Password', role : req.session.accounts[0].role});
 });
-router.get("/profile", async (req, res) => {
+router.get("/profile", rememberMe, async (req, res) => {
     try {
         const account = await ApiAccountController.getOne(req);
         console.log(account);
@@ -43,7 +43,7 @@ router.put("/update_quantity/:id", AuthMiddleware.requireRole([Roles.ADMIN, Role
 
 router.get("/",  rememberMe, validation, async ( req, res ) => {
     const products = await ApiProductController.getAll(req, res);
-    const account = await ApiAccountController.getOne(req);
+    const account = await ApiAccountController.getOne(req, res);
     const productsInCookie = req.cookies.products || [];
     const totalPrice = productsInCookie.reduce((total, product) => {
         return total + product.information.retailPrice * product.quantity;
@@ -51,7 +51,7 @@ router.get("/",  rememberMe, validation, async ( req, res ) => {
     console.log(productsInCookie)
     res.render('layouts/home', {title: 'Home', products: products.data, pagination: products.pagination, image: account.avatar, order: productsInCookie, total: totalPrice});
 })
-router.get("/statistic", validation, async ( req, res ) => {
+router.get("/statistic", rememberMe, validation, async ( req, res ) => {
     const statistic = await StatisticService.getStatisticInvoice('today');
     console.log(statistic)
     res.render('layouts/statistic', {title: 'Statistic', statistic: statistic});

@@ -187,8 +187,7 @@ async function getInvoiceByAccount(id) {
         if (invoices == null) {
             return null
         }
-
-
+        console.log(invoices.length)
         return invoices;
     } catch (e) {
         console.log(e)

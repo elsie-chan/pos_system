@@ -42,4 +42,25 @@ const generateRefreshToken = (data) => {
     })
 }
 
-export {generateToken, generateRefreshToken};
+const genrateTokenForActive = (data) => {
+    console.log("data", data)
+    console.log("JWT_ACCESS", variables.JWT_ACCESS);
+    return new Promise((resolve, reject) => {
+        jwt.sign({
+                id: data._id,
+                username: data.username,
+                role: data.role,
+            },
+            variables.JWT_ACCESS,
+            {expiresIn: variables.JWT_TOKEN_ACTIVE, algorithm: "HS256",},
+            (err, token) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(token);
+            }
+        );
+    })
+}
+
+export {generateToken, generateRefreshToken, genrateTokenForActive};

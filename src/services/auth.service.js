@@ -97,13 +97,16 @@ async function changePassword(data) {
     try {
         const account = await Account.findById(data.id);
         if (!account) {
-            return null;
+            return ErrorMessage(400, "Account not found");
+        }
+        if (data.newPassword !== data.confirmPassword) {
+            return ErrorMessage(400, "Confirm password is not match");
         }
         const isMatch1 = await bcrypt.compare(data.oldPassword, account.password);
         if (!isMatch1) {
             return ErrorMessage(400, "Current password is incorrect");
         }
-        const isMatch = await bcrypt.compare(data.oldPassword, data.newPassword);
+        const isMatch = await bcrypt.compare(data.newPassword, account.password);
         console.log(data.oldPassword, data.newPassword)
         console.log(isMatch)
         if (isMatch) {

@@ -97,11 +97,11 @@ function salesAccount(id) {
         processData: false,
         success: function (data) {
             console.log(data);
-            if (data.data.length === 0) {
+            if (data.length === 0) {
                 $('#invoice__list').append(`<h5 class="text-center">No invoice</h5>`);
                 return;
             }
-            data.data.forEach(function (invoice) {
+            data.forEach(function (invoice) {
                 const template = `
                 <div class="card mb-2">
                                 <div class="card-body">

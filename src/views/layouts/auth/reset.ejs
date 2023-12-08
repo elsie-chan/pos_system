@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
@@ -11,7 +11,7 @@
     </title>
     <link rel="icon" href="/images/favicon.png" type="image/x-icon"/>
     <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet"/>
-    <link id="pagestyle" href="/css/admin/account.css" rel="stylesheet" />
+    <link id="pagestyle" href="/css/admin/account.css" rel="stylesheet"/>
 </head>
 
 <body class="">
@@ -20,7 +20,9 @@
         <div class="col-12">
             <nav class="mt-4" aria-label="breadcrumb ">
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="<%= (role ==='ADMIN')? '/admin/dashboard' : '/'%>">Back</a></li>
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark"
+                                                           href="<%= (role === 'ADMIN') ? '/admin/dashboard' : '/' %>">Back</a>
+                    </li>
                     <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Change password</li>
                 </ol>
             </nav>
@@ -40,25 +42,34 @@
                                 <p class="mb-0">Enter your current password and new password</p>
                             </div>
                             <div class="card-body">
-                                <form action="#" role="form">
+                                <form action="#" role="form" id="formChangePassword">
                                     <label>Current password</label>
                                     <div class="mb-3">
-                                        <input id="oldPassword" type="password" class="form-control" placeholder="Current password" aria-label="Current password" aria-describedby="email-addon">
+                                        <input id="oldPassword" type="password" class="form-control"
+                                               placeholder="Current password" aria-label="Current password"
+                                               aria-describedby="email-addon">
                                     </div>
                                     <label>New password</label>
                                     <div class="mb-3">
-                                        <input id="newPassword" type="password" class="form-control" placeholder="New Password" aria-label="New Password" aria-describedby="password-addon">
+                                        <input id="newPassword" type="password" class="form-control"
+                                               placeholder="New Password" aria-label="New Password"
+                                               aria-describedby="password-addon">
                                     </div>
                                     <label>Confirm new password</label>
                                     <div class="mb-3">
-                                        <input id="confirmPassword" type="password" data-rule-pw="true" data-rule-equalTo="#newPassword" required class="form-control" placeholder="Confirm new password" aria-label="Confirm new password" aria-describedby="password-addon2">
+                                        <input id="confirmPassword" type="password" data-rule-pw="true"
+                                               data-rule-equalTo="#newPassword" required class="form-control"
+                                               placeholder="Confirm new password" aria-label="Confirm new password"
+                                               aria-describedby="password-addon2">
                                     </div>
 
                                     <div class="text-center">
-                                        <span class="text-sm text-danger message"></span>
+                                        <span class="text-sm text-danger message text-error"></span>
                                     </div>
                                     <div class="text-center">
-                                        <button type="button" class="save btn bg-gradient-primary w-100 mt-4 mb-0">Save changes</button>
+                                        <button type="button" class="save btn bg-gradient-primary w-100 mt-4 mb-0">Save
+                                            changes
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -67,7 +78,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
-                            <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('/images/reset.png')"></div>
+                            <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6"
+                                 style="background-image:url('/images/reset.png')"></div>
                         </div>
                     </div>
                 </div>
@@ -83,27 +95,37 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"
 ></script>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+        integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 <script src='/js/admin/script.js'></script>
 <script>
     $(document).ready(function () {
-        $('.save').on('click', () => {
+        $('.save').on('click', (e) => {
+            if ($('#newPassword').val() === ""  || $('#confirmPassword').val() === "" || $('#oldPassword').val() === "") {
+                $('.text-error').text('Please enter all fields');
+                return;
+            }
             $.ajax({
                 url: '/api/v1/auth/change_password',
                 type: 'POST',
                 data: {
                     oldPassword: $('#oldPassword').val(),
                     newPassword: $('#newPassword').val(),
+                    confirmPassword: $('#confirmPassword').val()
                 },
                 dataType: 'json',
                 success: function (data) {
                     console.log(data);
-                    toastr.success(data.message);
-                    window.location.href = '/admin/dashboard';
+                    toastr.success('Success', 'Change Password successful', {timeOut: 5000});
+                    window.location.href = '/api/v1/auth/logout';
                 },
                 error: function (data) {
                     console.log(data);
-                    $('.message').text(data.responseJSON.errors);
+                    $('.text-error').text(data.responseJSON.errors);
                 }
             })
         })

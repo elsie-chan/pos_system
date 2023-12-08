@@ -66,7 +66,7 @@ async function getStatisticInvoice(value) {
             revenue: revenue,
             invoiceQuantity: invoices.length,
             customerQuantity: findDuplicateElementForCustomer(customer).length,
-            productQuantity: findDuplicatesForProduct(product).length,
+            productQuantity: product.length,
         };
     } catch (e) {
         console.log(e)
@@ -110,7 +110,7 @@ async function filterInvoiceBySpecificDate(from, to) {
             revenue: revenue,
             invoiceQuantity: invoices.length,
             customerQuantity: findDuplicateElementForCustomer(customer).length,
-            productQuantity: findDuplicatesForProduct(product).length,
+            productQuantity: product.length,
         };
     } catch (e) {
         console.log(e)

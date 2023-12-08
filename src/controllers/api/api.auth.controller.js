@@ -2,6 +2,7 @@ import {AuthService} from "../../services/index.js";
 import Account, {findAccount} from "../../models/account.model.js";
 import mailService from "../../services/mail.service.js";
 import {variables} from "../../configuration/index.js";
+import {genrateTokenForActive, verifyToken} from "../../utils/index.js";
 
 
 class ApiAuthController {
@@ -18,7 +19,7 @@ class ApiAuthController {
             context: {
                 name: account.name,
                 email: account.email,
-                url: `${variables.URL}:${variables.PORT}/api/v1/auth/validate/${generateToken()}?email=${account.email}&success_redirect=auth/change_password/${account._id}&failure_redirect=auth/failed_active&token=${account.token}`,
+                url: `${variables.URL}:${variables.PORT}/api/v1/auth/validate/${await genrateTokenForActive(account)}?email=${account.email}&success_redirect=auth/change_password/${account._id}&failure_redirect=auth/failed_active&token=${account.token}`,
             }
         });
         return res.status(200).json(account);
@@ -93,7 +94,7 @@ class ApiAuthController {
                 context: {
                     name: account.fullname,
                     email: account.email,
-                    url: `${variables.URL}:${variables.PORT}/api/v1/auth/validate/${generateToken()}?email=${account.email}`,
+                    url: `${variables.URL}:${variables.PORT}/api/v1/auth/validate/${await genrateTokenForActive(account)}?email=${account.email}`,
                 }
             });
             return res.status(200).json({message: "Send mail success"});
@@ -105,8 +106,9 @@ class ApiAuthController {
 
     async validate(req, res) {
         const {token} = req.params;
+        const decodeToken = await verifyToken(token).then((data) => data).catch((e) => null);
         // Check if the token exists and is still valid.
-        if (tokenMap.has(token) && tokenMap.get(token) > Date.now()) {
+        if (decodeToken && decodeToken.exp > Date.now() / 1000) {
             console.log('Valid token.');
             res.redirect('/api/v1/auth/active?email=' + req.query.email + `&success_redirect=auth/change_password/${token}/&failure_redirect=auth/failed_active?code=` + token);
         } else {
@@ -146,6 +148,7 @@ class ApiAuthController {
                 id: req.user.id,
                 oldPassword: req.body.oldPassword,
                 newPassword: req.body.newPassword,
+                confirmPassword: req.body.confirmPassword
             }
             const account = await AuthService.changePassword(data);
             if (account == null) {
@@ -162,13 +165,13 @@ class ApiAuthController {
     }
 }
 
-const tokenMap = new Map();
+// const tokenMap = new Map();
 
-function generateToken() {
-    const token = Math.random().toString(36).substring(7);
-    const expirationTime = Date.now() + 60000; // 1 minute from now
-    tokenMap.set(token, expirationTime);
-    return token;
-}
+// function generateToken() {
+//     const token = Math.random().toString(36).substring(7);
+//     const expirationTime = Date.now() + 60000; // 1 minute from now
+//     tokenMap.set(token, expirationTime);
+//     return token;
+// }
 
 export default new ApiAuthController();

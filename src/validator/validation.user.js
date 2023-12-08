@@ -34,13 +34,19 @@ const rememberMe = async (req, res, next) => {
                     return next(err);
                 }
                 req.session.accounts = req.session?.accounts || [];
-                req.session.accounts.push({
-                    _id: user._id,
-                    fullname: user.fullname,
-                    email: user.email,
-                    token: user.token,
-                    refreshToken: user.refreshToken
-                });
+                const account = req.session.accounts.find(account => account._id === user._id);
+                if (!account) {
+                    req.session.accounts.push({
+                        _id: user._id,
+                        fullname: user.fullname,
+                        email: user.email,
+                        role: user.role,
+                        token: user.token,
+                        refreshToken: user.refreshToken
+                    });
+                }
+                req.session.save();
+                console.log(req.session)
                 next();
             })
         })(req, res, next);

@@ -95,14 +95,13 @@ class ApiInvoiceController {
     }
 
     async getInvoiceByAccountId(req, res) {
-        let page = req.query.page || 1
         const id = req.params.id
         try {
             const accounts = await InvoiceService.getInvoiceByAccount(id)
             if (accounts == null) {
                 return res.status(404).json({message: "Account not found"})
             }
-            return res.status(200).json(paginate(accounts, page, 10))
+            return res.status(200).json(accounts)
         } catch (e) {
             console.log(e)
             req.flash("errors", e.message)
@@ -118,7 +117,7 @@ async getInvoiceByCustomerId(req, res) {
             if (customer == null) {
                 return res.status(404).json({message: "Account not found"})
             }
-            return res.status(200).json(paginate(customer, page, 10))
+            return res.status(200).json(customer)
         } catch (e) {
             console.log(e)
             req.flash("errors", e.message)
