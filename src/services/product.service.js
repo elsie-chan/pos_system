@@ -34,17 +34,19 @@ const getById = async (id) => {
 
 const findProduct = async (name) => {
     try {
-        const product = await Product.findOne({
-            name: name
+        const products = await Product.find({
+            name: { $regex: new RegExp(name, 'i') }
         });
-        if (!product) {
+
+        if (!products || products.length === 0) {
             return null;
         }
-        return product;
+        return products;
     } catch (e) {
         return ErrorMessage(400, "Product not found");
     }
-}
+};
+
 
 const create = async (data, files) => {
     try {

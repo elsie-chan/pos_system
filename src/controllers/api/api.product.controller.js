@@ -53,7 +53,8 @@ class ApiProductController {
     }
 
     async findProduct(req, res) {
-        const name = req.body;
+        const {name} = req.body;
+        console.log(name)
         try {
             const product = await ProductService.findProduct(name);
             return res.status(200).json(product)

@@ -252,7 +252,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Staff</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sales</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mail</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Inactivate status</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Activate status</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Locked</th>
                                 </tr>
                                 </thead>
@@ -282,7 +282,7 @@
                                         </a>
                                     </td>
                                     <td class="align-middle text-center text-sm">
-                                        <input class="lockAccount" type="checkbox" name="locked" <%= account.logging === true? 'checked' : '' %> value="" data-id="<%= account._id %>">
+                                        <input class="" type="checkbox" name="locked" <%= account.logging === true? 'checked' : '' %> value="" data-id="<%= account._id %>" disabled>
                                     </td>
                                     <td class="align-middle text-center text-sm">
                                         <input class="lockAccount" type="checkbox" name="locked" <%= account.isLocked === true? 'checked' : '' %> value="" data-id="<%= account._id %>">

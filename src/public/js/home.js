@@ -4,6 +4,11 @@ $(document).ready(function () {
         console.log(id)
         addProductToSession(id);
     });
+    $('#addProductByNameBtn').on('click', function () {
+        const name = $('.barcode').val();
+        console.log(name);
+        searchProductByName(name);
+    });
     $('#addProductBtn').on('click', function () {
        const barcode = $('.barcode').val();
         console.log(barcode)
@@ -37,7 +42,7 @@ function addProductToSession(id) {
                                     <td class="text-right">
                                         <h5 class="m-0 text-truncate">${product.information.name}</h5>
                                         <p class="mb-0 text-muted">${'$'+product.information.retailPrice}</p>
-                                        <input type="text" class="form-text w-20 p-0 m-0 form-control-plaintext quantity" data-id="${product.id}" value="${product.quantity}"/>
+                                        <input type="text" class="form-text w-20 p-0 m-0 form-control-plaintext quantity" data-id="${product.id}" data-quantity="${product.id}" value="${product.quantity}"/>
                                     </td>
                                     <td class="text-right cursor-pointer deleteProduct" data-id="${product.id}">
                                         <box-icon type='solid' name='trash'></box-icon>
@@ -152,6 +157,64 @@ function updateQuantity(id, quantity) {
                 const quantity = $(this).val();
                 console.log(id, quantity)
                 updateQuantity(id, quantity);
+            });
+            $('.deleteProduct').on('click', function () {
+                const id = $(this).data('id');
+                console.log(id)
+                deleteProductFromSession(id);
+            });
+        },
+        error: function (err) {
+            console.log(err)
+        }
+    })
+}
+
+function searchProductByName(name) {
+    console.log(name)
+    $.ajax({
+        url: '/api/product/find',
+        method: 'POST',
+        data: JSON.stringify({
+            name
+        }),
+        contentType: 'application/json',
+        success: function (response) {
+            console.log(response)
+            if(response.length === 0) {
+                toastr.error('No available product', {timeOut: 3000})
+                return;
+            }
+            $('.product--list').html(response.map(product => {
+                return `
+                    <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                                <div class="card text-center addProduct" data-id="${ product._id }">
+                                    <img
+                                            class="card-img-top"
+                                            src="/images/uploads/products/${ product.image ? product.image : '1698328374688.png' }"
+                                            alt="Card image"
+                                            width="200px"
+                                            height="200px"
+                                    />
+                                    <div class="card-body">
+                                        <h4 class="card-title text-truncate" data-bs-toggle="tooltip"
+                                            title="${ product.name }">${ product.name }</h4>
+                                        <p class="card-text">${'$'+ product.retailPrice }</p>
+                                        <a href="#" class="stretched-link"></a>
+                                    </div>
+                                </div>
+                            </div>
+                `
+            }));
+            $('.addProduct').on('click', function () {
+                const id = $(this).data('id');
+                console.log(id)
+                addProductToSession(id);
+            });
+            $('.deleteProduct').on('click', function () {
+                const id = $(this).data('id');
+                console.log(id)
+                deleteProductFromSession(id);
             });
         },
         error: function (err) {
