@@ -14,7 +14,7 @@ const createInvoice = async (data) => {
             return ErrorMessage(400, "Product is empty");
         }
         for (let i = 0; i < data.products.length; i++) {
-            const productExist = await ProductService.getById(data.products[i].product);
+            const productExist = await ProductService.getById(data.products[i].id);
             if (productExist == null) {
                 return ErrorMessage(400, "Product not found");
             } else {

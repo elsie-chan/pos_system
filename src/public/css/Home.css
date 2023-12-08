@@ -8,36 +8,20 @@
   margin: 10px 0; /* Khoảng cách trên và dưới đường kẻ ngang */
 }
 
-.row button {
-  width: 100%;
-  padding: 15px;
-  font-size: large;
-  background-color: #8bb5be;
-  color: black;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-}
 
-.normal-text {
-  font-weight: normal;
-}
+
+
 
 .slide-bar {
   position: fixed;
   left: 0;
 }
 
-.main {
-  position: absolute;
-  left: 125px;
-}
 
-.order {
-  position: fixed;
-  right: 0;
-}
+/*.order {*/
+/*  position: fixed;*/
+/*  right: 0;*/
+/*}*/
 
 .slidebar-list {
   list-style: none;

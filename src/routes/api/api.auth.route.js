@@ -64,6 +64,7 @@ router.post("/authenticate", validation, (req, res, next) => {
                     _id: user._id,
                     fullname: user.fullname,
                     email: user.email,
+                    role: user.role,
                     token: user.token,
                     refreshToken: user.refreshToken
                 });

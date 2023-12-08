@@ -1,6 +1,5 @@
 $(document).ready(function () {
     uploadImage();
-    uploadImageEdit();
 
     $('.saveProductBtn').on('click', function () {
         addProduct();
@@ -9,6 +8,7 @@ $(document).ready(function () {
         let id = $(this).attr('data-id');
         console.log(id)
         fillData(id);
+        uploadImageEdit();
         $('.saveEditProductBtn').on('click', function () {
             updateProduct(id);
         });
@@ -42,7 +42,7 @@ function uploadImageEdit() {
     let imageFile = $('#edit--image_file');
     let imagePreview = $('#edit--image_preview');
     let imagePath;
-    console.log('edit image preview",',$('#edit--image_preview').attr('src'));
+    console.log('edit image preview:'+ imagePreview.attr('src'));
 
     imageFile.on('change', function () {
         console.log("edit image");
@@ -107,6 +107,7 @@ function updateProduct(id) {
     let retailPrice = $('#edit--retail_price').val();
     let category = $('#edit--product_category').val();
     let image = $('#edit--image_file')[0].files[0];
+    console.log(image)
 
     let data = new FormData()
     data.append('name', name)
@@ -115,6 +116,8 @@ function updateProduct(id) {
     data.append('retailPrice', retailPrice)
     data.append('category', category)
     data.append('image', image)
+
+    console.log(data)
 
     $.ajax({
         url: '/api/product/update/' + id,

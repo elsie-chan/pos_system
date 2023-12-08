@@ -7,14 +7,14 @@ class ApiInvoiceController {
             const data = {
                 ...req.body,
                 take: req.body.take,
-                products: req.session.products,
+                products: req.cookies.products,
                 accounts: {_id: req.session.accounts[0]._id,
                     fullname: req.session.accounts[0].fullname,
                     email: req.session.accounts[0].email},
             }
+            console.log(data)
             const newInvoice = await InvoiceService.createInvoice(data);
-            req.session.products = []
-            req.session.save()
+            res.clearCookie('products');
             return res.status(200).json(newInvoice);
         } catch (e) {
             return res.status(500).json({message: e.message})

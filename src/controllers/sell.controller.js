@@ -1,23 +1,31 @@
+import Product from "../models/product.model.js";
+
 class SellController {
     async addProductToSession(req, res) {
         try {
-            const products = req.body;
-            req.session.products = req.session?.products || [];
-            // console.log(products);
-            products.forEach(product => {
-                const productExist = req.session.products.find(p => p.product._id === product._id);
-                if (productExist) {
-                    productExist.quantity += 1;
-                } else {
-                    req.session.products.push({
-                        product,
-                        quantity: 1,
-                    });
-                }
-            })
-            req.session.save();
-            console.log(req.session);
-            return res.status(200).json({message: "Add product to session successfully"});
+            const id = req.params.id;
+            const product = await Product.findById(id);
+            if (!product) {
+                return res.status(500).json({message: "Incorrect barcode"});
+            }
+            const products = req.cookies.products || [];
+            console.log(products);
+            const productInCookie = products.find(product => product.id === id);
+            if (productInCookie) {
+                productInCookie.quantity = +productInCookie.quantity + 1;
+            } else {
+                // delete product.quantity in product object
+                delete product.quantity;
+                products.push({id, quantity: 1, information: product});
+            }
+
+            const totalPrice = products.reduce((total, productEntity) => {
+                return total + productEntity.quantity * productEntity.information.retailPrice;
+            }, 0);
+
+            delete product.quantity;
+            res.cookie('products', products);
+            return res.status(200).json({products, total: totalPrice});
         } catch (e) {
             console.log(e);
             return res.status(500).json({message: e.message});
@@ -27,9 +35,16 @@ class SellController {
     async deleteProduct(req, res) {
         try {
             const {id} = req.params;
-            req.session.products = req.session.products.filter(product => product._id !== id);
-            req.session.save();
-            return res.status(200).json({message: "Delete product successfully"});
+            console.log("hehehe: ",id)
+            const products = req.cookies.products || [];
+            const productNotDelete = products.filter(product => product.id !== id);
+
+            const totalPrice = productNotDelete.reduce((total, productEntity) => {
+                return total + productEntity.quantity * productEntity.information.retailPrice;
+            }, 0);
+
+            res.cookie('products', productNotDelete);
+            return res.status(200).json({products: productNotDelete, total: totalPrice});
         } catch (e) {
             console.log(e);
             return res.status(500).json({message: e.message});
@@ -38,20 +53,32 @@ class SellController {
 
     async updateQuantity(req, res) {
         try {
-            const {id} = req.params;
-            const {quantity} = req.body;
-            req.session.products.forEach(product => {
-                if (product._id === id) {
-                    product.quantity = quantity;
+            const { id } = req.params;
+            const { quantity } = req.body;
+            console.log(quantity, id);
+
+            const products = req.cookies.products || [];
+
+            const updatedProducts = products.map(product => {
+                if (product.id === id) {
+                    return { ...product, quantity: quantity }; // Update the quantity
                 }
-            })
-            req.session.save();
-            return res.status(200).json({message: "Update quantity successfully"});
+                return product;
+            });
+
+            const totalPrice = updatedProducts.reduce((total, productEntity) => {
+                return total + productEntity.quantity * productEntity.information.retailPrice;
+            }, 0);
+
+            res.cookie('products', updatedProducts);
+
+            return res.status(200).json({ products: updatedProducts, total: totalPrice });
         } catch (e) {
             console.log(e);
-            return res.status(500).json({message: e.message});
+            return res.status(500).json({ message: e.message });
         }
     }
+
 }
 
 export default new SellController();

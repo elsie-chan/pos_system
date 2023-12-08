@@ -118,7 +118,7 @@ export default function passportConfig( app ) {
     //     config session
     app.use(session({
         secret: variables.JWT_ACCESS,
-        resave: false,
+        resave: true,
         saveUninitialized: true
     }));
 

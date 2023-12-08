@@ -15,7 +15,7 @@ const getAll = async () => {
 const getImage = async (id) => {
     try {
         const product = await Product.findById(id);
-        console.log(product)
+        console.log(product.image)
         return  product.image;
     } catch (e) {
         return ErrorMessage(400, "Product not found");
@@ -70,13 +70,19 @@ const create = async (data, files) => {
 }
 const update = async (id, data, files) => {
     try {
+        console.log(data)
         if (!files) {
             return ErrorMessage(400, "File not found");
         }
-        files = files[0];
-        data.image = files.filename;
+        console.log(files)
+        if (files.length > 0){
+            files = files[0];
+            data.image = files.filename;
+        } else {
+            data.image = await getImage(id);
+        }
 
-        const product = await Product.findByIdAndUpdate(id,data);
+        const product = await Product.findByIdAndUpdate({_id: id},{$set:data},{new:true});
         console.log(product)
         if (!product) {
             return null;

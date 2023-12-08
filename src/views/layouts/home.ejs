@@ -1,578 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8"/>
     <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     />
     <title><%= title %></title>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="icon" href="/images/favicon.png" type="image/x-icon"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
     />
-    <link rel="stylesheet" href="/css/Home.css" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div class="container-fluid p-3">
-      <div class="row">
-        <!--SLIDEBAR-->
-        <div class="col-sm-1 text-center slide-bar">
-          <img
-            src="images/logo.png"
-            class="d-block"
-            style="margin-bottom: 30px; margin-left: 15px"
-            alt="main_logo"
-          />
-          <ul class="slidebar-list">
-            <li class="slidebar-item text-dark home-item">
-              <a class="item text-dark item_active">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="28"
-                  height="24"
-                  viewBox="0 0 28 24"
-                  fill="none"
-                >
-                  <path
-                    d="M14 3.79765L21 10.1506V21.1765H18.2V12.7059H9.8V21.1765H7V10.1506L14 3.79765ZM14 0L0 12.7059H4.2V24H12.6V15.5294H15.4V24H23.8V12.7059H28L14 0Z"
-                    fill="#D8DBD9"
-                  />
-                </svg>
-                <br />
-                HOME
-              </a>
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet"/>
+    <link id="pagestyle" href="/css/admin/account.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+</head>
+<body class="">
+<div class="row m-0 p-0">
+    <aside class="col-1 d-flex flex-column flex-shrink-0 p-3 text-white  min-vh-100" style=" height: 100vh;">
+        <div class="sidenav-header h-auto">
+            <a class="navbar-brand m-0" href="/" target="_blank">
+                <img src="/images/logo.png" class="navbar-brand-img w-100" alt="main_logo">
+                <span class="ms-1 font-weight-bold"></span>
+            </a>
+        </div>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto bg-transparent">
+            <li class="nav-item mb-2">
+                <a href="/" class="nav-link ps-0 p-0 text-secondary ">
+                    <div class="border-radius-md text-center me-2 row gap-2 bg-primary py-1">
+                        <box-icon name='home-alt-2'></box-icon>
+                        <div class="col-12 text-center text-uppercase text-light text-sm ">Home</div>
+                    </div>
+
+                </a>
             </li>
-            <li class="slidebar-item payment-item">
-              <a class="item text-dark">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="28"
-                  height="24"
-                  viewBox="0 0 28 24"
-                  fill="none"
-                >
-                  <path
-                    d="M17.3756 2.66667L24.8889 9.10667V21.3333H3.11111V2.66667H17.3756ZM17.3756 0H3.11111C1.4 0 0 1.2 0 2.66667V21.3333C0 22.8 1.4 24 3.11111 24H24.8889C26.6 24 28 22.8 28 21.3333V9.10667C28 8.4 27.6733 7.72 27.0822 7.22667L19.5689 0.786667C18.9933 0.28 18.2 0 17.3756 0ZM6.22222 16H21.7778V18.6667H6.22222V16ZM6.22222 10.6667H21.7778V13.3333H6.22222V10.6667ZM6.22222 5.33333H17.1111V8H6.22222V5.33333Z"
-                    fill="#D8DBD9"
-                  />
-                </svg>
-                <br />
-                MENU
-              </a>
+            <li class="nav-item mb-2">
+                <a href="/reset" class="nav-link ps-0 p-0 text-secondary ">
+                    <div class="border-radius-md text-center me-2 row gap-2 ">
+                        <box-icon name='user'></box-icon>
+                        <div class="col-12 text-center text-uppercase text-sm">Account</div>
+                    </div>
+                </a>
             </li>
-            <li class="slidebar-item account-item" id="accountItem">
-              <a class="item text-dark">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="28"
-                  height="24"
-                  viewBox="0 0 28 24"
-                  fill="none"
-                >
-                  <path
-                    d="M24.697 13.176C24.7546 12.792 24.7977 12.408 24.7977 12C24.7977 11.592 24.7546 11.208 24.697 10.824L27.7339 8.844C28.0073 8.664 28.0793 8.34 27.9066 8.076L25.028 3.924C24.8985 3.732 24.6538 3.624 24.3947 3.624C24.3084 3.624 24.222 3.636 24.1501 3.66L20.5663 4.86C19.8178 4.38 19.0119 3.984 18.1339 3.684L17.587 0.504C17.5438 0.216 17.2415 0 16.8817 0H11.1246C10.7648 0 10.4626 0.216 10.4194 0.504L9.87246 3.684C8.9945 3.984 8.18851 4.392 7.44009 4.86L3.85629 3.66C3.76994 3.636 3.68358 3.624 3.59722 3.624C3.35255 3.624 3.10787 3.732 2.97834 3.924L0.0997871 8.076C-0.0873185 8.34 -0.00096187 8.664 0.2725 8.844L3.30937 10.824C3.2518 11.208 3.20862 11.604 3.20862 12C3.20862 12.396 3.2518 12.792 3.30937 13.176L0.2725 15.156C-0.00096187 15.336 -0.0729258 15.66 0.0997871 15.924L2.97834 20.076C3.10787 20.268 3.35255 20.376 3.61162 20.376C3.69797 20.376 3.78433 20.364 3.85629 20.34L7.44009 19.14C8.18851 19.62 8.9945 20.016 9.87246 20.316L10.4194 23.496C10.4626 23.784 10.7648 24 11.1246 24H16.8817C17.2415 24 17.5438 23.784 17.587 23.496L18.1339 20.316C19.0119 20.016 19.8178 19.608 20.5663 19.14L24.1501 20.34C24.2364 20.364 24.3228 20.376 24.4091 20.376C24.6538 20.376 24.8985 20.268 25.028 20.076L27.9066 15.924C28.0793 15.66 28.0073 15.336 27.7339 15.156L24.697 13.176ZM21.8472 11.124C21.9048 11.496 21.9192 11.748 21.9192 12C21.9192 12.252 21.8904 12.516 21.8472 12.876L21.6457 14.232L22.9267 15.072L24.4811 16.08L23.4736 17.532L21.6457 16.92L20.1489 16.416L18.8535 17.232C18.2346 17.616 17.6445 17.904 17.0544 18.108L15.5288 18.624L15.2985 19.98L15.0107 21.6H12.9957L12.7222 19.98L12.4919 18.624L10.9663 18.108C10.3474 17.892 9.77171 17.616 9.196 17.256L7.88626 16.416L6.36063 16.932L4.53275 17.544L3.52526 16.092L5.07968 15.084L6.36063 14.244L6.15913 12.888C6.11595 12.516 6.08717 12.24 6.08717 12C6.08717 11.76 6.11595 11.484 6.15913 11.124L6.36063 9.768L5.07968 8.928L3.52526 7.92L4.53275 6.468L6.36063 7.08L7.85748 7.584L9.15282 6.768C9.77171 6.384 10.3618 6.096 10.9519 5.892L12.4775 5.376L12.7078 4.02L12.9957 2.4H14.9963L15.2697 4.02L15.5 5.376L17.0257 5.892C17.6445 6.108 18.2203 6.384 18.796 6.744L20.1057 7.584L21.6313 7.068L23.4592 6.456L24.4667 7.908L22.9267 8.928L21.6457 9.768L21.8472 11.124ZM14.0032 7.2C10.8224 7.2 8.24608 9.348 8.24608 12C8.24608 14.652 10.8224 16.8 14.0032 16.8C17.184 16.8 19.7603 14.652 19.7603 12C19.7603 9.348 17.184 7.2 14.0032 7.2ZM14.0032 14.4C12.42 14.4 11.1246 13.32 11.1246 12C11.1246 10.68 12.42 9.6 14.0032 9.6C15.5864 9.6 16.8817 10.68 16.8817 12C16.8817 13.32 15.5864 14.4 14.0032 14.4Z"
-                    fill="#D8DBD9"
-                  />
-                </svg>
-                <br />
-                ACCOUNT
-              </a>
+            <li class="nav-item">
+                <a href="/statistic" class="nav-link ps-0 p-0 text-secondary ">
+                    <div class="border-radius-md text-center me-2 row gap-2 ">
+                        <box-icon name='line-chart'></box-icon>
+                        <div class="col-12 text-center text-uppercase  text-sm">Statistic</div>
+                    </div>
+                </a>
             </li>
-          </ul>
+        </ul>
+    </aside>
+    <main class="col main-content max-height-vh-100 h-100 mt-3 border-radius-lg">
+        <div class="row">
+            <div class="col-12 col-md-9 p-0 mr-2" id="home-section">
+                <div class="container-fluid p-0">
+                    <div class="row ">
+                        <div class="col-sm-8 ">
+                            <div class="input-group mb-3 ">
+                                <input type="text" class="barcode form-control" placeholder="Search now"
+                                       aria-label="Search now" aria-describedby="button-addon2">
+                                <button class="btn btn-outline-secondary mb-0" type="button" id="addProductBtn">Search
+                                </button>
+                            </div>
+                        </div>
+
+                        <!--PERSONAL-->
+                        <div class="col-sm-4 d-flex justify-content-end">
+                            <div class="dropdown">
+                                <img
+                                        src="/images/uploads/avatars/<%= image %>"
+                                        class="rounded-circle"
+                                        alt="Avatar"
+                                        width="50px"
+                                        height="50px"
+                                        id="avatar"
+                                        data-bs-toggle="dropdown"
+                                />
+                                <ul class="dropdown-menu mt-2" aria-labelledby="avatar">
+                                    <li>
+                                        <a class="dropdown-item" href="/profile"
+                                        >Update profile picture</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/reset">Change password</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="/api/v1/auth/logout">Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--CARDS-->
+                    <div class="row">
+                        <% products.forEach(function(product){ %>
+                            <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                                <div class="card text-center addProduct" data-id="<%= product._id %>">
+                                    <img
+                                            class="card-img-top"
+                                            src="/images/uploads/products/<%= product.image ? product.image : '1698328374688.png' %>"
+                                            alt="Card image"
+                                            width="200px"
+                                            height="200px"
+                                    />
+                                    <div class="card-body">
+                                        <h4 class="card-title text-truncate" data-bs-toggle="tooltip"
+                                            title="<%= product.name %>"><%= product.name %></h4>
+                                        <p class="card-text">$<%= product.retailPrice %></p>
+                                        <a href="#" class="stretched-link"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+            <!--PAY-->
+            <!--ORDER-->
+            <div class="col-md-3 col-10 order px-2" id="order-home">
+                <div class="card card-body">
+                    <h2 class="text-primary">ORDER</h2>
+                    <div class="horizontal-line"></div>
+                    <div class="table-responsive">
+                        <table class="table table-centered mb-0">
+                            <tbody id="order__list">
+                            <% if (order.length === 0 ) { %>
+                                <tr class="text-center text-muted">
+                                    <td colspan="3">No product</td>
+                                </tr>
+                            <% } else { %>
+                                <% order.map(product => { %>
+                                    <tr class="">
+                                        <td>
+                                            <img src="/images/uploads/products/<%= product.information.image %>"
+                                                 alt="contact-img"
+                                                 title="contact-img" class="rounded mr-2" height="48"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <h5 class="m-0 text-truncate"><%= product.information.name %></h5>
+                                            <p class="mb-0 text-muted"><%= '$' + product.information.retailPrice %></p>
+                                            <input type="text"
+                                                   class="form-text w-20 p-0 m-0 form-control-plaintext quantity"
+                                                   data-quantity="<%= product.id %>" value="<%= product.quantity %>"/>
+                                        </td>
+                                        <td class="text-right cursor-pointer deleteProduct" data-id="<%= product.id %>">
+                                            <box-icon type='solid' name='trash'></box-icon>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!--ADD PRODUCT-->
+
+                    <!--Footer-->
+                    <div class=" mt-4">
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <b>Total</b>
+                            </div>
+                            <div class="col ms-auto text-end">$
+                                <b class="totalPrice"><%= total %></b>
+                            </div>
+                        </div>
+                        <div class="row mx-1">
+                            <a href="/checkout"
+                               class="p-0 checkoutBtn" <%- (order.length === 0) ? "onclick='return false;'" : "" %>>
+                                <button type="button" id="btnContinue" class="btn btn-primary w-100">
+                                    Continue to payment
+                                </button>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <!--MAIN-->
-        <!--SEARCH, PERSONAL AND CARDS-->
-        <!--SEARCH-->
-        <div class="col-sm-8 main" id="home-section" style="display: block">
-          <div class="container-fluid">
-            <div class="row" style="margin-bottom: 30px">
-              <div class="col-sm-8">
-                <div class="input-group" style="max-width: 500px">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Search barcode of product"
-                  />
-                  <ul class="nav">
-                    <li class="nav-item">
-                      <a class="nav-link" href="">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="22"
-                          height="22"
-                          viewBox="0 0 22 22"
-                          fill="none"
-                        >
-                          <path
-                            d="M15.625 13.75H14.6375L14.2875 13.4125C15.5125 11.9875 16.25 10.1375 16.25 8.125C16.25 3.6375 12.6125 0 8.125 0C3.6375 0 0 3.6375 0 8.125C0 12.6125 3.6375 16.25 8.125 16.25C10.1375 16.25 11.9875 15.5125 13.4125 14.2875L13.75 14.6375V15.625L20 21.8625L21.8625 20L15.625 13.75ZM8.125 13.75C5.0125 13.75 2.5 11.2375 2.5 8.125C2.5 5.0125 5.0125 2.5 8.125 2.5C11.2375 2.5 13.75 5.0125 13.75 8.125C13.75 11.2375 11.2375 13.75 8.125 13.75Z"
-                            fill="#89928E"
-                          />
-                        </svg>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <!--PERSONAL-->
-              <div class="col-sm-4 ms-auto text-end">
-                <div class="dropdown">
-                  <img
-                    src="/images/uploads/avatars/avatar.png"
-                    class="rounded-circle"
-                    alt="Avatar"
-                    width="50px"
-                    height="50px"
-                    data-bs-toggle="dropdown"
-                  />
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item" href="/admin/product"
-                        >Update information</a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">Change password</a>
-                    </li>
-                    <li><a class="dropdown-item" href="#">Logout</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <!--CARDS-->
-            <div class="row">
-              <% products.forEach(function(product){ %>
-              <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
-                <div class="card text-center" id="addProducts">
-                  <img
-                    class="card-img-top"
-                    src="/images/uploads/products/<%= product.image? product.image : '1698328374688.png'%>"
-                    alt="Card image"
-                    height="264px"
-                    width="279px"
-                  />
-                  <div class="card-body">
-                    <h4 class="card-title">$<%= product.name %></h4>
-                    <p class="card-text">$<%= product.importPrice %></p>
-                    <a href="#" class="stretched-link"></a>
-                  </div>
-                </div>
-              </div>
-              <% }); %>
-            </div>
-          </div>
-        </div>
-
-        <!--PAYMENT-->
-        <div
-          class="col-sm-8 ps-4 pt-3 main"
-          id="payment-section"
-          style="display: none"
-        >
-          <div class="row">
-            <div class="col-sm-8">
-              <h2 class="normal-text">ORDER #12345678</h2>
-            </div>
-
-            <!--PERSONAL-->
-            <div class="col-sm-4 ms-auto text-end">
-              <div class="dropdown">
-                <img
-                  src="/images/uploads/avatars/avatar.png"
-                  class="rounded-circle"
-                  alt="Avatar"
-                  width="50px"
-                  height="50px"
-                  data-bs-toggle="dropdown"
-                />
-                <ul class="dropdown-menu">
-                  <li>
-                    <a class="dropdown-item" href="#">Update information</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">Change password</a>
-                  </li>
-                  <li><a class="dropdown-item" href="#">Logout</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="horizontal-line"></div>
-          <div class="container p-3">
-            <!--Customer information-->
-            <div class="row">
-              <div class="col-6">
-                <h4 class="normal-text">Customer information</h4>
-              </div>
-              <div class="col-6 ms-auto text-end">
-                <p><a class="link-dark" href="#">SEE ALL PROFILE</a></p>
-              </div>
-            </div>
-
-            <form class="row">
-              <div class="input-group mb-3">
-                <input
-                  type="text"
-                  class="form-control me-5"
-                  placeholder="Phone number"
-                />
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Fullname"
-                />
-              </div>
-              <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Address" />
-              </div>
-            </form>
-
-            <!--Order information-->
-            <div class="row mt-3">
-              <div class="col-8">
-                <h4 class="normal-text">Order information</h4>
-              </div>
-              <div class="col-4 ms-auto text-end d-grid">
-                <button
-                  type="button"
-                  class="btn btn-outline-success btn-block"
-                  id="btnCancel"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-
-            <!--Table-->
-            <table class="table mt-3">
-              <thead class="table-success">
-                <tr>
-                  <th>ITEM</th>
-                  <th>PRICE</th>
-                  <th>QTY</th>
-                  <th>SUBTOTAL</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>IPHONE 12</td>
-                  <td>$1000</td>
-                  <td>1</td>
-                  <td>$1000</td>
-                </tr>
-                <tr>
-                  <td>IPHONE 12</td>
-                  <td>$1000</td>
-                  <td>1</td>
-                  <td>$1000</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!--PAYMENTSUCCESSFULL-->
-        <div
-          class="col-sm-8 ps-4 pt-3 main"
-          id="payment-success-section"
-          style="display: none"
-        >
-          <div class="row">
-            <div class="col-sm-8">
-              <h2 class="normal-text">ORDER #12345678</h2>
-            </div>
-
-            <!--PERSONAL-->
-            <div class="col-sm-4 ms-auto text-end">
-              <div class="dropdown">
-                <img
-                  src="/images/uploads/avatars/avatar.png"
-                  class="rounded-circle"
-                  alt="Avatar"
-                  width="50px"
-                  height="50px"
-                  data-bs-toggle="dropdown"
-                />
-                <ul class="dropdown-menu">
-                  <li>
-                    <a class="dropdown-item" href="#">Update information</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">Change password</a>
-                  </li>
-                  <li><a class="dropdown-item" href="#">Logout</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="horizontal-line"></div>
-          <div class="container p-3">
-            <!--Order information-->
-            <div class="row">
-              <div class="col-8">
-                <h4 class="normal-text">Order information</h4>
-              </div>
-              <div class="col-4 ms-auto text-end d-grid">
-                <button
-                  type="button"
-                  class="btn btn-outline-success btn-block"
-                  id="btnBack"
-                >
-                  Back
-                </button>
-              </div>
-            </div>
-
-            <!--Table-->
-            <table class="table mt-3">
-              <thead class="table-success">
-                <tr>
-                  <th>ITEM</th>
-                  <th>PRICE</th>
-                  <th>QTY</th>
-                  <th>SUBTOTAL</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>IPHONE 12</td>
-                  <td>$1000</td>
-                  <td>1</td>
-                  <td>$1000</td>
-                </tr>
-                <tr>
-                  <td>IPHONE 12</td>
-                  <td>$1000</td>
-                  <td>1</td>
-                  <td>$1000</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!--ACCOUNT-->
-        <div
-          class="col-sm-10 text-center main pt-2"
-          id="account-section"
-          style="display: none"
-        >
-          <div class="container-sm count-container" max-width="400px">
-            <h2 class="normal-text">Hello Trịnh Lâm Như</h2>
-            <img
-              src="/images/uploads/avatars/avatar.png"
-              class="rounded-circle"
-              height="200px"
-              width="200px"
-              class="img-fluid pt-5"
-            />
-            <h1>Trịnh Lâm Như</h1>
-            <form>
-              <div class="row pt-3">
-                <div class="col-3 pl-2">
-                  <label for="text">Username: </label>
-                </div>
-                <div class="col-9">
-                  <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="lamnhutrinh"
-                  />
-                </div>
-              </div>
-              <div class="row pt-2 pb-5">
-                <div class="col-3">
-                  <label for="text">Email: </label>
-                </div>
-                <div class="col-9">
-                  <input
-                    type="text"
-                    id="email"
-                    name="email"
-                    placeholder="lamnhutrinh@gmail.com"
-                  />
-                </div>
-              </div>
-              <button type="button">Save Change</button>
-            </form>
-          </div>
-        </div>
-
-        <!--PAY-->
-        <!--ORDER-->
-        <div class="col-sm-3 order" id="order-home" style="display: block">
-          <h2>ORDER</h2>
-          <div class="horizontal-line"></div>
-          <div class="container-fluid">
-            <div class="row list-product" style="margin-bottom: 20px">
-              <div class="col-5">
-                <img
-                  src="/images/Product Image.png"
-                  class="img-fluid"
-                  height="133px"
-                  width="129px"
-                />
-              </div>
-              <div class="col-5">
-                <h5>IphoneXS</h5>
-                <h5>$99</h5>
-                <div
-                  class="square"
-                  style="
-                    width: 48px;
-                    height: 48px;
-                    background-color: black;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    border-radius: 8px;
-                  "
-                >
-                  <p class="text-white" style="font-size: 16px">2</p>
-                </div>
-              </div>
-              <div class="col-2">
-                <a href="#" class="btn btn-outline-danger"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="18"
-                    viewBox="0 0 16 18"
-                    fill="none"
-                  >
-                    <path
-                      d="M13.7325 6.26576L13.8153 6.26689C14.1229 6.29232 14.3587 6.54771 14.375 6.85513L14.3671 7.02653L14.105 10.2359L13.8301 13.3679C13.7719 13.9931 13.7198 14.5205 13.6749 14.9356C13.5187 16.3824 12.5796 17.277 11.1638 17.3035C8.95781 17.3443 6.83731 17.3438 4.7781 17.2993C3.40331 17.2705 2.47805 16.3661 2.32462 14.9415L2.21858 13.8919L2.03328 11.8559L1.84347 9.6218L1.62643 6.93998C1.59946 6.5959 1.84959 6.29454 2.18512 6.26688C2.49269 6.24152 2.76525 6.45495 2.82932 6.75573L2.85426 7.00152L3.05805 9.51568L3.28057 12.1216C3.38038 13.2498 3.46695 14.1627 3.53622 14.8041C3.62365 15.6159 4.05115 16.0337 4.80343 16.0495C6.84654 16.0937 8.95123 16.0941 11.1417 16.0537C11.9398 16.0387 12.374 15.625 12.4633 14.7979L12.5689 13.7539C12.5998 13.4322 12.6328 13.077 12.6678 12.6912L12.8905 10.1282L13.1588 6.83966C13.1836 6.52426 13.4327 6.2825 13.7325 6.26576ZM1.10949 4.8244C0.772879 4.8244 0.5 4.54457 0.5 4.19938C0.5 3.88295 0.729294 3.62145 1.02679 3.58006L1.10949 3.57435H3.76476C4.0803 3.57435 4.35654 3.36615 4.45535 3.06616L4.47953 2.97352L4.68587 1.92119C4.86759 1.22422 5.45767 0.727992 6.14916 0.672024L6.27993 0.666748H9.7199C10.4229 0.666748 11.0436 1.12198 11.2826 1.8254L11.3228 1.96015L11.5203 2.97327C11.5822 3.29068 11.8354 3.52775 12.1417 3.56822L12.2351 3.57435H14.8905C15.2271 3.57435 15.5 3.85419 15.5 4.19938C15.5 4.5158 15.2707 4.77731 14.9732 4.8187L14.8905 4.8244H1.10949ZM9.7199 1.91679H6.27993C6.10892 1.91679 5.95691 2.01944 5.89377 2.14844L5.87235 2.20511L5.67483 3.21873C5.65067 3.34245 5.61566 3.46158 5.57093 3.57518L10.429 3.57534C10.4011 3.50447 10.377 3.43144 10.3569 3.35648L10.325 3.21848L10.1364 2.24408C10.0923 2.07501 9.95612 1.95123 9.79185 1.92293L9.7199 1.91679Z"
-                      fill="#FF7CA3"
-                    /></svg
-                ></a>
-              </div>
-            </div>
-
-            <!--ADD PRODUCT-->
-          </div>
-
-          <!--Footer-->
-          <div class="mt-5 p-4">
-            <div class="container-fluid">
-              <div class="row" style="margin-bottom: 20px">
-                <div class="col-4">
-                  <b>Total</b>
-                </div>
-                <div class="col-8 ms-auto text-end">
-                  <b>$188</b>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <button type="button" id="btnContinue">
-                Continue to payment
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!--PAYMENT-->
-        <div class="col-sm-3 order" id="order-payment" style="display: none">
-          <h3>PAYMENT</h3>
-          <div class="horizontal-line"></div>
-          <table class="table table-borderless">
-            <tr>
-              <td><h4 class="normal-text">TOTAL</h4></td>
-              <td><h4 class="normal-text text-end">$43.50</h4></td>
-            </tr>
-            <tr>
-              <td><h4 class="normal-text">PAYMENT</h4></td>
-              <td><h4 class="normal-text text-end">CASH</h4></td>
-            </tr>
-            <tr>
-              <td><h4 class="normal-text">CASH RECEIVED</h4></td>
-              <td><h4 class="normal-text text-end">$5</h4></td>
-            </tr>
-            <tr>
-              <td><h4 class="normal-text">CHANGE</h4></td>
-              <td><h4 class="normal-text text-end">$6.50</h4></td>
-            </tr>
-          </table>
-          <button type="button" id="btnPay">PAY</button>
-        </div>
-
-        <!--PAYMENT SUCCESSFULLY-->
-        <div
-          class="col-sm-3 order"
-          id="order-payment-success"
-          style="display: none"
-        >
-          <div class="row text-center pb-5">
-            <h3 class="normal-text text-success pb-5">PAYMENT SUCCESSFULL</h3>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="70"
-              height="70"
-              viewBox="0 0 70 70"
-              fill="none"
-            >
-              <path
-                d="M35.0002 5.83325C18.9585 5.83325 5.8335 18.9583 5.8335 34.9999C5.8335 51.0416 18.9585 64.1666 35.0002 64.1666C51.0418 64.1666 64.1668 51.0416 64.1668 34.9999C64.1668 18.9583 51.0418 5.83325 35.0002 5.83325ZM47.2502 30.0416L33.2502 44.0416C32.0835 45.2083 30.3335 45.2083 29.1668 44.0416L22.7502 37.6249C21.5835 36.4583 21.5835 34.7083 22.7502 33.5416C23.9168 32.3749 25.6668 32.3749 26.8335 33.5416L31.2085 37.9166L43.1668 25.9583C44.3335 24.7916 46.0835 24.7916 47.2502 25.9583C48.4168 27.1249 48.4168 28.8749 47.2502 30.0416Z"
-                fill="#83DBAF"
-              />
-            </svg>
-          </div>
-          <table class="table table-borderless">
-            <tr>
-              <td><p>Customer name</p></td>
-              <td><p class="text-end">Trinh Lam Nhu</p></td>
-            </tr>
-            <tr>
-              <td><p>Phone number</p></td>
-              <td><p class="text-end">0377490222</p></td>
-            </tr>
-            <tr>
-              <td><p>Email</p></td>
-              <td><p class="text-end">nhu@gmail.com</p></td>
-            </tr>
-            <tr>
-              <td><p>Payment method</p></td>
-              <td><p class="text-end">CASH</p></td>
-            </tr>
-            <tr>
-              <td><p>Total amount</p></td>
-              <td><p class="text-end">$2000</p></td>
-            </tr>
-          </table>
-          <div class="row">
-            <div class="col-6">
-              <button type="button">PRINT</button>
-            </div>
-            <div class="col-6">
-              <button type="button">CLOSE</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
-
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
-    integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://code.jquery.com/jquery-3.7.1.js"
-    integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-    crossorigin="anonymous"
-  ></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-  <script src="/js/home.js"></script>
+    </main>
+</div>
+</body>
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"
+></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+        integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"
+></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+<script src="/js/home.js"></script>
 </html>
