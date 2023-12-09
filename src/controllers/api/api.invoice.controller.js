@@ -108,6 +108,20 @@ class ApiInvoiceController {
             return res.status(500).json({message: e.message})
         }
     }
+    async getHistorySell(req, res) {
+        const id = req.user.id;
+        try {
+            const accounts = await InvoiceService.getInvoiceByAccount(id)
+            if (accounts == null) {
+                return res.status(404).json({message: "Account not found"})
+            }
+            return accounts;
+        } catch (e) {
+            console.log(e)
+            req.flash("errors", e.message)
+            return res.status(500).json({message: e.message})
+        }
+    }
 
 async getInvoiceByCustomerId(req, res) {
         let page = req.query.page || 1
