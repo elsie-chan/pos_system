@@ -42,7 +42,7 @@ const generateRefreshToken = (data) => {
     })
 }
 
-const genrateTokenForActive = (data) => {
+const genarateTokenForActive = (data) => {
     console.log("data", data)
     console.log("JWT_ACCESS", variables.JWT_ACCESS);
     return new Promise((resolve, reject) => {
@@ -63,4 +63,4 @@ const genrateTokenForActive = (data) => {
     })
 }
 
-export {generateToken, generateRefreshToken, genrateTokenForActive};
+export {generateToken, generateRefreshToken, genarateTokenForActive};

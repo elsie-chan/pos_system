@@ -2,7 +2,7 @@ import {AuthService} from "../../services/index.js";
 import Account, {findAccount} from "../../models/account.model.js";
 import mailService from "../../services/mail.service.js";
 import {variables} from "../../configuration/index.js";
-import {genrateTokenForActive, verifyToken} from "../../utils/index.js";
+import {genarateTokenForActive, verifyToken} from "../../utils/index.js";
 
 
 class ApiAuthController {
@@ -19,7 +19,7 @@ class ApiAuthController {
             context: {
                 name: account.name,
                 email: account.email,
-                url: `${variables.URL}:${variables.PORT}/api/v1/auth/validate/${await genrateTokenForActive(account)}?email=${account.email}&success_redirect=auth/change_password/${account._id}&failure_redirect=auth/failed_active&token=${account.token}`,
+                url: `${variables.URL}:${variables.PORT}/api/v1/auth/validate/${await genarateTokenForActive(account)}?email=${account.email}&success_redirect=auth/change_password/${account._id}&failure_redirect=auth/failed_active&token=${account.token}`,
             }
         });
         return res.status(200).json(account);
@@ -94,7 +94,7 @@ class ApiAuthController {
                 context: {
                     name: account.fullname,
                     email: account.email,
-                    url: `${variables.URL}:${variables.PORT}/api/v1/auth/validate/${await genrateTokenForActive(account)}?email=${account.email}`,
+                    url: `${variables.URL}:${variables.PORT}/api/v1/auth/validate/${await genarateTokenForActive(account)}?email=${account.email}&success_redirect=auth/change_password/${account._id}&failure_redirect=auth/failed_active&token=${account.token}`,
                 }
             });
             return res.status(200).json({message: "Send mail success"});
@@ -165,13 +165,5 @@ class ApiAuthController {
     }
 }
 
-// const tokenMap = new Map();
-
-// function generateToken() {
-//     const token = Math.random().toString(36).substring(7);
-//     const expirationTime = Date.now() + 60000; // 1 minute from now
-//     tokenMap.set(token, expirationTime);
-//     return token;
-// }
 
 export default new ApiAuthController();
