@@ -42,6 +42,17 @@ yarn install
 yarn start
 ```
 5. Truy cập trình duyệt với đường dẫn: http://localhost:3000
+6. Đăng nhập với tài khoản admin:
+```
+username: admin
+password: admin
+```
+7. Đăng nhập với tài khoản nhân viên:
+```
+username: staff
+password: staff
+```
+8. Truy cập website với đường dẫn: https://pos.alfiee.tech
 
 ## Technologies
 <a href="#" target="_blank"> 
